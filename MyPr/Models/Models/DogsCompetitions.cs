@@ -13,5 +13,26 @@ namespace Models
         public int CompetitionId { get; set; }
 
         public virtual Competition Competition { get; set; }
+
+        //overall appropriate proportions
+        public int BalanceRate { get; set; }
+
+        public int WeightRate { get; set; }
+
+        //color, shape- typical for the breed
+        public int EyesRate { get; set; }
+
+        //shape, length, position- typical for the breed
+        public int EarsRate { get; set; }
+
+        public int HeadShapeRate { get; set; }
+
+        //shape, length- typical for the breed
+        public int MuzzleRate { get; set; }
+
+        //accepted breed colors
+        public int ColorRate { get; set; }
+
+        public int TotalPoints { get; set; }
     }
 }

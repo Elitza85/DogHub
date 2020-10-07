@@ -30,7 +30,7 @@ namespace Models
         public int? Age { get; set; }
 
         [Range(GlobalConstants.MinDogWeight, GlobalConstants.MaxDogWeight)]
-        public double? Weight { get; set; }
+        public double Weight { get; set; }
 
         public int EyesColorId { get; set; }
         public virtual EyesColor EyesColor { get; set; }
