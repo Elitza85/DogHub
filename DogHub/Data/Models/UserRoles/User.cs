@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogHub.Data.Models
 {
-    public class User
+    public abstract class User
     {
         public User()
         {
             this.UserId = Guid.NewGuid().ToString();
-            this.Dogs = new HashSet<Dog>();
         }
         [Key]
         [Required]
@@ -41,6 +39,5 @@ namespace DogHub.Data.Models
         //Should be above 18
         public int Age { get; set; }
 
-        public virtual ICollection<Dog> Dogs { get; set; }
     }
 }

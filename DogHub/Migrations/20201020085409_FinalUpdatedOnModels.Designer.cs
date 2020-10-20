@@ -4,14 +4,16 @@ using DogHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DogHub.Migrations
 {
     [DbContext(typeof(DogHubDbContext))]
-    partial class DogHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201020085409_FinalUpdatedOnModels")]
+    partial class FinalUpdatedOnModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

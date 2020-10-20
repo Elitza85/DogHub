@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DogHub.Data.Models.UserRoles;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogHub.Data.Models
@@ -16,6 +17,7 @@ namespace DogHub.Data.Models
         [Required]
         public string DogPhotoUrl { get; set; }
 
+        //can do it with attach video option at later stage
         [Required]
         public string DogVideoUrl { get; set; }
 
@@ -41,9 +43,9 @@ namespace DogHub.Data.Models
         public string Description { get; set; }
 
         [Required]
-        public string UserId { get; set; }
+        public string OwnerId { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual Owner Owner { get; set; }
 
         public virtual ICollection<DogCompetition> DogsCompetiotions { get; set; }
 
