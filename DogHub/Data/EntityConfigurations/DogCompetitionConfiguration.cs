@@ -8,11 +8,12 @@ namespace DogHub.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<DogCompetition> builder)
         {
-            builder.HasKey(e => new
-            {
-                e.DogId,
-                e.CompetitionId
-            });
+            //builder.HasKey(e => new
+            //{
+            //    e.DogId,
+            //    e.CompetitionId
+            //});
+            builder.HasKey(x => x.Id);
         }
     }
 }

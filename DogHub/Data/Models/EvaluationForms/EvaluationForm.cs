@@ -31,7 +31,7 @@ namespace DogHub.Data.Models.EvaluationForms
         public int TotalPoints { get; set; }
 
         [Required]
-        public string DogCompetiotionId { get; set; }
+        public string DogCompetitionId { get; set; }
 
         public virtual DogCompetition DogCompetition { get; set; }
     }

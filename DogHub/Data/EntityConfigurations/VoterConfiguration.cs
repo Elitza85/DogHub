@@ -9,9 +9,10 @@ namespace DogHub.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Voter> builder)
         {
-            builder.HasOne(v => v.VoterEvaluationFormResult)
+            builder.HasMany(v => v.VoterEvaluationForms)
                 .WithOne(f => f.Voter)
-                .HasForeignKey<VoterEvaluationForm>(f => f.VoterId);
+                .HasForeignKey(f => f.VoterId)
+                .OnDelete(DeleteBehavior.Restrict);
               
         }
     }

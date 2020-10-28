@@ -9,7 +9,10 @@ namespace DogHub.Data.Models.EvaluationForms
         public string JudgeId { get; set; }
 
         public virtual Judge Judge { get; set; }
+        //public string JudgeId { get; set; }
 
-        
+        //public virtual Judge Judge { get; set; }
+
+
     }
 }

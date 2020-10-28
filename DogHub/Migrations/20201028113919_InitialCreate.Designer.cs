@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogHub.Migrations
 {
     [DbContext(typeof(DogHubDbContext))]
-    [Migration("20201020085409_FinalUpdatedOnModels")]
-    partial class FinalUpdatedOnModels
+    [Migration("20201028113919_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,6 +103,12 @@ namespace DogHub.Migrations
                     b.Property<int>("EyesColorId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsSold")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(60)")
@@ -145,18 +151,20 @@ namespace DogHub.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.DogCompetition", b =>
                 {
-                    b.Property<int>("DogId")
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CompetitionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DogId")
+                        .HasColumnType("int");
 
-                    b.HasKey("DogId", "CompetitionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CompetitionId");
+
+                    b.HasIndex("DogId");
 
                     b.ToTable("DogsCompetitions");
                 });
@@ -174,14 +182,9 @@ namespace DogHub.Migrations
                     b.Property<int>("ColorRate")
                         .HasColumnType("int");
 
-                    b.Property<string>("DogCompetiotionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DogCompetitionCompetitionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DogCompetitionDogId")
-                        .HasColumnType("int");
+                    b.Property<string>("DogCompetitionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("EarsRate")
                         .HasColumnType("int");
@@ -193,6 +196,7 @@ namespace DogHub.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("JudgeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("MuzzleRate")
@@ -206,11 +210,11 @@ namespace DogHub.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DogCompetitionId");
+
                     b.HasIndex("JudgeId");
 
-                    b.HasIndex("DogCompetitionDogId", "DogCompetitionCompetitionId");
-
-                    b.ToTable("JudgeEvaluationForm");
+                    b.ToTable("JudgeEvaluationForms");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.EvaluationForms.VoterEvaluationForm", b =>
@@ -226,14 +230,9 @@ namespace DogHub.Migrations
                     b.Property<int>("ColorRate")
                         .HasColumnType("int");
 
-                    b.Property<string>("DogCompetiotionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DogCompetitionCompetitionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DogCompetitionDogId")
-                        .HasColumnType("int");
+                    b.Property<string>("DogCompetitionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("EarsRate")
                         .HasColumnType("int");
@@ -251,6 +250,7 @@ namespace DogHub.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("VoterId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("WeightRate")
@@ -258,13 +258,11 @@ namespace DogHub.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VoterId")
-                        .IsUnique()
-                        .HasFilter("[VoterId] IS NOT NULL");
+                    b.HasIndex("DogCompetitionId");
 
-                    b.HasIndex("DogCompetitionDogId", "DogCompetitionCompetitionId");
+                    b.HasIndex("VoterId");
 
-                    b.ToTable("VoterEvaluationForm");
+                    b.ToTable("VoterEvaluationForms");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.EyesColor", b =>
@@ -357,6 +355,10 @@ namespace DogHub.Migrations
                     b.Property<bool>("HasBeenJudgeAssistant")
                         .HasColumnType("bit");
 
+                    b.Property<string>("JudgeInstituteCertificateUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("NumberOfChampionsOwned")
                         .HasColumnType("int");
 
@@ -379,9 +381,6 @@ namespace DogHub.Migrations
             modelBuilder.Entity("DogHub.Data.Models.Voter", b =>
                 {
                     b.HasBaseType("DogHub.Data.Models.User");
-
-                    b.Property<int>("VoterEvaluationFormId")
-                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Voter");
                 });
@@ -433,24 +432,32 @@ namespace DogHub.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.EvaluationForms.JudgeEvaluationForm", b =>
                 {
-                    b.HasOne("DogHub.Data.Models.UserRoles.Judge", "Judge")
-                        .WithMany("JudgeEvaluationFormResults")
-                        .HasForeignKey("JudgeId");
-
                     b.HasOne("DogHub.Data.Models.DogCompetition", "DogCompetition")
-                        .WithMany("JudgeEvaluationResults")
-                        .HasForeignKey("DogCompetitionDogId", "DogCompetitionCompetitionId");
+                        .WithMany("JudgeEvaluationForms")
+                        .HasForeignKey("DogCompetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DogHub.Data.Models.UserRoles.Judge", "Judge")
+                        .WithMany("JudgeEvaluationForms")
+                        .HasForeignKey("JudgeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.EvaluationForms.VoterEvaluationForm", b =>
                 {
-                    b.HasOne("DogHub.Data.Models.Voter", "Voter")
-                        .WithOne("VoterEvaluationFormResult")
-                        .HasForeignKey("DogHub.Data.Models.EvaluationForms.VoterEvaluationForm", "VoterId");
-
                     b.HasOne("DogHub.Data.Models.DogCompetition", "DogCompetition")
-                        .WithMany("VoterEvaluationResults")
-                        .HasForeignKey("DogCompetitionDogId", "DogCompetitionCompetitionId");
+                        .WithMany("VoterEvaluationForms")
+                        .HasForeignKey("DogCompetitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DogHub.Data.Models.Voter", "Voter")
+                        .WithMany("VoterEvaluationForms")
+                        .HasForeignKey("VoterId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.User", b =>

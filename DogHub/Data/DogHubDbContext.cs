@@ -1,4 +1,6 @@
 ﻿using DogHub.Data.Models;
+using DogHub.Data.Models.EvaluationForms;
+using DogHub.Data.Models.UserRoles;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -32,6 +34,16 @@ namespace DogHub.Data
         public DbSet<Town> Towns { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Voter> Voters { get; set; }
+
+        public DbSet<Owner> Owners { get; set; }
+
+        public DbSet<Judge> Judges { get; set; }
+
+        public DbSet<JudgeEvaluationForm> JudgeEvaluationForms { get; set; }
+
+        public DbSet<VoterEvaluationForm> VoterEvaluationForms { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

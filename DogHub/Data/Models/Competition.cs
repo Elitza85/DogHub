@@ -16,6 +16,7 @@ namespace DogHub.Data.Models
         [MaxLength(GlobalConstants.CompetitionNameMaxLength)]
         public string Name { get; set; }
 
+        //Or add image with attachment option
         [Required]
         public string ImageUrl { get; set; }
 

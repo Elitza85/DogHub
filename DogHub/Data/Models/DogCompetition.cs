@@ -10,12 +10,13 @@ namespace DogHub.Data.Models
         public DogCompetition()
         {
             this.Id = Guid.NewGuid().ToString();
-            this.JudgeEvaluationFormsResults = new HashSet<JudgeEvaluationForm>();
-            this.VoterEvaluationFormsResults = new HashSet<VoterEvaluationForm>();
+            this.JudgeEvaluationForms = new HashSet<JudgeEvaluationForm>();
+            this.VoterEvaluationForms = new HashSet<VoterEvaluationForm>();
         }
 
         [Key]
         public string Id { get; set; }
+
         public int DogId { get; set; }
 
         public virtual Dog Dog { get; set; }
@@ -24,8 +25,8 @@ namespace DogHub.Data.Models
 
         public virtual Competition Competition { get; set; }
 
-        public virtual ICollection<JudgeEvaluationForm> JudgeEvaluationFormsResults { get; set; }
+        public virtual ICollection<JudgeEvaluationForm> JudgeEvaluationForms { get; set; }
 
-        public virtual ICollection<VoterEvaluationForm> VoterEvaluationFormsResults { get; set; }
+        public virtual ICollection<VoterEvaluationForm> VoterEvaluationForms { get; set; }
     }
 }

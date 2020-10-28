@@ -8,7 +8,7 @@ namespace DogHub.Data.Models.UserRoles
     {
         public Judge()
         {
-            this.JudgeEvaluationFormResults = new HashSet<JudgeEvaluationForm>();
+            this.JudgeEvaluationForms = new HashSet<JudgeEvaluationForm>();
         }
         //This whole Judge Model could be turned into application form which can lead
         //to approval or denial of a person to become a judge
@@ -33,6 +33,6 @@ namespace DogHub.Data.Models.UserRoles
         //It could be made as attachment option at later stage
         public string JudgeInstituteCertificateUrl { get; set; }
 
-        public virtual ICollection<JudgeEvaluationForm> JudgeEvaluationFormResults { get; set; }
+        public virtual ICollection<JudgeEvaluationForm> JudgeEvaluationForms { get; set; }
     }
 }

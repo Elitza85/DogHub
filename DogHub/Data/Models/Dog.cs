@@ -1,4 +1,5 @@
-﻿using DogHub.Data.Models.UserRoles;
+﻿using DogHub.Data.Models.Enums;
+using DogHub.Data.Models.UserRoles;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -29,6 +30,9 @@ namespace DogHub.Data.Models
         [MaxLength(GlobalConstants.BreedMaxLength)]
         public string Breed { get; set; }
 
+        //drop-down menu with two options
+        public DogGender Gender { get; set; }
+
         public int? Age { get; set; }
 
         public double Weight { get; set; }
@@ -39,6 +43,9 @@ namespace DogHub.Data.Models
         //as it is required by default we do not put [Required]
         public bool Sellable { get; set; }
 
+
+        public bool IsSold { get; set; } = false;
+        
         [MaxLength(GlobalConstants.DogDescriptionMaxLength)]
         public string Description { get; set; }
 
@@ -46,6 +53,7 @@ namespace DogHub.Data.Models
         public string OwnerId { get; set; }
 
         public virtual Owner Owner { get; set; }
+
 
         public virtual ICollection<DogCompetition> DogsCompetiotions { get; set; }
 

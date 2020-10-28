@@ -1,11 +1,16 @@
 ﻿using DogHub.Data.Models.EvaluationForms;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace DogHub.Data.Models
 {
     public class Voter : User
     {
-        public int VoterEvaluationFormId { get; set; }
+        public Voter()
+        {
+            this.VoterEvaluationForms = new HashSet<VoterEvaluationForm>();
+        }
 
-        public virtual VoterEvaluationForm VoterEvaluationFormResult { get; set; }
+        public virtual ICollection<VoterEvaluationForm> VoterEvaluationForms { get; set; }
     }
 }
