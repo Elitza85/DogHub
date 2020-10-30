@@ -9,6 +9,7 @@ namespace DogHub.Data.Models
         public Competition()
         {
             this.DogsCompetitions = new HashSet<DogCompetition>();
+            this.BreedsAllowed = new HashSet<Breed>();
         }
         public int CompetitionId { get; set; }
 
@@ -29,5 +30,7 @@ namespace DogHub.Data.Models
         public string Description { get; set; }
 
         public virtual ICollection<DogCompetition> DogsCompetitions { get; set; }
+
+        public virtual ICollection<Breed> BreedsAllowed { get; set; }
     }
 }

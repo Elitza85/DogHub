@@ -27,8 +27,7 @@ namespace DogHub.Data.Models
         public string Name { get; set; }
 
         [Required]
-        [MaxLength(GlobalConstants.BreedMaxLength)]
-        public string Breed { get; set; }
+        public Breed Breed { get; set; }
 
         //drop-down menu with two options
         public DogGender Gender { get; set; }
