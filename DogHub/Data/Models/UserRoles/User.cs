@@ -1,13 +1,19 @@
-﻿using System;
+﻿using DogHub.Data.Models.UserRoles;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogHub.Data.Models
 {
-    public abstract class User
+    public class User 
     {
         public User()
         {
             this.UserId = Guid.NewGuid().ToString();
+            this.Owners = new HashSet<Owner>();
+            this.Voters = new HashSet<Voter>();
+            this.Judges = new HashSet<Judge>();
         }
         [Key]
         [Required]
@@ -38,6 +44,12 @@ namespace DogHub.Data.Models
 
         //Should be above 18
         public int Age { get; set; }
+
+        public virtual ICollection<Owner> Owners { get; set; }
+
+        public virtual ICollection<Voter> Voters { get; set; }
+
+        public virtual ICollection<Judge> Judges { get; set; }
 
     }
 }

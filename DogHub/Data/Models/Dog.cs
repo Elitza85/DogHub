@@ -2,6 +2,7 @@
 using DogHub.Data.Models.UserRoles;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DogHub.Data.Models
 {
@@ -26,8 +27,9 @@ namespace DogHub.Data.Models
         [MaxLength(GlobalConstants.DogNameMaxValue)]
         public string Name { get; set; }
 
-        [Required]
-        public Breed Breed { get; set; }
+        public int BreedId { get; set; }
+
+        public virtual Breed Breed { get; set; }
 
         //drop-down menu with two options
         public DogGender Gender { get; set; }

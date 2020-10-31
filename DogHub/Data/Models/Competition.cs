@@ -26,6 +26,10 @@ namespace DogHub.Data.Models
         public DateTime CompetitionEnd { get; set; }
 
         [Required]
+        [MaxLength(GlobalConstants.OrganisedByMaxLength)]
+        public string OrganisedBy { get; set; }
+
+        [Required]
         [MaxLength(GlobalConstants.CompetitionDescriptionMaxLength)]
         public string Description { get; set; }
 

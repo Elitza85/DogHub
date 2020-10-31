@@ -30,6 +30,7 @@ namespace DogHub.Migrations
                     ImageUrl = table.Column<string>(nullable: false),
                     CompetitionStart = table.Column<DateTime>(nullable: false),
                     CompetitionEnd = table.Column<DateTime>(nullable: false),
+                    OrganisedBy = table.Column<string>(maxLength: 80, nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: false)
                 },
                 constraints: table =>
@@ -64,6 +65,26 @@ namespace DogHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Breeds",
+                columns: table => new
+                {
+                    BreedId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BreedName = table.Column<string>(nullable: true),
+                    CompetitionId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Breeds", x => x.BreedId);
+                    table.ForeignKey(
+                        name: "FK_Breeds_Competitions_CompetitionId",
+                        column: x => x.CompetitionId,
+                        principalTable: "Competitions",
+                        principalColumn: "CompetitionId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -73,14 +94,7 @@ namespace DogHub.Migrations
                     Username = table.Column<string>(maxLength: 30, nullable: false),
                     Password = table.Column<string>(nullable: false),
                     Email = table.Column<string>(maxLength: 40, nullable: false),
-                    Age = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    YearsOfExperience = table.Column<int>(nullable: true),
-                    RaisedLitters = table.Column<int>(nullable: true),
-                    NumberOfChampionsOwned = table.Column<int>(nullable: true),
-                    HasBeenJudgeAssistant = table.Column<bool>(nullable: true),
-                    AttendedJudgeInstituteCourse = table.Column<bool>(nullable: true),
-                    JudgeInstituteCertificateUrl = table.Column<string>(nullable: true)
+                    Age = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,6 +108,66 @@ namespace DogHub.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Judges",
+                columns: table => new
+                {
+                    JudgeId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
+                    YearsOfExperience = table.Column<int>(nullable: false),
+                    RaisedLitters = table.Column<int>(nullable: false),
+                    NumberOfChampionsOwned = table.Column<int>(nullable: false),
+                    HasBeenJudgeAssistant = table.Column<bool>(nullable: false),
+                    AttendedJudgeInstituteCourse = table.Column<bool>(nullable: false),
+                    JudgeInstituteCertificateUrl = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Judges", x => x.JudgeId);
+                    table.ForeignKey(
+                        name: "FK_Judges_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Owners",
+                columns: table => new
+                {
+                    OwnerId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Owners", x => x.OwnerId);
+                    table.ForeignKey(
+                        name: "FK_Owners_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Voters",
+                columns: table => new
+                {
+                    VoterId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Voters", x => x.VoterId);
+                    table.ForeignKey(
+                        name: "FK_Voters_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Dogs",
                 columns: table => new
                 {
@@ -102,7 +176,6 @@ namespace DogHub.Migrations
                     DogPhotoUrl = table.Column<string>(nullable: false),
                     DogVideoUrl = table.Column<string>(nullable: false),
                     Name = table.Column<string>(unicode: false, maxLength: 60, nullable: false),
-                    Breed = table.Column<string>(unicode: false, maxLength: 40, nullable: false),
                     Gender = table.Column<int>(nullable: false),
                     Age = table.Column<int>(nullable: true),
                     Weight = table.Column<double>(nullable: false),
@@ -122,10 +195,10 @@ namespace DogHub.Migrations
                         principalColumn: "EyesColorId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Dogs_Users_OwnerId",
+                        name: "FK_Dogs_Owners_OwnerId",
                         column: x => x.OwnerId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalTable: "Owners",
+                        principalColumn: "OwnerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -182,8 +255,7 @@ namespace DogHub.Migrations
                 name: "JudgeEvaluationForms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     BalanceRate = table.Column<int>(nullable: false),
                     WeightRate = table.Column<int>(nullable: false),
                     EyesRate = table.Column<int>(nullable: false),
@@ -205,10 +277,10 @@ namespace DogHub.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_JudgeEvaluationForms_Users_JudgeId",
+                        name: "FK_JudgeEvaluationForms_Judges_JudgeId",
                         column: x => x.JudgeId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalTable: "Judges",
+                        principalColumn: "JudgeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -216,8 +288,7 @@ namespace DogHub.Migrations
                 name: "VoterEvaluationForms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<string>(nullable: false),
                     BalanceRate = table.Column<int>(nullable: false),
                     WeightRate = table.Column<int>(nullable: false),
                     EyesRate = table.Column<int>(nullable: false),
@@ -239,12 +310,17 @@ namespace DogHub.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VoterEvaluationForms_Users_VoterId",
+                        name: "FK_VoterEvaluationForms_Voters_VoterId",
                         column: x => x.VoterId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
+                        principalTable: "Voters",
+                        principalColumn: "VoterId",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Breeds_CompetitionId",
+                table: "Breeds",
+                column: "CompetitionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dogs_EyesColorId",
@@ -282,6 +358,16 @@ namespace DogHub.Migrations
                 column: "JudgeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Judges_UserId",
+                table: "Judges",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Owners_UserId",
+                table: "Owners",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_TownId",
                 table: "Users",
                 column: "TownId");
@@ -295,10 +381,18 @@ namespace DogHub.Migrations
                 name: "IX_VoterEvaluationForms_VoterId",
                 table: "VoterEvaluationForms",
                 column: "VoterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Voters_UserId",
+                table: "Voters",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Breeds");
+
             migrationBuilder.DropTable(
                 name: "DogsColors");
 
@@ -312,7 +406,13 @@ namespace DogHub.Migrations
                 name: "Colors");
 
             migrationBuilder.DropTable(
+                name: "Judges");
+
+            migrationBuilder.DropTable(
                 name: "DogsCompetitions");
+
+            migrationBuilder.DropTable(
+                name: "Voters");
 
             migrationBuilder.DropTable(
                 name: "Competitions");
@@ -322,6 +422,9 @@ namespace DogHub.Migrations
 
             migrationBuilder.DropTable(
                 name: "EyesColors");
+
+            migrationBuilder.DropTable(
+                name: "Owners");
 
             migrationBuilder.DropTable(
                 name: "Users");

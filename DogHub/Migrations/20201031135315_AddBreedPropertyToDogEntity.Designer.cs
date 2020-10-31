@@ -4,14 +4,16 @@ using DogHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DogHub.Migrations
 {
     [DbContext(typeof(DogHubDbContext))]
-    partial class DogHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201031135315_AddBreedPropertyToDogEntity")]
+    partial class AddBreedPropertyToDogEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -434,7 +436,7 @@ namespace DogHub.Migrations
             modelBuilder.Entity("DogHub.Data.Models.Dog", b =>
                 {
                     b.HasOne("DogHub.Data.Models.Breed", "Breed")
-                        .WithMany("BreedDogs")
+                        .WithMany()
                         .HasForeignKey("BreedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

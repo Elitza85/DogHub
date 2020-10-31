@@ -1,13 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DogHub.Data.Models.EvaluationForms
 {
     public abstract class EvaluationForm
     {
+        public EvaluationForm()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
         //Possible ranking of all dog criteria varies in range 1-5
 
         //overall appropriate proportions
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int BalanceRate { get; set; }
 
         public int WeightRate { get; set; }

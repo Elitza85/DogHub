@@ -9,8 +9,5 @@ namespace DogHub.Data.Models.EvaluationForms
         public string VoterId { get; set; }
 
         public virtual Voter Voter { get; set; }
-        //public string VoterId { get; set; }
-
-        //public virtual Voter Voter { get; set; }
     }
 }

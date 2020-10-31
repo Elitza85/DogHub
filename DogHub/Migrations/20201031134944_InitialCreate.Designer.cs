@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogHub.Migrations
 {
     [DbContext(typeof(DogHubDbContext))]
-    [Migration("20201028113919_InitialCreate")]
+    [Migration("20201031134944_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,26 @@ namespace DogHub.Migrations
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("DogHub.Data.Models.Breed", b =>
+                {
+                    b.Property<int>("BreedId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BreedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("CompetitionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BreedId");
+
+                    b.HasIndex("CompetitionId");
+
+                    b.ToTable("Breeds");
+                });
 
             modelBuilder.Entity("DogHub.Data.Models.Color", b =>
                 {
@@ -67,6 +87,11 @@ namespace DogHub.Migrations
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
+                    b.Property<string>("OrganisedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
+
                     b.HasKey("CompetitionId");
 
                     b.ToTable("Competitions");
@@ -81,12 +106,6 @@ namespace DogHub.Migrations
 
                     b.Property<int?>("Age")
                         .HasColumnType("int");
-
-                    b.Property<string>("Breed")
-                        .IsRequired()
-                        .HasColumnType("varchar(40)")
-                        .HasMaxLength(40)
-                        .IsUnicode(false);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(500)")
@@ -171,10 +190,8 @@ namespace DogHub.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.EvaluationForms.JudgeEvaluationForm", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BalanceRate")
                         .HasColumnType("int");
@@ -219,10 +236,8 @@ namespace DogHub.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.EvaluationForms.VoterEvaluationForm", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BalanceRate")
                         .HasColumnType("int");
@@ -309,10 +324,6 @@ namespace DogHub.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(40)")
@@ -341,13 +352,12 @@ namespace DogHub.Migrations
                     b.HasIndex("TownId");
 
                     b.ToTable("Users");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.UserRoles.Judge", b =>
                 {
-                    b.HasBaseType("DogHub.Data.Models.User");
+                    b.Property<string>("JudgeId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("AttendedJudgeInstituteCourse")
                         .HasColumnType("bit");
@@ -365,24 +375,57 @@ namespace DogHub.Migrations
                     b.Property<int>("RaisedLitters")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("YearsOfExperience")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Judge");
+                    b.HasKey("JudgeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Judges");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.UserRoles.Owner", b =>
                 {
-                    b.HasBaseType("DogHub.Data.Models.User");
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasDiscriminator().HasValue("Owner");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("OwnerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Owners");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Voter", b =>
                 {
-                    b.HasBaseType("DogHub.Data.Models.User");
+                    b.Property<string>("VoterId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasDiscriminator().HasValue("Voter");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("VoterId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Voters");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Breed", b =>
+                {
+                    b.HasOne("DogHub.Data.Models.Competition", null)
+                        .WithMany("BreedsAllowed")
+                        .HasForeignKey("CompetitionId");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Dog", b =>
@@ -465,6 +508,33 @@ namespace DogHub.Migrations
                     b.HasOne("DogHub.Data.Models.Town", "Town")
                         .WithMany("Users")
                         .HasForeignKey("TownId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.UserRoles.Judge", b =>
+                {
+                    b.HasOne("DogHub.Data.Models.User", "User")
+                        .WithMany("Judges")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.UserRoles.Owner", b =>
+                {
+                    b.HasOne("DogHub.Data.Models.User", "User")
+                        .WithMany("Owners")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Voter", b =>
+                {
+                    b.HasOne("DogHub.Data.Models.User", "User")
+                        .WithMany("Voters")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

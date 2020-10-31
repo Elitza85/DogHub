@@ -25,6 +25,8 @@
         public const int CompetitionDescriptionMaxLength = 500;
         public const int CompetitionNameMaxLength = 100;
 
+        public const int OrganisedByMaxLength = 80;
+
         //Town
         public const int MaxTownLength = 20;
     }

@@ -1,13 +1,15 @@
 ﻿using DogHub.Data.Models.EvaluationForms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DogHub.Data.Models.UserRoles
 {
-    public class Judge : User
+    public class Judge 
     {
         public Judge()
         {
+            this.JudgeId = Guid.NewGuid().ToString();
             this.JudgeEvaluationForms = new HashSet<JudgeEvaluationForm>();
         }
         //This whole Judge Model could be turned into application form which can lead
@@ -15,6 +17,13 @@ namespace DogHub.Data.Models.UserRoles
 
 
         //should be above 12 according to professional requirements
+        [Key]
+        public string JudgeId { get; set; }
+        [Required]
+        public string UserId { get; set; }
+
+        public virtual User User { get; set; }
+
         public int YearsOfExperience { get; set; }
 
         //should be 5 or above

@@ -11,8 +11,12 @@ namespace DogHub.Data.EntityConfigurations
             builder.HasKey(e => e.DogId);
             builder.Property(e => e.Name)
                 .IsUnicode(false);
-            builder.Property(e => e.Breed)
-                .IsUnicode(false);
+            //builder.Property(e => e.Breed)
+            //    .IsUnicode(false);
+            //builder.HasOne(d => d.Breed)
+            //    .WithMany(b => b.BreedDogs)
+            //    .HasForeignKey(d => d.BreedId)
+            //    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
