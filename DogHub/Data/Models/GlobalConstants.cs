@@ -29,5 +29,11 @@
 
         //Town
         public const int MaxTownLength = 20;
+
+        //Chat
+        public const int ChatTopicMaxLength = 150;
+
+        //ChatMessage
+        public const int ChatMsgMaxLength = 250;
     }
 }

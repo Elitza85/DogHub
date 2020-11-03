@@ -14,6 +14,8 @@ namespace DogHub.Data.Models
             this.Owners = new HashSet<Owner>();
             this.Voters = new HashSet<Voter>();
             this.Judges = new HashSet<Judge>();
+            this.Messages = new HashSet<ChatMsg>();
+            this.ChatsUsers = new HashSet<ChatUser>();
         }
         [Key]
         [Required]
@@ -50,6 +52,10 @@ namespace DogHub.Data.Models
         public virtual ICollection<Voter> Voters { get; set; }
 
         public virtual ICollection<Judge> Judges { get; set; }
+
+        public virtual  ICollection<ChatMsg> Messages { get; set; }
+
+        public virtual ICollection<ChatUser> ChatsUsers { get; set; }
 
     }
 }

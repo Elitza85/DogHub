@@ -47,6 +47,12 @@ namespace DogHub.Data
 
         public DbSet<VoterEvaluationForm> VoterEvaluationForms { get; set; }
 
+        public DbSet<Chat> Chats { get; set; }
+
+        public DbSet<ChatMsg> ChatMsgs { get; set; }
+
+        public DbSet<ChatUser> ChatsUsers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -4,14 +4,16 @@ using DogHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DogHub.Migrations
 {
     [DbContext(typeof(DogHubDbContext))]
-    partial class DogHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201103093727_AddChatRelatedModels")]
+    partial class AddChatRelatedModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +47,7 @@ namespace DogHub.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -60,19 +60,15 @@ namespace DogHub.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ChatId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateAndTimeAdded")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("MessageText")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
@@ -495,15 +491,11 @@ namespace DogHub.Migrations
                 {
                     b.HasOne("DogHub.Data.Models.Chat", "Chat")
                         .WithMany("Messages")
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ChatId");
 
                     b.HasOne("DogHub.Data.Models.User", "User")
                         .WithMany("Messages")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.ChatUser", b =>
