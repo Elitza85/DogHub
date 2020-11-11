@@ -1,5 +1,8 @@
-﻿@model FirstViewsTests.ViewModels.Dogs.RegisterDogInputModel
+﻿@model DogHub.Web.ViewModels.Dog.RegisterDogInputModel
 
+@{ 
+    var breedItems = this.Model.BreedsItems.Select(x => new SelectListItem(x.Value, x.Key));
+}
 
 <script>
     function countChar(val) {
@@ -29,11 +32,9 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="BreedsList" class="font-weight-bold required"></label>
-        <select asp-for="BreedsList" class="form-control">
+        <label asp-for="BreedId" class="font-weight-bold required"></label>
+        <select asp-for="BreedId" class="form-control" asp-items="breedItems">
             <option value="none">----------Select----------</option>
-            @*forech(var breed in Model.DogBreedNames)*@
-            <option>breed</option>
         </select>
         </br>
         <p>
@@ -43,12 +44,12 @@
         </p>
         </p>
         <span asp-validation-for="Breed" class="text-danger"></span>
-        <span asp-validation-for="BreedsList" class="text-danger"></span>
+        <span asp-validation-for="BreedId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Gender" class="font-weight-bold required"></label>
-        <select asp-for="Gender" class="form-control" asp-items="@Html.GetEnumSelectList<FirstViewsTests.Models.Enums.DogGenderEnum>()">
+        <select asp-for="Gender" class="form-control" asp-items="@Html.GetEnumSelectList<DogHub.Data.Models.Enums.DogGenderEnum>()">
             <option value="none">-----Select-----</option>
         </select>
         <span asp-validation-for="Gender" class="text-danger"></span>
@@ -67,12 +68,12 @@
         <span asp-validation-for="Weight" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    <!--<div class="form-group">
         <label asp-for="EyesColor" class="font-weight-bold required" id="eyesColor"></label>
         <select asp-for="EyesColorsList" class="form-control">
-            <option value="none">-----Select-----</option>
+            <option value="none">-----Select-----</option>-->
             @*forech(var eyesColor in Model.EyesColors)*@
-            <option>eyesColor</option>
+            <!--<option>eyesColor</option>
         </select>
         </br>
         <p>
@@ -83,7 +84,7 @@
         </p>
         <span asp-validation-for="EyesColor" class="text-danger"></span>
         <span asp-validation-for="EyesColorsList" class="text-danger"></span>
-    </div>
+    </div>-->
 
     <div class="form-group">
         <label asp-for="Sellable" class="font-weight-bold required"></label>
@@ -115,7 +116,7 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
+    @*<div class="form-group">
         <label asp-for="Image" class="font-weight-bold required"></label>
         <a class="font-weight-normal">(approved file formats: .png and .jpeg): </a>
         <p>
@@ -130,7 +131,7 @@
             <input asp-for="Video" class="form-control" />
             <span asp-validation-for="Video" class="text-danger"></span>
         </p>
-    </div>
+    </div>*@
     <div class="form-group">
         <input type="submit" class="btn btn-success" value="Register" />
     </div>
