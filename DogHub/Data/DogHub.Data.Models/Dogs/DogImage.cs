@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Data.Models.Dogs
+﻿namespace DogHub.Data.Models.Dogs
 {
-    class DogImage
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using DogHub.Data.Common.Models;
+
+    public class DogImage : BaseDeletableModel<int>
     {
+        [ForeignKey(nameof(Dog))]
+        public int DogId { get; set; }
+
+        public virtual Dog Dog { get; set; }
+
+        public string Extension { get; set; }
     }
 }

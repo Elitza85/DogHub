@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Data.Models.Enums
+﻿namespace DogHub.Data.Models.Enums
 {
-    class DogGenderEnum
+    public enum DogGenderEnum
     {
+        Female = 1,
+        Male = 2,
     }
 }

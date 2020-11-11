@@ -1,10 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Data.Models.Competitions
+﻿namespace DogHub.Data.Models.Competitions
 {
-    class CompetitionImage
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using DogHub.Data.Common.Models;
+
+    public class CompetitionImage : BaseDeletableModel<int>
     {
+        [ForeignKey(nameof(Competition))]
+        public int CompetitionId { get; set; }
+
+        public virtual Competition Competition { get; set; }
+
+        public string Extension { get; set; }
     }
 }

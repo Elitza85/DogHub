@@ -8,7 +8,10 @@
 
     using DogHub.Data.Common.Models;
     using DogHub.Data.Models;
-
+    using DogHub.Data.Models.Competitions;
+    using DogHub.Data.Models.Dogs;
+    using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Data.Models.Forms;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +26,26 @@
             : base(options)
         {
         }
+
+        public DbSet<Competition> Competitions { get; set; }
+
+        public DbSet<CompetitionImage> CompetitionImages { get; set; }
+
+        public DbSet<DogCompetition> DogSCompetitions { get; set; }
+
+        public DbSet<Breed> Breeds { get; set; }
+
+        public DbSet<Dog> Dogs { get; set; }
+
+        public DbSet<DogColor> DogColors { get; set; }
+
+        public DbSet<DogImage> DogImages{ get; set; }
+
+        public DbSet<EyesColor> EyesColors { get; set; }
+
+        public DbSet<EvaluationForm> EvaluationForms { get; set; }
+
+        public DbSet<JudgeApplicationForm> JudgeApplicationForms { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

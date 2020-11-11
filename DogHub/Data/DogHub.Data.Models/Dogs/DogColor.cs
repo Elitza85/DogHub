@@ -1,10 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Data.Models.Dogs
+﻿namespace DogHub.Data.Models.Dogs
 {
-    class Color
+    using System.Collections.Generic;
+
+    using DogHub.Data.Common.Models;
+
+    public class DogColor : BaseDeletableModel<int>
     {
+        public DogColor()
+        {
+            this.ColorDogs = new HashSet<Dog>();
+        }
+
+        public string ColorName { get; set; }
+
+        public virtual ICollection<Dog> ColorDogs { get; set; }
     }
 }

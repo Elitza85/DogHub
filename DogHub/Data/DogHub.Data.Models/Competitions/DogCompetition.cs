@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Data.Models.Competitions
+﻿namespace DogHub.Data.Models.Competitions
 {
-    class DogCompetition
+    public class DogCompetition
     {
+        public int Id { get; set; }
+
+        public int DogId { get; set; }
+
+        public virtual Dog Dog { get; set; }
+
+        public int CompetitionId { get; set; }
+
+        public virtual Competition Competition { get; set; }
     }
 }

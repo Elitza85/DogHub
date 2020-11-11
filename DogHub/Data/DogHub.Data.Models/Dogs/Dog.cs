@@ -1,28 +1,32 @@
-﻿using DogHub.Common;
-using DogHub.Data.Common.Models;
-using DogHub.Data.Models.Dogs;
-using DogHub.Data.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.Text;
-
-namespace DogHub.Data.Models
+﻿namespace DogHub.Data.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using DogHub.Common;
+    using DogHub.Data.Common.Models;
+    using DogHub.Data.Models.Competitions;
+    using DogHub.Data.Models.Dogs;
+    using DogHub.Data.Models.Enums;
+    using DogHub.Data.Models.EvaluationForms;
+
     public class Dog : BaseDeletableModel<int>
     {
         public Dog()
         {
             this.DogsCompetiotions = new HashSet<DogCompetition>();
+            this.EvaluationForms = new HashSet<EvaluationForm>();
         }
 
         [Required]
         [MaxLength(GlobalConstants.DogNameMaxValue)]
         public string Name { get; set; }
 
-        [Required]
-        public string DogPhotoUrl { get; set; }
+        [ForeignKey(nameof(DogImage))]
+        public int DogImageId { get; set; }
+
+        public virtual DogImage DogImage { get; set; }
 
         // can do it with attach video option at later stage
         [Required]
@@ -43,28 +47,27 @@ namespace DogHub.Data.Models
 
         public virtual EyesColor EyesColor { get; set; }
 
-        public int ColorId { get; set; }
+        public int DogColorId { get; set; }
 
-        public virtual DogColor Color { get; set; }
+        public virtual DogColor DogColor { get; set; }
 
         // as it is required by default we do not put [Required]
         public bool? Sellable { get; set; }
 
         public bool? IsSpayedOrNeutered { get; set; }
 
-
         public bool IsSold { get; set; } = false;
 
         [MaxLength(GlobalConstants.DogDescriptionMaxLength)]
         public string Description { get; set; }
 
-        //[Required]
+        // [Required]
         public string OwnerId { get; set; }
 
         public virtual ApplicationUser Owner { get; set; }
 
-
         public virtual ICollection<DogCompetition> DogsCompetiotions { get; set; }
 
+        public virtual ICollection<EvaluationForm> EvaluationForms { get; set; }
     }
 }

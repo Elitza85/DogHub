@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DogHub.Common\DogHub.Common.csproj" />
     <ProjectReference Include="..\DogHub.Data.Common\DogHub.Data.Common.csproj" />
   </ItemGroup>
   
