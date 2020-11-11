@@ -1,0 +1,81 @@
+﻿<div class="container">
+    <div class="page-header text-center" style="padding:20px;">
+        <h2>Registered Dogs</h2>
+        <h4>Review the Full Catalogue or Buy a Dog</h4>
+        </br>
+        <a class="btn btn-success font-weight-bold" href="/Dogs/Register">Register Your Dog</a>
+    </div>
+    <br />
+
+    <div class="component col-md-9" style="text-align:right">
+        <p>
+            <i class="fas fa-filter"></i>
+            Get dogs by breed:
+            <select name="breedType" id="breedType">
+                <option value="none" class="font-weight-bold">--Select--</option>
+                @*forech(var breed in Model)*@
+                <option>breed</option>
+            </select>
+        </p>
+        <p>
+            <i class="fas fa-filter"></i>
+            Get only sellable dogs:
+            <input type="checkbox" id="getSellableDogs" name="getSellableDogs" value="Yes" />
+        </p>
+    </div>
+    <br />
+
+    <div class="component">
+            <table class="table-bordered table-hover col-md-9">
+                <thead>
+                    <tr>
+                        <th class="text-center">Dog Image</th>
+                        <th class="text-center">Dog Name</th>
+                        <th class="text-center">Dog Breed</th>
+                        <th class="text-center">Dog Gender</th>
+                        <th class="text-center">Dog Info</th>
+                        <th class="text-center">Buy a Dog</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*foreach(var dog in Model)*@
+                    <tr>
+                        <td class="text-center">
+                            <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                        </td>
+                        <td class="text-center">Riki</td>
+                        <td class="text-center">Labrador</td>
+                        <td class="text-center">Female</td>
+                        <td class="text-center">
+                            <a class="btn btn-info" href="/Dogs/DogProfile?id=dogId">Full Profile</a>
+                        </td>
+                        <td class="text-center">
+                            @*@if(Model.IsSellable == true) *@
+                            @*{*@
+
+                            <a class="btn btn-warning" href="/Dogs/Buy?id=dogId">Buy</a>
+                            @*}*@
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+    </div>
+</div>
+
+<style>
+    th {
+        position: sticky;
+        top: 0;
+        padding: 8px 16px;
+        background: #AFAFAF;
+    }
+
+    img {
+        transition: ease-out
+    }
+
+    img:hover {
+        transform: scale(2.5)
+    }
+</style>

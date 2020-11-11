@@ -1,0 +1,137 @@
+﻿<h2 style="padding:20px;">Full Dog Profile</h2>
+
+<div class="border col-md-9">
+    <table>
+        <tr>
+            <td>
+                <img class="circle" src="https://jooinn.com/images/dog-67.jpg" />
+            </td>
+            <td>
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Name:
+                    </span>
+                    Model.Name
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Breed:
+                    </span>
+                    Model.Breed
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Colour:
+                    </span>
+                    Model.Colour
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Gender:
+                    </span>
+                    Model.Gender
+                </p>
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Age:
+                    </span>
+                    @*@if (Model.Age == null)
+                    {
+                <p>
+                    "Dog age is not available."
+                </p>
+
+                    }*@
+                    Model.Age
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Weight:
+                    </span>
+                    Model.Weight
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Eyes Color:
+                    </span>
+                    Model.EyesColor
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Dog is Sellable:
+                    </span>
+                    Model.IsDogSellable
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Dog is Spayed or Neutered:
+                    </span>
+                    Model.IsDogSpayedOrNeutered
+                </p>
+
+                <p>
+                    <i class="fas fa-paw"></i>
+                    <span class="font-weight-bold">
+                        Description:
+                    </span>
+                    @*@if (Model.Description == null)
+                    {
+                <p>
+                    "Dog description is not available."
+                </p>
+
+                    }*@
+                    Model.Description
+                </p>
+            </td>
+        </tr>
+    </table>
+    <p>
+        <i class="fas fa-paw"></i>
+        Model.Name participated in Model.Competitions.Count
+    </p>
+    <p>
+        <i class="fas fa-paw"></i>
+        Enjoy the dog video
+    </p>   
+        <video></video>
+</div>
+
+<div style="padding-top:20px; padding-left:180px;">
+    
+    @*@if(Model.OwnerId== currentUserId)*@
+    <a class="btn btn-danger">Edit</a>
+    @*else*@
+    <a class="btn btn-warning">Buy</a>
+    
+    <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+</div>
+<style>
+    .circle {
+        height: 400px;
+        border-radius: 50%;
+        padding: 20px;
+    }
+
+    .border {
+        background-color: lightcyan;
+        padding: 20px;
+    }
+
+</style>

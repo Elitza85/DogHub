@@ -1,0 +1,56 @@
+﻿
+<div class="text-center" style="padding: 20px;">
+    <h2><i id="blink" class="fas fa-star"></i>Welcome to the Model.NameShow<i id="blink" class="fas fa-star"></i></h2>
+    <h4>This Show Selected Breed is Model.Breed</h4>
+    <h4>Review the Full List of Participants and Vote for Your Favourite</h4>
+</div>
+
+        <table class="table-bordered table-hover col-md-12">
+            <thead style="background-color:gray">
+                <tr>
+                    <th class="text-center">Dog Image</th>
+                    <th class="text-center">Dog Name</th>
+                    <th class="text-center">Current Total Points</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @*foreach(var dog in Model)*@
+                <tr class="content">
+                    <td class="text-center">
+                        <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                    </td>
+                    <td class="text-center">Riki</td>
+                    <td class="text-center">123</td>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+
+<style>
+    th {
+        position: sticky;
+        top: 0;
+        padding: 8px 16px;
+        background: #AFAFAF;
+    }
+   
+    img {
+        transition: ease-out
+    }
+
+        img:hover {
+            transform: scale(2.5)
+        }
+
+    #blink {
+        color: gold;
+        -webkit-animation: blink 1s step-end infinite;
+        animation: blink 1s step-end infinite;
+    }
+    @@keyframes blink { 50% { visibility: hidden; }}
+    @@-webkit-keyframes blink { 50% { visibility: hidden; }}
+</style>

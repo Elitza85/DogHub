@@ -1,0 +1,146 @@
+﻿@model FirstViewsTests.ViewModels.Dogs.RegisterDogInputModel
+
+
+<script>
+    function countChar(val) {
+        var length = val.value.length;
+        if (length >= 250) {
+            val.value = val.value.substring(0, 250);
+        }
+        else {
+            $('#charNum').text(250 - length);
+        }
+    };
+</script>
+
+<h2 style="margin:20px;">Fill the Form to Register Your Dog in the Catalogue</h2>
+<p style="margin:20px;">If you haven`t registered yet, then <a href="/Identity/Account/Register">register as a new user first!</a></p>
+
+<form method="post" enctype="multipart/form-data" asp-controller="Dogs" asp-action="Register" role="form" class="table-bordered col-md-6">
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="DogName" class="font-weight-bold required"></label>
+        <p>
+            <input asp-for="DogName" class="form-control" />
+            <span asp-validation-for="DogName" class="text-danger"></span>
+        </p>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BreedsList" class="font-weight-bold required"></label>
+        <select asp-for="BreedsList" class="form-control">
+            <option value="none">----------Select----------</option>
+            @*forech(var breed in Model.DogBreedNames)*@
+            <option>breed</option>
+        </select>
+        </br>
+        <p>
+            or if you can`t find your dog breed, please fill it here:
+        <p>
+            <input asp-for="Breed" class="form-control" />
+        </p>
+        </p>
+        <span asp-validation-for="Breed" class="text-danger"></span>
+        <span asp-validation-for="BreedsList" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Gender" class="font-weight-bold required"></label>
+        <select asp-for="Gender" class="form-control" asp-items="@Html.GetEnumSelectList<FirstViewsTests.Models.Enums.DogGenderEnum>()">
+            <option value="none">-----Select-----</option>
+        </select>
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Age" class="font-weight-bold"></label>
+        <a class="font-weight-normal">(optional)</a>:
+        <input asp-for="Age" class="form-control" />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Weight" class="font-weight-bold required"></label>
+        <input asp-for="Weight" class="form-control" />
+        <span asp-validation-for="Weight" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EyesColor" class="font-weight-bold required" id="eyesColor"></label>
+        <select asp-for="EyesColorsList" class="form-control">
+            <option value="none">-----Select-----</option>
+            @*forech(var eyesColor in Model.EyesColors)*@
+            <option>eyesColor</option>
+        </select>
+        </br>
+        <p>
+            or if you can`t find your dog eyes color, please fill it here:
+        </p>
+        <p>
+            <input asp-for="EyesColor" class="form-control" />
+        </p>
+        <span asp-validation-for="EyesColor" class="text-danger"></span>
+        <span asp-validation-for="EyesColorsList" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sellable" class="font-weight-bold required"></label>
+        <select asp-for="Sellable" class="form-control">
+            <option value="none" class="text-center">-----Select-----</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+        <span asp-validation-for="Sellable" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IsSpayedOrNeutered" class="font-weight-bold required"></label>
+        <select asp-for="IsSpayedOrNeutered" class="form-control">
+            <option value="none" class="text-center">-----Select-----</option>
+            <option>Yes</option>
+            <option>No</option>
+        </select>
+        <span asp-validation-for="IsSpayedOrNeutered" class="text-danger"></span>
+    </div>
+
+    <div class=" form-group">
+        <label asp-for="Description" class="font-weight-bold"></label>
+        <a class="font-weight-normal">(optional): </a>
+        <p>
+            <textarea asp-for="Description" class="form-control" onkeypress="countChar(this)" placeholder="Write how your dog behaves and which are his best qualities..."></textarea>
+        </p>
+        <a class="font-weight-light" id="charNum"></a>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Image" class="font-weight-bold required"></label>
+        <a class="font-weight-normal">(approved file formats: .png and .jpeg): </a>
+        <p>
+            <input asp-for="Image" class="form-control" />
+            <span asp-validation-for="Image" class="text-danger"></span>
+        </p>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Video" class="font-weight-bold required"></label>
+        <p>
+            <input asp-for="Video" class="form-control" />
+            <span asp-validation-for="Video" class="text-danger"></span>
+        </p>
+    </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" value="Register" />
+    </div>
+</form>
+
+
+<style type="text/css">
+
+    form label.required::before {
+        color: red;
+        content: " *";
+    }
+</style>

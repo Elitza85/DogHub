@@ -1,0 +1,51 @@
+﻿<h2 style="padding:20px;">Fill the Form to Add Your Dog as a Participant in the Show:</h2>
+<form method="post" asp-controller="Competitions" asp-action="AddDogToCompetition" role="form" class="col-md-9">
+    <p>
+        <i class="far fa-hand-point-right"></i>
+        The approved dog breed for the competition <a class="font-weight-bold">Model.Name</a> is <a class="font-weight-bold">Model.Breed</a>.
+    </p>
+
+    <p>
+        <i class="far fa-hand-point-right"></i>
+        The requirements that need to be observed for a dog to be added to this competition are as follows:
+        <ul>
+            <li>The dog breed must be the same as the approved dog breed for this competition</li>
+            <li>The dog that will be added as a participant in this competition must not be spayed or neutered</li>
+        </ul>
+    </p>
+
+    <p>
+        <i class="far fa-hand-point-right"></i>
+        You need to select from your dogs list one or more dogs to add them to the competition.
+    </p>
+
+    <p>
+        <i class="far fa-hand-point-right"></i>
+        Dogs List:
+    <p>
+        <small> (If there are no dogs listed below, then you need to <a href="/Dogs/Register">Register</a> your dog in the catalogue first.)</small>
+    </p>
+    </p>
+
+    <table class="col-md-12 table-bordered" style="margin-top:30px;">
+        <tbody>
+            <tr>
+                <td class="text-center">
+                    <input type="checkbox" style="padding:10px;" />
+                </td>
+                <td class="text-center">
+                    <img height="150px;" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                </td>
+                <td class="text-center">Dog.Name</td>
+                <td class="text-center">Dog.Breed</td>
+                <td class="text-center">Dog.IsSpayedOrNeutered</td>
+            </tr>
+
+        </tbody>
+    </table>
+    </br>
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" value="Add" />
+    </div>
+</form>
+

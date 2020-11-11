@@ -1,0 +1,113 @@
+﻿
+<script>
+    function DisplayVideo() {
+        var videoBlock = document.querySelector("#videoBlock");
+        var closeBtn = document.querySelector("#closeBtn");
+
+        if (videoBlock.style.display == 'none') {
+            videoBlock.style.display = "block";
+            closeBtn.style.display = "block";
+        }
+
+        closeBtn.addEventListener("click", () => {
+            videoBlock.style.display = "none";
+            closeBtn.style.display = "none";
+        })
+    }
+
+
+
+</script>
+
+<h2 class="text-center" style="padding:20px;">You Have to Judge the Dog Based on the Following Criteria</h2>
+<h4>You can watch the <a id="dogVideo" style="color:blue" onclick="DisplayVideo()">dog presentation video</a> to help you make your exaggeration</h4>
+<i id="closeBtn" class="fas fa-times" style="display: none; padding-left: 560px;"></i>
+<iframe id="videoBlock" style="display:none;" width="560" height="315" src="https://www.youtube.com/embed/XChw5CkhSkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video id="videoBlock" style="display:none;">
+</video>
+
+<div style="border:solid; padding:15px; margin-top:30px;">
+    <h6>
+    <i class="far fa-hand-point-right"></i>
+        Evaluate the balance of the dog, i.e. overall appropriate proportions
+        </h6>
+            <div class="main">
+                <form id="rating-form">
+                    <span class="rating-star">
+                        <input type="radio" name="rating" value="5"><span class="star"></span>
+
+                        <input type="radio" name="rating" value="4"><span class="star"></span>
+
+                        <input type="radio" name="rating" value="3"><span class="star"></span>
+
+                        <input type="radio" name="rating" value="2"><span class="star"></span>
+
+                        <input type="radio" name="rating" value="1"><span class="star"></span>
+                    </span>
+                </form>
+                <p>Thanks For Giving <span id="selected-rating" class="selected-rating">0</span> Stars.</p>
+            </div>
+</div>
+
+BalanceRate
+WeightRate
+EyesRate
+EarsRate
+HeadShapeRate
+MuzzleRate
+ColorRate
+TotalPoints
+
+<style>
+    #dogVideo{
+        cursor:pointer
+    }
+
+    .rating-star {
+        direction: rtl;
+        font-size: 30px;
+        unicode-bidi: bidi-override;
+        display: inline-block;
+    }
+
+        .rating-star input {
+            opacity: 0;
+            position: relative;
+            left: -30px;
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        .rating-star span.star:before {
+            color: #777777;
+        }
+
+        .rating-star span.star {
+            display: inline-block;
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            position: relative;
+            z-index: 1;
+        }
+
+        .rating-star span {
+            margin-left: 20px;
+        }
+
+            .rating-star span.star:before {
+                color: #777777;
+                content: "\f006";
+            }
+
+        .rating-star input:hover + span.star:before, .rating-star input:hover + span.star ~ span.star:before, .rating-star input:checked + span.star:before, .rating-star input:checked + span.star ~ span.star:before {
+            color: #ffd100;
+            content: "\f005";
+        }
+
+    .selected-rating {
+        color: #ffd100;
+        font-weight: bold;
+        font-size: 42px;
+    }
+</style>
