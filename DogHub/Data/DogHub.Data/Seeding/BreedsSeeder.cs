@@ -17,7 +17,8 @@ namespace DogHub.Data.Seeding
             }
 
             await dbContext.Breeds.AddAsync(new Breed { BreedName = "American Bully" });
-
+            await dbContext.Breeds.AddAsync(new Breed { BreedName = "Chao Chao" });
+            
             await dbContext.SaveChangesAsync();
         }
     }
