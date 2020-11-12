@@ -24,12 +24,12 @@
         public string Name { get; set; }
 
         [ForeignKey(nameof(DogImage))]
-        public int DogImageId { get; set; }
+        public int? DogImageId { get; set; }
 
         public virtual DogImage DogImage { get; set; }
 
         // can do it with attach video option at later stage
-        [Required]
+        //[Required]
         public string DogVideoUrl { get; set; }
 
         public int BreedId { get; set; }

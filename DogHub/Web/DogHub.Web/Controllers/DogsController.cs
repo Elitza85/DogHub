@@ -3,14 +3,18 @@
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Dog;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     public class DogsController : Controller
     {
         private readonly IBreedsListService breedsListService;
+        private readonly IDogService dogService;
 
-        public DogsController(IBreedsListService breedsListService)
+        public DogsController(IBreedsListService breedsListService,
+            IDogService dogService)
         {
             this.breedsListService = breedsListService;
+            this.dogService = dogService;
         }
         public IActionResult Catalogue()
         {
@@ -25,13 +29,15 @@
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterDogInputModel input)
+        public async Task<IActionResult> Register(RegisterDogInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
                 input.BreedsItems = this.breedsListService.GetAllAsKVP();
                 return this.View(input);
             }
+
+            await this.dogService.Register(input);
 
             return this.Redirect("/Dogs/Catalogue");
         }

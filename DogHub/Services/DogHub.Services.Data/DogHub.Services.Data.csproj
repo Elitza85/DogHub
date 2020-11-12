@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DogHub.Data.Common\DogHub.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\DogHub.Data.Models\DogHub.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\DogHub.Web.ViewModels\DogHub.Web.ViewModels.csproj" />
     <ProjectReference Include="..\DogHub.Services.Mapping\DogHub.Services.Mapping.csproj" />
   </ItemGroup>
 
