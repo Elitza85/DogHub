@@ -1,12 +1,11 @@
-﻿using DogHub.Data.Common.Repositories;
-using DogHub.Data.Models.Dogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DogHub.Services.Data
+﻿namespace DogHub.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models.Dogs;
+
     public class BreedsListService : IBreedsListService
     {
         private readonly IDeletableEntityRepository<Breed> breedsRepository;

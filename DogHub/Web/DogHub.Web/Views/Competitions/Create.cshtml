@@ -1,0 +1,55 @@
+﻿@model DogHub.Web.ViewModels.Competitions.CreateCompetitionInputModel
+
+@{
+    var breedsList = this.Model.BreedsList.Select(x => new SelectListItem(x.Value, x.Key));
+}
+
+<h2 style="padding:20px;">Create a Competition</h2>
+
+<form method="post" enctype="multipart/form-data" asp-controller="Competitions" asp-action="Create" role="form" class="table-bordered col-md-6">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Name" class="font-weight-bold required"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CompetitionStart" class="font-weight-bold required"></label>
+        <input asp-for="CompetitionStart" class="form-control" />
+        <span asp-validation-for="CompetitionStart" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CompetitionEnd" class="font-weight-bold required"></label>
+        <input asp-for="CompetitionEnd" class="form-control" />
+        <span asp-validation-for="CompetitionEnd" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OrganisedBy" class="font-weight-bold required"></label>
+        <input asp-for="OrganisedBy" class="form-control" />
+        <span asp-validation-for="OrganisedBy" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BreedId" class="font-weight-bold required"></label>
+        <select asp-for="BreedId" class="form-control" asp-items="breedsList">
+            <option value="none">----------Select----------</option>
+        </select>
+        <span asp-validation-for="BreedId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" class="btn btn-success" value="Create" />
+    </div>
+</form>
+
+<style type="text/css">
+
+    form label.required::before {
+        color: red;
+        content: " *";
+    }
+</style>
