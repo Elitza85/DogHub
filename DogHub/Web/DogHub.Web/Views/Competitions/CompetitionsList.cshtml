@@ -1,48 +1,40 @@
-﻿<h2 class="text-center" style="padding:20px;">Competitions List</h2>
+﻿@model DogHub.Web.ViewModels.Competitions.AllEventsViewModel
+
+<h2 class="text-center" style="padding:20px;">Competitions List</h2>
 
 <div style="padding:40px;">
     <h3><i class="fas fa-medal"></i> Current</h3>
 </div>
 
-@*@if(Model.CurrentCompetition == null)
-    {
+@if (Model.CurrentEvent == null)
+{
         <p class="font-weight-bold">
         <i class="fas fa-info-circle"></i>
         Currently there is no competition in progress.
     </p>
-    }
-    else*@
+}
+else
+{
 <table class="col-md-12 table-hover">
-
-        <thead>
-        <th>
-            Competition Name
-        </th>
-        <th>
-            Organised By
-        </th>
-        <th>
-            Allowed Breed
-        </th>
-        </thead>
+    <partial name="_CompetitionsListHeaderPartialView"></partial>
         <tbody>
             <tr>
                 <td>
-                    Model.Name
+                    @Model.CurrentEvent.Name
                 </td>
                 <td>
-                    Model.OrganisedBy
+                    @Model.CurrentEvent.Organiser
                 </td>
                 <td>
-                    Model.AllowedBreed
+                    @Model.CurrentEvent.Breed
                 </td>
                 <td>
-                    <a class="btn btn-info" href="/Competitions/Details?id=competitionId">Details</a>
+                    <a class="btn btn-info" href="/Competitions/Details?id=@Model.CurrentEvent.CompetitionId">Details</a>
                 </td>
             </tr>
-
         </tbody>
     </table>
+}
 
 <div style="padding:40px;">
     <h3 style="height:50px;" id="upcomingEvents"><i class="fas fa-medal"></i> Upcoming</h3>
@@ -50,77 +42,60 @@
 </div>
 
 <table class="col-md-12 table-hover">
-
-    <thead>
-    <th>
-        Competition Name
-    </th>
-    <th>
-        Organised By
-    </th>
-    <th>
-        Allowed Breed
-    </th>
-    </thead>
+    <partial name="_CompetitionsListHeaderPartialView"></partial>
+@foreach (var item in Model.UpcomingEvents)
+{
     <tbody>
         <tr>
             <td>
-                Model.Name
+                @item.Name
             </td>
             <td>
-                Model.OrganisedBy
+                @item.Organiser
             </td>
             <td>
-                Model.AllowedBreed
+                @item.Breed
             </td>
             <td>
-                <a class="btn btn-info" href="/Competitions/Details?id=competitionId">Details</a>
+                <a class="btn btn-info" href="/Competitions/Details?id=@item.CompetitionId">Details</a>
             </td>
         </tr>
-
     </tbody>
+}
 </table>
 
 <div style="padding:40px;">
     <h3 style="height:50px;" id="pastEvents"><i class="fas fa-medal"></i> Past</h3>
     <a href="#upcomingEvents"> See All Upcoming Competitions</a>
 </div>
+
 <table class="col-md-12 table-hover">
-    <thead>
-    <th>
-        Competition Name
-    </th>
-    <th>
-        Organised By
-    </th>
-    <th>
-        Allowed Breed
-    </th>
-    </thead>
+    <partial name="_CompetitionsListHeaderPartialView"></partial>
+@foreach (var item in Model.PastEvents)
+{
     <tbody>
         <tr>
             <td>
-                Model.Name
+                @item.Name
             </td>
             <td>
-                Model.OrganisedBy
+                @item.Organiser
             </td>
             <td>
-                Model.AllowedBreed
+                @item.Breed
             </td>
             <td>
-                <a class="btn btn-info" href="/Competitions/Details?id=competitionId">Details</a>
+                <a class="btn btn-info" href="/Competitions/Details?id=@item.CompetitionId">Details</a>
             </td>
         </tr>
-
     </tbody>
+}
 </table>
 
 <style>
-
-
     table > tbody {
         border-top: solid;
+        border-bottom: solid;
         border-color: grey;
     }
 
