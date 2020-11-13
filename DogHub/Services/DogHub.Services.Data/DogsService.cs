@@ -66,7 +66,6 @@ namespace DogHub.Services.Data
             if (dogColor == null)
             {
                 dogColor = new DogColor { ColorName = input.DogColor };
-
             }
 
             var eyesColor = this.eyesColorRepository.All()

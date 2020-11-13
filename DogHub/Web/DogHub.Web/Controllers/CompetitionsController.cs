@@ -3,14 +3,19 @@
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Competitions;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     public class CompetitionsController : Controller
     {
         private readonly IBreedsListService breedsService;
+        private readonly ICompetitionsService competitionsService;
 
-        public CompetitionsController(IBreedsListService breedsService)
+        public CompetitionsController(
+            IBreedsListService breedsService,
+            ICompetitionsService competitionsService)
         {
             this.breedsService = breedsService;
+            this.competitionsService = competitionsService;
         }
 
         public IActionResult Create()
@@ -20,11 +25,20 @@
             return this.View(viewModel);
         }
 
-        //[HttpPost]
-        //public IActionResult Create(CreateCompetitionInputModel input)
-        //{
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateCompetitionInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input.BreedsList = this.breedsService.GetAllAsKVP();
+                return this.View(input);
+            }
 
-        //}
+            await this.competitionsService.Create(input);
+
+            return this.Redirect("/Competitions/CompetitionsList");
+        }
+
         public IActionResult CompetitionsList()
         {
             return this.View();

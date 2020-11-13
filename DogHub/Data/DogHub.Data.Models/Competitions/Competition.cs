@@ -23,7 +23,7 @@
         public string Name { get; set; }
 
         [ForeignKey(nameof(CompetitionImage))]
-        public int CompetitionImageId { get; set; }
+        public int? CompetitionImageId { get; set; }
 
         public virtual CompetitionImage CompetitionImage { get; set; }
 
@@ -31,9 +31,10 @@
 
         public DateTime CompetitionEnd { get; set; }
 
-        [Required]
         [MaxLength(GlobalConstants.OrganisedByMaxLength)]
-        public string OrganisedBy { get; set; }
+        public int OrganiserId { get; set; }
+
+        public virtual Organiser Organiser { get; set; }
 
         public int BreedId { get; set; }
 

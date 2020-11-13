@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201111114743_DatabaseInitialCreate")]
-    partial class DatabaseInitialCreate
+    [Migration("20201113120223_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,7 +154,7 @@ namespace DogHub.Data.Migrations
                     b.Property<DateTime>("CompetitionEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CompetitionImageId")
+                    b.Property<int?>("CompetitionImageId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CompetitionStart")
@@ -177,9 +177,8 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("OrganisedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(80)")
+                    b.Property<int>("OrganiserId")
+                        .HasColumnType("int")
                         .HasMaxLength(80);
 
                     b.HasKey("Id");
@@ -189,6 +188,8 @@ namespace DogHub.Data.Migrations
                     b.HasIndex("CompetitionImageId");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("OrganiserId");
 
                     b.ToTable("Competitions");
                 });
@@ -249,6 +250,35 @@ namespace DogHub.Data.Migrations
                     b.ToTable("DogSCompetitions");
                 });
 
+            modelBuilder.Entity("DogHub.Data.Models.Competitions.Organiser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrganiserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Organisers");
+                });
+
             modelBuilder.Entity("DogHub.Data.Models.Dog", b =>
                 {
                     b.Property<int>("Id")
@@ -275,11 +305,10 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("DogColorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DogImageId")
+                    b.Property<int?>("DogImageId")
                         .HasColumnType("int");
 
                     b.Property<string>("DogVideoUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("EyesColorId")
@@ -713,7 +742,11 @@ namespace DogHub.Data.Migrations
 
                     b.HasOne("DogHub.Data.Models.Competitions.CompetitionImage", "CompetitionImage")
                         .WithMany()
-                        .HasForeignKey("CompetitionImageId")
+                        .HasForeignKey("CompetitionImageId");
+
+                    b.HasOne("DogHub.Data.Models.Competitions.Organiser", "Organiser")
+                        .WithMany("OrganiserCompetitions")
+                        .HasForeignKey("OrganiserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
@@ -758,9 +791,7 @@ namespace DogHub.Data.Migrations
 
                     b.HasOne("DogHub.Data.Models.Dogs.DogImage", "DogImage")
                         .WithMany()
-                        .HasForeignKey("DogImageId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("DogImageId");
 
                     b.HasOne("DogHub.Data.Models.Dogs.EyesColor", "EyesColor")
                         .WithMany("EyesDogs")

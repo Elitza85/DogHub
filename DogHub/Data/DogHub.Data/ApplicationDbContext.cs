@@ -29,9 +29,11 @@
 
         public DbSet<Competition> Competitions { get; set; }
 
+        public DbSet<Organiser> Organisers { get; set; }
+
         public DbSet<CompetitionImage> CompetitionImages { get; set; }
 
-        public DbSet<DogCompetition> DogSCompetitions { get; set; }
+        public DbSet<DogCompetition> DogsCompetitions { get; set; }
 
         public DbSet<Breed> Breeds { get; set; }
 
