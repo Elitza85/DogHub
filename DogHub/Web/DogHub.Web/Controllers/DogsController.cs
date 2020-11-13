@@ -1,17 +1,17 @@
 ﻿namespace FirstViewsTests.Controllers
 {
     using DogHub.Services.Data;
-    using DogHub.Web.ViewModels.Dog;
+    using DogHub.Web.ViewModels.Dogs;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
 
     public class DogsController : Controller
     {
         private readonly IBreedsListService breedsListService;
-        private readonly IDogService dogService;
+        private readonly IDogsService dogService;
 
         public DogsController(IBreedsListService breedsListService,
-            IDogService dogService)
+            IDogsService dogService)
         {
             this.breedsListService = breedsListService;
             this.dogService = dogService;
@@ -47,9 +47,10 @@
             return this.View();
         }
 
-        public IActionResult DogProfile()
+        public IActionResult DogProfile(int id)
         {
-            return this.View();
+            var viewModel = this.dogService.DogProfile(id);
+            return this.View(viewModel);
         }
     }
 }
