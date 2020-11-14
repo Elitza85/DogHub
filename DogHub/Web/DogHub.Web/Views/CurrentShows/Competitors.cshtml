@@ -18,6 +18,56 @@
                 @*foreach(var dog in Model)*@
                 <tr class="content">
                     <td class="text-center">
+                        <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                    </td>
+                    <td class="text-center">Riki</td>
+                    <td class="text-center">123</td>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                    </td>
+                </tr>
+                <tr class="content">
+                    <td class="text-center">
+                        <img src="https://tse4.mm.bing.net/th?id=OIP.49CH_m8xcY3b6stGkMkG2AHaEO&pid=Api&P=0&w=349&h=200" />
+                    </td>
+                    <td class="text-center">Riki</td>
+                    <td class="text-center">123</td>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                    </td>
+                </tr>
+                <tr class="content">
+                    <td class="text-center">
+                        <img src="https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/dogs_1280p_0.jpg?itok=cnRk0HYq" />
+                    </td>
+                    <td class="text-center">Riki</td>
+                    <td class="text-center">123</td>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                    </td>
+                </tr>
+                <tr class="content">
+                    <td class="text-center">
+                        <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                    </td>
+                    <td class="text-center">Riki</td>
+                    <td class="text-center">123</td>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                    </td>
+                </tr>
+                <tr class="content">
+                    <td class="text-center">
+                        <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                    </td>
+                    <td class="text-center">Riki</td>
+                    <td class="text-center">123</td>
+                    <td class="text-center">
+                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                    </td>
+                </tr>
+                <tr class="content">
+                    <td class="text-center">
                         <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
                     </td>
                     <td class="text-center">Riki</td>
@@ -37,13 +87,25 @@
         padding: 8px 16px;
         background: #AFAFAF;
     }
-   
+
+    .content {
+        box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+        max-width: 150px;
+        height: 150px;
+        width: 150px;
+    }
+
     img {
-        transition: ease-out
+        transition: ease-out;
+        max-width: 150px;
+        max-height: 150px;
+        width: 50%;
+        height: 50%;
+        object-fit: cover;
     }
 
         img:hover {
-            transform: scale(2.5)
+            transform: scale(1.5)
         }
 
     #blink {

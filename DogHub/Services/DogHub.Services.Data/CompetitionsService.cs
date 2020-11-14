@@ -22,6 +22,23 @@
             this.organisersRepository = organisersRepository;
         }
 
+        public CompetitionDetailsViewModel CompetitionDetails(int id)
+        {
+            return this.competitionsRepository.All()
+                .Where(x => x.Id == id)
+                .Select(y => new CompetitionDetailsViewModel
+                {
+                    Name = y.Name,
+                    StartDate = y.CompetitionStart,
+                    EndDate = y.CompetitionEnd,
+                    Status = y.CompetitionStart < DateTime.UtcNow
+                    && DateTime.UtcNow < y.CompetitionEnd ? "In Progress"
+                    : y.CompetitionEnd < DateTime.UtcNow ? "Complete"
+                    : "Upcoming",
+                    ParticipantsCount = y.DogsCompetitions.Count(),
+                }).FirstOrDefault();
+        }
+
         public async Task Create(CreateCompetitionInputModel input)
         {
             var competition = new Competition
@@ -94,19 +111,5 @@
                     Organiser = y.Organiser.OrganiserName,
                 }).ToList();
         }
-
-        //public IEnumerable<CompetitionsListViewModel> ListAllEvents()
-        //{
-        //    return this.competitionsRepository.All()
-        //        .Select(x => new CompetitionsListViewModel
-        //        {
-        //            Name = x.Name,
-        //            Breed = x.Breed.BreedName,
-        //            CompetitionId = x.Id,
-        //            Organiser = x.Organiser.OrganiserName,
-        //            StartDate = x.CompetitionStart,
-        //            EndDate = x.CompetitionEnd,
-        //        }).ToList();
-        //}
     }
 }

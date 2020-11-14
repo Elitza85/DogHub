@@ -15,6 +15,6 @@
 
         IEnumerable<UpcomingCompetitionsViewModel> GetUpcomingCompetitions();
 
-        //IEnumerable<CompetitionsListViewModel> ListAllEvents();
+        CompetitionDetailsViewModel CompetitionDetails(int id);
     }
 }

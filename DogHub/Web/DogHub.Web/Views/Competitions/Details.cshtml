@@ -1,4 +1,6 @@
-﻿<script>
+﻿@model DogHub.Web.ViewModels.Competitions.CompetitionDetailsViewModel
+
+<script>
 
     //Style display details table
 
@@ -101,29 +103,36 @@
 
             <td>
                 <div class="font-weight-bold">
-                    The First Yearly Competitions
+                    @Model.Name
                 </div>
                 <p class="font-weight-normal">
-                    <li>Competition Date: 12/11/2020</li>
-                    <li>Participants: 120</li>
+                    <li>Start Date and Time: @Model.StartDate.ToString("f")</li>
+                    <li>End Date and Time: @Model.EndDate.ToString("f")</li>
+                    <li>Participants: @Model.ParticipantsCount</li>
+                    <li>Status: @Model.Status</li>
                 </p>
             </td>
-            @*Current@if(Model.StartDate < DateTime.UtcNow && DateTime.UtcNow > Model.EndDate)*@
-            @*Make through redirect page-Check the roles= owner of participating dog cant vote, user can vote once, judge can vote many times*@
-            <td>
-                <a class="btn btn-info">Vote</a>
-            </td>
+            @*Owner of participant CAN`T vote*@
+            @if (Model.Status == "In Progress")
+            {
+                <td>
+                    <a class="btn btn-info">Vote</a>
+                </td>
+            }
+            @*Judge CAN`T add dogs to competition*@
+            else if (Model.Status == "Upcoming")
+            {
+                <td>
+                    <a class="btn btn-info" href="/Competitions/AddDogToCompetition?id=competitionId">Add Dog to Competition</a>
+                </td>
+            }
 
-            @*Upcoming@if(Model.EndDate > DateTime.UtcNow)*@
-            @*Only owner can see this button- check role*@
-            <td>
-                <a class="btn btn-info" href="/Competitions/AddDogToCompetition?id=competitionId">Add Dog to Competition</a>
-            </td>
-
-            @*Past@if(Model.EndDate < DateTime.UtcNow)*@
-            <td>
-                <a class="btn btn-info" id="detailsBtn" onclick="displayFunc()">Winners Details</a>
-            </td>
+            else if (Model.Status == "Complete")
+            {
+                <td>
+                    <a class="btn btn-info" id="detailsBtn" onclick="displayFunc()">Winners Details</a>
+                </td>
+            }
             </tbody>
         </table>
     </div>
@@ -213,15 +222,15 @@
         margin-top: 60px;
     }
 
-    table > thead {
-        text-align: center;
-    }
+        table > thead {
+            text-align: center;
+        }
 
-    table > tbody {
-        border-bottom: solid;
-        border-top: solid;
-        border-color: grey;
-    }
+        table > tbody {
+            border-bottom: solid;
+            border-top: solid;
+            border-color: grey;
+        }
 
     td {
         padding: 20px;

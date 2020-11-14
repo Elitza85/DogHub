@@ -3,8 +3,6 @@
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Competitions;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class CompetitionsController : Controller
@@ -50,9 +48,10 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return this.View();
+            var viewModel = this.competitionsService.CompetitionDetails(id);
+            return this.View(viewModel);
         }
 
         public IActionResult AddDogToCompetition()

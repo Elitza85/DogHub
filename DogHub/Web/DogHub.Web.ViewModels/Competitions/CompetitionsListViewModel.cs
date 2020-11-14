@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DogHub.Web.ViewModels.Competitions
+﻿namespace DogHub.Web.ViewModels.Competitions
 {
     public abstract class CompetitionsListViewModel
     {
