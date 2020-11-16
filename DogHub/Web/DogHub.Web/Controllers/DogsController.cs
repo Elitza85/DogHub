@@ -27,7 +27,7 @@
 
         public IActionResult Catalogue()
         {
-            var viewModel = this.dogService.GetAllDogs();
+            var viewModel = this.dogService.DogsData();
             return this.View(viewModel);
         }
 

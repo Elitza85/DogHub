@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="~/css/Dogs/CatalogueStyles.css"/>
+    <link rel="stylesheet" href="~/css/Dogs/CatalogueStyles.css" />
 </head>
 <body>
     <div class="container">
@@ -43,23 +43,50 @@
         <br />
 
         <div class="component">
-            
-            <div class="singleDog">
-                <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                <div style="padding-top:2px;" class="font-weight-bold text-center"> MinkoMinkoMinkoMinko</div>
-                <span>
-                    <a style=" padding-left:10px;"><i class="fas fa-dog"></i> American Bully</a>
-                    </br>
-                    <a style=" padding-left:10px;"><i class="fas fa-venus-mars"></i> Female</a>
-                    <a hidden="hidden" name="EyesColor" value="Model.EyesColor"></a>
-                    <a hidden="hidden" name="DogColor" value="Model.DogColor"></a>
-                </span>
-                <span style="float: right; padding-right:10px; padding-bottom:10px;">
-                    <a style="height:30px; width:60px;" class="btn btn-info" href="/Dogs/DogProfile?id=3"><small>Profile</small></a>
-                    @*@if(Model.IsSellable == true) *@
-                    <a style="height:30px; width:60px;" class="btn btn-warning" href="/Dogs/Buy?id=dogid"><small>Buy</small></a>
-                </span>
-            </div>
+            @foreach (var item in Model.DogsData)
+            {
+                <div class="singleDog">
+                    <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                    <div style="padding-top:2px;" class="font-weight-bold text-center"> @item.Name</div>
+
+                    <span>
+                        <p>
+                            <a style=" padding-left:10px;">
+                                @if (item.Gender == "Female")
+                                {
+                                    <i style="color:deeppink;" class="fas fa-dog"></i>
+                                }
+                                else if (item.Gender == "Male")
+                                {
+                                    <i style="color:blue;" class="fas fa-dog"></i>
+                                }
+                                @item.Breed
+                            </a>
+                        </p>
+                        <a style=" padding-left:10px;">
+                            @if (item.Gender == "Female")
+                            {
+                                <i style="color:deeppink" class="fas fa-venus"></i>
+                            }
+                            else if (item.Gender == "Male")
+                            {
+                                <i style="color:blue;" class="fas fa-mars"></i>
+                            }
+                            @item.Gender
+                        </a>
+                        <a hidden="hidden" name="EyesColor" value="Model.EyesColor"></a>
+                        <a hidden="hidden" name="DogColor" value="Model.DogColor"></a>
+                    </span>
+
+                    <span style="float: right; padding-right:10px;">
+                        <a style="height:30px; width:60px;" class="btn btn-info" href="/Dogs/DogProfile?id=3"><small>Profile</small></a>
+                        @if (item.IsSellable == true)
+                        {
+                            <a style="height:30px; width:60px;" class="btn btn-warning" href="/Dogs/Buy?id=dogid"><small>Buy</small></a>
+                        }
+                    </span>
+                </div>
+            }
         </div>
     </div>
 </body>

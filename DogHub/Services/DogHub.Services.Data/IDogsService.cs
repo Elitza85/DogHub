@@ -12,6 +12,8 @@ namespace DogHub.Services.Data
 
         DogProfileViewModel DogProfile(int id);
 
-        IEnumerable<DogsCatalogueViewModel> GetAllDogs();
+        IEnumerable<DogDataInCatalogueViewModel> GetAllDogs();
+
+        DogsCatalogueViewModel DogsData();
     }
 }

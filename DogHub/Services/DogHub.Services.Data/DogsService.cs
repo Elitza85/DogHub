@@ -47,17 +47,23 @@ namespace DogHub.Services.Data
                 }).FirstOrDefault();
         }
 
-        public IEnumerable<DogsCatalogueViewModel> GetAllDogs()
+        public IEnumerable<DogDataInCatalogueViewModel> GetAllDogs()
         {
             return this.dogsRepository.All()
-                .Select(x => new DogsCatalogueViewModel
+                .Select(x => new DogDataInCatalogueViewModel
                 {
-                    Id = x.Id,
-                    Name = x.Name,
                     Breed = x.Breed.BreedName,
                     Gender = x.Gender.ToString(),
-                    IsSellable = x.Sellable.Value,
+                    Name = x.Name,
+                    IsSellable = x.Sellable,
                 }).ToList();
+        }
+
+        public DogsCatalogueViewModel DogsData()
+        {
+            var viewModel = new DogsCatalogueViewModel();
+            viewModel.DogsData = this.GetAllDogs();
+            return viewModel;
         }
 
         public async Task Register(RegisterDogInputModel input)

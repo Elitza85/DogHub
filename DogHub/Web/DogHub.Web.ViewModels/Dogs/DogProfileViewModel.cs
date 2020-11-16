@@ -29,5 +29,7 @@ namespace DogHub.Web.ViewModels.Dogs
         public int CompetitionsCount { get; set; }
 
         public string OwnerId { get; set; }
+
+        //public int Image { get; set; }
     }
 }
