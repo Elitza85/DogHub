@@ -1,0 +1,28 @@
+﻿.component {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 10px;
+    align-items: stretch;
+}
+
+.singleDog {
+    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+    max-width: 350px;
+    height: 350px;
+    width: 350px;
+}
+
+.componentFilter col-md-12 {
+    text-align: right;
+}
+
+img {
+    transition: ease-out;
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+}
+
+    img:hover {
+        transform: scale(1.5)
+    }

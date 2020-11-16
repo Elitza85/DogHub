@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DogHub.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialCreateDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,7 @@ namespace DogHub.Data.Migrations
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    DeletedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -287,7 +287,6 @@ namespace DogHub.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 60, nullable: false),
-                    DogImageId = table.Column<int>(nullable: true),
                     DogVideoUrl = table.Column<string>(nullable: true),
                     BreedId = table.Column<int>(nullable: false),
                     Gender = table.Column<int>(nullable: true),
@@ -340,8 +339,7 @@ namespace DogHub.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    DogId = table.Column<int>(nullable: false),
-                    Extension = table.Column<string>(nullable: true)
+                    DogId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -451,7 +449,7 @@ namespace DogHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DogSCompetitions",
+                name: "DogsCompetitions",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -461,15 +459,15 @@ namespace DogHub.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DogSCompetitions", x => x.Id);
+                    table.PrimaryKey("PK_DogsCompetitions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DogSCompetitions_Competitions_CompetitionId",
+                        name: "FK_DogsCompetitions_Competitions_CompetitionId",
                         column: x => x.CompetitionId,
                         principalTable: "Competitions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_DogSCompetitions_Dogs_DogId",
+                        name: "FK_DogsCompetitions_Dogs_DogId",
                         column: x => x.DogId,
                         principalTable: "Dogs",
                         principalColumn: "Id",
@@ -586,11 +584,6 @@ namespace DogHub.Data.Migrations
                 column: "DogColorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dogs_DogImageId",
-                table: "Dogs",
-                column: "DogImageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Dogs_EyesColorId",
                 table: "Dogs",
                 column: "EyesColorId");
@@ -606,13 +599,13 @@ namespace DogHub.Data.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DogSCompetitions_CompetitionId",
-                table: "DogSCompetitions",
+                name: "IX_DogsCompetitions_CompetitionId",
+                table: "DogsCompetitions",
                 column: "CompetitionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DogSCompetitions_DogId",
-                table: "DogSCompetitions",
+                name: "IX_DogsCompetitions_DogId",
+                table: "DogsCompetitions",
                 column: "DogId");
 
             migrationBuilder.CreateIndex(
@@ -656,14 +649,6 @@ namespace DogHub.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Dogs_DogImages_DogImageId",
-                table: "Dogs",
-                column: "DogImageId",
-                principalTable: "DogImages",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_Competitions_CompetitionImages_CompetitionImageId",
                 table: "Competitions",
                 column: "CompetitionImageId",
@@ -675,20 +660,8 @@ namespace DogHub.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Dogs_AspNetUsers_OwnerId",
-                table: "Dogs");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_CompetitionImages_Competitions_CompetitionId",
                 table: "CompetitionImages");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Dogs_Breeds_BreedId",
-                table: "Dogs");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_DogImages_Dogs_DogId",
-                table: "DogImages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -706,7 +679,10 @@ namespace DogHub.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DogSCompetitions");
+                name: "DogImages");
+
+            migrationBuilder.DropTable(
+                name: "DogsCompetitions");
 
             migrationBuilder.DropTable(
                 name: "EvaluationForms");
@@ -721,31 +697,28 @@ namespace DogHub.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Competitions");
-
-            migrationBuilder.DropTable(
-                name: "CompetitionImages");
-
-            migrationBuilder.DropTable(
-                name: "Organisers");
-
-            migrationBuilder.DropTable(
-                name: "Breeds");
-
-            migrationBuilder.DropTable(
                 name: "Dogs");
 
             migrationBuilder.DropTable(
                 name: "DogColors");
 
             migrationBuilder.DropTable(
-                name: "DogImages");
+                name: "EyesColors");
 
             migrationBuilder.DropTable(
-                name: "EyesColors");
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Competitions");
+
+            migrationBuilder.DropTable(
+                name: "Breeds");
+
+            migrationBuilder.DropTable(
+                name: "CompetitionImages");
+
+            migrationBuilder.DropTable(
+                name: "Organisers");
         }
     }
 }

@@ -1,24 +1,34 @@
 ﻿namespace FirstViewsTests.Controllers
 {
+    using DogHub.Common;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Dogs;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class DogsController : Controller
     {
         private readonly IBreedsListService breedsListService;
         private readonly IDogsService dogService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public DogsController(IBreedsListService breedsListService,
-            IDogsService dogService)
+        public DogsController(
+            IBreedsListService breedsListService,
+            IDogsService dogService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.breedsListService = breedsListService;
             this.dogService = dogService;
+            this.webHostEnvironment = webHostEnvironment;
         }
+
         public IActionResult Catalogue()
         {
-            return this.View();
+            var viewModel = this.dogService.GetAllDogs();
+            return this.View(viewModel);
         }
 
         public IActionResult Register()
@@ -36,6 +46,18 @@
                 input.BreedsItems = this.breedsListService.GetAllAsKVP();
                 return this.View(input);
             }
+
+            //if (!input.Images.FirstOrDefault().FileName.EndsWith(".png")
+            //    || !input.Images.FirstOrDefault().FileName.EndsWith(".jpg")
+            //    || !input.Images.FirstOrDefault().FileName.EndsWith(".jpeg"))
+            //{
+            //    this.ModelState.AddModelError("Image", ErrorMessages.DogImageInvalidFormatMsg);
+            //}
+
+            //using (FileStream fs = new FileStream(this.webHostEnvironment.WebRootPath + "/" + input.Images.FirstOrDefault().FileName, FileMode.Create))
+            //{
+            //    await input.Images.FirstOrDefault().CopyToAsync(fs);
+            //}
 
             await this.dogService.Register(input);
 

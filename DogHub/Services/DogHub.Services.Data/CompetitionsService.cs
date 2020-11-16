@@ -22,6 +22,16 @@
             this.organisersRepository = organisersRepository;
         }
 
+        public AllEventsViewModel AllEvents()
+        {
+            var viewModel = new AllEventsViewModel();
+            viewModel.CurrentEvent = this.GetCurrentCompetition();
+            viewModel.PastEvents = this.GetPastCompetitions();
+            viewModel.UpcomingEvents = this.GetUpcomingCompetitions();
+
+            return viewModel;
+        }
+
         public CompetitionDetailsViewModel CompetitionDetails(int id)
         {
             return this.competitionsRepository.All()

@@ -7,6 +7,7 @@
     using DogHub.Common;
     using DogHub.Data.Models.Dogs;
     using DogHub.Data.Models.Enums;
+    using Microsoft.AspNetCore.Http;
 
     public class RegisterDogInputModel
     {
@@ -45,8 +46,6 @@
         [Display(Name = "Dog Eyes Color ")]
         public string EyesColor { get; set; }
 
-        //public ICollection<EyesColorViewModel> EyesColorsList { get; set; }
-
         [Display(Name = "Dog is For Sale ")]
         [Required(ErrorMessage = ErrorMessages.SellingDogRequiredMsg)]
         public bool? Sellable { get; set; }
@@ -59,29 +58,15 @@
         [MaxLength(GlobalConstants.DogDescriptionMaxLength)]
         public string Description { get; set; }
 
-       
         //[Required]
+        //[Display(Name = "Dog Images ")]
 
-        //[Display(Name ="Dog Image ")]
-        //public IFormFile Image { get; set; }
+        //public IEnumerable<IFormFile> Images { get; set; }
 
         //[Required]
 
         //[Display(Name = "Dog Video ")]
         //public IFormFile Video { get; set; }
 
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    if(this.Breed == null || this.BreedsList == null)
-        //    {
-        //        yield return new 
-        //            ValidationResult("Dog breed should be selected or if you can`t find your dog breed in the drop- down list, you need to fill it manually.");
-        //    }
-
-        //    if(this.EyesColor == null || this.EyesColorsList == null)
-        //    {
-        //        yield return new ValidationResult("Dog eyes color should be selected or if you can`t find your dog`s eyes color in the drop- down, you need to fill it manually.");
-        //    }
-        //}
     }
 }

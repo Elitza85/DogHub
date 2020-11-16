@@ -11,5 +11,7 @@ namespace DogHub.Services.Data
         Task Register(RegisterDogInputModel input);
 
         DogProfileViewModel DogProfile(int id);
+
+        IEnumerable<DogsCatalogueViewModel> GetAllDogs();
     }
 }

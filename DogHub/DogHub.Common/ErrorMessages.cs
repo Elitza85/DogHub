@@ -15,6 +15,7 @@ namespace DogHub.Common
         public const string DogSpayedOrNeuteredMsg = "You must specify whether the dog to be registered is spayes or neutered.";
         public const string InvalidAgeRangeMsg = "Dog age must be in range 0-25 years.";
         public const string DogColorRequiredMsg = "Dog Color is required field.";
+        public const string DogImageInvalidFormatMsg = "Dog image should be in one of the following formats: .png, .jpg, .jpeg.";
 
         // ErrorMsgsInViews
         public const string DogAgeNotAvailableMsg = "Dog age is not available.";

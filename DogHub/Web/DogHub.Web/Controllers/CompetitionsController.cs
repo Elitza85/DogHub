@@ -41,10 +41,8 @@
 
         public IActionResult CompetitionsList()
         {
-            var viewModel = new AllEventsViewModel();
-            viewModel.CurrentEvent = this.competitionsService.GetCurrentCompetition();
-            viewModel.PastEvents = this.competitionsService.GetPastCompetitions();
-            viewModel.UpcomingEvents = this.competitionsService.GetUpcomingCompetitions();
+            var viewModel = this.competitionsService.AllEvents();
+
             return this.View(viewModel);
         }
 

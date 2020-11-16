@@ -303,9 +303,6 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("DogColorId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DogImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("DogVideoUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -346,8 +343,6 @@ namespace DogHub.Data.Migrations
                     b.HasIndex("BreedId");
 
                     b.HasIndex("DogColorId");
-
-                    b.HasIndex("DogImageId");
 
                     b.HasIndex("EyesColorId");
 
@@ -431,9 +426,6 @@ namespace DogHub.Data.Migrations
 
                     b.Property<int>("DogId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Extension")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -787,10 +779,6 @@ namespace DogHub.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DogHub.Data.Models.Dogs.DogImage", "DogImage")
-                        .WithMany()
-                        .HasForeignKey("DogImageId");
-
                     b.HasOne("DogHub.Data.Models.Dogs.EyesColor", "EyesColor")
                         .WithMany("EyesDogs")
                         .HasForeignKey("EyesColorId")
@@ -805,7 +793,7 @@ namespace DogHub.Data.Migrations
             modelBuilder.Entity("DogHub.Data.Models.Dogs.DogImage", b =>
                 {
                     b.HasOne("DogHub.Data.Models.Dog", "Dog")
-                        .WithMany()
+                        .WithMany("DogImages")
                         .HasForeignKey("DogId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

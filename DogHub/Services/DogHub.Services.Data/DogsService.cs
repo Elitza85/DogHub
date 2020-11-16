@@ -47,6 +47,19 @@ namespace DogHub.Services.Data
                 }).FirstOrDefault();
         }
 
+        public IEnumerable<DogsCatalogueViewModel> GetAllDogs()
+        {
+            return this.dogsRepository.All()
+                .Select(x => new DogsCatalogueViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Breed = x.Breed.BreedName,
+                    Gender = x.Gender.ToString(),
+                    IsSellable = x.Sellable.Value,
+                }).ToList();
+        }
+
         public async Task Register(RegisterDogInputModel input)
         {
             var dog = new Dog

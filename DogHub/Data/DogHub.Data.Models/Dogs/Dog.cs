@@ -17,16 +17,18 @@
         {
             this.DogsCompetiotions = new HashSet<DogCompetition>();
             this.EvaluationForms = new HashSet<EvaluationForm>();
+            this.DogImages = new HashSet<DogImage>();
         }
 
         [Required]
         [MaxLength(GlobalConstants.DogNameMaxValue)]
         public string Name { get; set; }
 
-        [ForeignKey(nameof(DogImage))]
-        public int? DogImageId { get; set; }
+        //[Required]
+        //[ForeignKey(nameof(DogImage))]
+        //public int? DogImageId { get; set; }
 
-        public virtual DogImage DogImage { get; set; }
+        //public virtual DogImage DogImage { get; set; }
 
         // can do it with attach video option at later stage
         //[Required]
@@ -69,5 +71,7 @@
         public virtual ICollection<DogCompetition> DogsCompetiotions { get; set; }
 
         public virtual ICollection<EvaluationForm> EvaluationForms { get; set; }
+
+        public virtual ICollection<DogImage> DogImages { get; set; }
     }
 }

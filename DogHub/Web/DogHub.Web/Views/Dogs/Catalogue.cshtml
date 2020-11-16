@@ -1,89 +1,67 @@
-﻿<div class="container">
-    <div class="page-header text-center" style="padding:20px;">
-        <h2>Registered Dogs</h2>
-        <h4>Review the Full Catalogue or Buy a Dog</h4>
-        </br>
-        <a class="btn btn-success font-weight-bold" href="/Dogs/Register">Register Your Dog</a>
-    </div>
-    <br/>
+﻿@model DogHub.Web.ViewModels.Dogs.DogsCatalogueViewModel
 
-    <div class="componentFilter col-md-12" style="text-align:right">
-        <p>
-            <i class="fas fa-filter"></i>
-            Get dogs by Dog Color:
-            <input name="DogColor" />
-            and by Dog Eyes Color:
-            <input name="DogEyesColor" />
-        </p>
-        <p>
-            <i class="fas fa-filter"></i>
-            Get dogs by breed:
-            <select name="breedType" id="breedType">
-                <option value="none" class="font-weight-bold">--Select--</option>
-                @*forech(var breed in Model)*@
-                <option>breed</option>
-            </select>
-        </p>
-        <p>
-            <i class="fas fa-filter"></i>
-            Get only sellable dogs:
-            <input type="checkbox" id="getSellableDogs" name="getSellableDogs" value="Yes" />
-        </p>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Dogs/CatalogueStyles.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header text-center" style="padding:20px;">
+            <h2>Registered Dogs</h2>
+            <h4>Review the Full Catalogue or Buy a Dog</h4>
+            </br>
+            <a class="btn btn-success font-weight-bold" href="/Dogs/Register">Register Your Dog</a>
+        </div>
+        <br />
 
-    </div>
-    <hr class="col-md-12" />
-    <br />
+        <div class="componentFilter col-md-12">
+            <p>
+                <i class="fas fa-filter"></i>
+                Get dogs by Dog Color:
+                <input name="DogColor" />
+                and by Dog Eyes Color:
+                <input name="DogEyesColor" />
+            </p>
+            <p>
+                <i class="fas fa-filter"></i>
+                Get dogs by breed:
+                <select name="breedType" id="breedType">
+                    <option value="none" class="font-weight-bold">--Select--</option>
+                    @*forech(var breed in Model)*@
+                    <option>breed</option>
+                </select>
+            </p>
+            <p>
+                <i class="fas fa-filter"></i>
+                Get only sellable dogs:
+                <input type="checkbox" id="getSellableDogs" name="getSellableDogs" value="Yes" />
+            </p>
 
-    <div class="component">
-        <div class="singleDog">
-            <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-            <div style="padding-top:2px;" class="font-weight-bold text-center"> MinkoMinkoMinkoMinko</div>
-            <span>
-                <a style=" padding-left:10px;"><i class="fas fa-dog"></i> American Bully</a>
-                </br>
-                <a style=" padding-left:10px;"><i class="fas fa-venus-mars"></i> Female</a>
-                <a hidden="hidden" name="EyesColor" value="Model.EyesColor"></a>
-                <a hidden="hidden" name="DogColor" value="Model.DogColor"></a>
-            </span>
-            <span style="float: right; padding-right:10px; padding-bottom:10px;">
-                <a style="height:30px; width:60px;" class="btn btn-info" href="/Dogs/DogProfile?id=3"><small>Profile</small></a>           
-    @*@if(Model.IsSellable == true) *@
-                <a style="height:30px; width:60px;" class="btn btn-warning" href="/Dogs/Buy?id=dogid"><small>Buy</small></a>
-            </span>
+        </div>
+        <hr class="col-md-12" />
+        <br />
+
+        <div class="component">
+            
+            <div class="singleDog">
+                <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                <div style="padding-top:2px;" class="font-weight-bold text-center"> MinkoMinkoMinkoMinko</div>
+                <span>
+                    <a style=" padding-left:10px;"><i class="fas fa-dog"></i> American Bully</a>
+                    </br>
+                    <a style=" padding-left:10px;"><i class="fas fa-venus-mars"></i> Female</a>
+                    <a hidden="hidden" name="EyesColor" value="Model.EyesColor"></a>
+                    <a hidden="hidden" name="DogColor" value="Model.DogColor"></a>
+                </span>
+                <span style="float: right; padding-right:10px; padding-bottom:10px;">
+                    <a style="height:30px; width:60px;" class="btn btn-info" href="/Dogs/DogProfile?id=3"><small>Profile</small></a>
+                    @*@if(Model.IsSellable == true) *@
+                    <a style="height:30px; width:60px;" class="btn btn-warning" href="/Dogs/Buy?id=dogid"><small>Buy</small></a>
+                </span>
+            </div>
         </div>
     </div>
-</div>
+</body>
+</html>
 
-<style>
-    th {
-        position: sticky;
-        top: 0;
-        padding: 8px 16px;
-        background: #AFAFAF;
-    }
-
-    .component {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        grid-gap: 10px;
-        align-items: stretch;
-    }
-
-    .singleDog {
-        box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
-        max-width: 350px;
-        height: 350px;
-        width: 350px;
-    }
-
-    img {
-        transition: ease-out;
-        width: 100%;
-        height: 70%;
-        object-fit: cover;
-    }
-
-        img:hover {
-            transform: scale(1.5)
-        }
-</style>
