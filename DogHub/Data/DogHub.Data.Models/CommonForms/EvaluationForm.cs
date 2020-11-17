@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Data.Models.EvaluationForms
 {
     using DogHub.Data.Common.Models;
+    using DogHub.Data.Models.Competitions;
 
     public class EvaluationForm : BaseDeletableModel<int>
     {
@@ -11,6 +12,10 @@
         public int DogId { get; set; }
 
         public virtual Dog Dog { get; set; }
+
+        public int CompetitionId { get; set; }
+
+        public virtual Competition Competitions { get; set; }
 
         // Possible ranking of all dog criteria varies in range 1-5
 

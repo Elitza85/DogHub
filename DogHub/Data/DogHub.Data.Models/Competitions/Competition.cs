@@ -8,12 +8,14 @@
     using DogHub.Common;
     using DogHub.Data.Common.Models;
     using DogHub.Data.Models.Dogs;
+    using DogHub.Data.Models.EvaluationForms;
 
     public class Competition : BaseDeletableModel<int>
     {
         public Competition()
         {
             this.DogsCompetitions = new HashSet<DogCompetition>();
+            this.EvaluationForms = new HashSet<EvaluationForm>();
 
             // this.CompetitionImages = new HashSet<CompetitionImage>();
         }
@@ -42,5 +44,7 @@
 
         // public virtual ICollection<CompetitionImage> CompetitionImages { get; set; }
         public virtual ICollection<DogCompetition> DogsCompetitions { get; set; }
+
+        public virtual ICollection<EvaluationForm> EvaluationForms { get; set; }
     }
 }

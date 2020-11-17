@@ -8,10 +8,10 @@
 
     using DogHub.Data.Common.Models;
     using DogHub.Data.Models;
+    using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
     using DogHub.Data.Models.EvaluationForms;
-    using DogHub.Data.Models.Forms;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 

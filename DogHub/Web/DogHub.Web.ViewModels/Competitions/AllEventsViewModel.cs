@@ -1,8 +1,6 @@
 ﻿namespace DogHub.Web.ViewModels.Competitions
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     public class AllEventsViewModel
     {

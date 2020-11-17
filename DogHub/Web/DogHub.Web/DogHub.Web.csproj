@@ -40,4 +40,9 @@
     <ProjectReference Include="..\DogHub.Web.Infrastructure\DogHub.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\DogHub.Web.ViewModels\DogHub.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Users\" />
+    <Folder Include="wwwroot\css\Users\" />
+  </ItemGroup>
 </Project>

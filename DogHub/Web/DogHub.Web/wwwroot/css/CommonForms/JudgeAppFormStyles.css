@@ -1,0 +1,17 @@
+﻿form label.required::before {
+    color: red;
+    content: " *";
+}
+
+h2 {
+    padding: 20px;
+}
+
+input[type=checkbox] {
+    margin-left: 20px;
+}
+
+input[type=submit]
+{
+    margin-bottom:20px;
+}

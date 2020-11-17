@@ -4,14 +4,16 @@ using DogHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DogHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201117071852_ChangesInTHeEvaluationFormAndJudgeApplicationForm")]
+    partial class ChangesInTHeEvaluationFormAndJudgeApplicationForm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -553,9 +555,6 @@ namespace DogHub.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("EvaluatorNotes")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("HasBeenJudgeAssistant")
                         .HasColumnType("bit");
