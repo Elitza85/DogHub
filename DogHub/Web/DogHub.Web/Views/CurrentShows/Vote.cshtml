@@ -1,115 +1,191 @@
-﻿
-<script>
-    function DisplayVideo() {
-        var videoBlock = document.querySelector("#videoBlock");
-        var closeBtn = document.querySelector("#closeBtn");
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/CommonForms/VotingFormStyles.css" />
+    <script type="text/javascript" src="~/js/CommonForms/VotingFormScripts.js"></script>
+</head>
+<body>
+    <h2 class="text-center" style="padding:20px;">You Have to Judge the Dog Based on the Following Criteria</h2>
+    <h4>But first you can watch the <a id="dogVideo" style="color:blue" onclick="DisplayVideo()">dog presentation video</a> to help you make your exaggeration</h4>
+    <i id="closeBtn" class="fas fa-times" style="display: none; padding-left: 560px;"></i>
+    <iframe id="videoBlock" style="display:none;" width="560" height="315" src="https://www.youtube.com/embed/XChw5CkhSkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <video id="videoBlock" style="display:none;">
+    </video>
 
-        if (videoBlock.style.display == 'none') {
-            videoBlock.style.display = "block";
-            closeBtn.style.display = "block";
-        }
+    <div id="votingForm">
+        <form>
+            <div id="votingComponent">
+                <h6>
+                    <i class="far fa-hand-point-right"></i>
+                    Evaluate the balance of the dog, i.e. overall appropriate proportions
+                </h6>
+                <div class="main">
+                    <form id="rating-form">
+                        <span onclick="calc()" class="rating-star">
+                            <i class="far fa-smile"></i>
+                            <input type="radio" name="rating" value="5"><span class="star"></span>
 
-        closeBtn.addEventListener("click", () => {
-            videoBlock.style.display = "none";
-            closeBtn.style.display = "none";
-        })
-    }
+                            <input type="radio" name="rating" value="4"><span class="star"></span>
 
+                            <input type="radio" name="rating" value="3"><span class="star"></span>
 
+                            <input type="radio" name="rating" value="2"><span class="star"></span>
 
-</script>
-
-<h2 class="text-center" style="padding:20px;">You Have to Judge the Dog Based on the Following Criteria</h2>
-<h4>You can watch the <a id="dogVideo" style="color:blue" onclick="DisplayVideo()">dog presentation video</a> to help you make your exaggeration</h4>
-<i id="closeBtn" class="fas fa-times" style="display: none; padding-left: 560px;"></i>
-<iframe id="videoBlock" style="display:none;" width="560" height="315" src="https://www.youtube.com/embed/XChw5CkhSkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<video id="videoBlock" style="display:none;">
-</video>
-
-<div style="border:solid; padding:15px; margin-top:30px;">
-    <h6>
-    <i class="far fa-hand-point-right"></i>
-        Evaluate the balance of the dog, i.e. overall appropriate proportions
-        </h6>
-            <div class="main">
-                <form id="rating-form">
-                    <span class="rating-star">
-                    <i class="far fa-smile"></i>
-                        <input type="radio" name="rating" value="5"><span class="star"></span>
-
-                        <input type="radio" name="rating" value="4"><span class="star"></span>
-
-                        <input type="radio" name="rating" value="3"><span class="star"></span>
-
-                        <input type="radio" name="rating" value="2"><span class="star"></span>
-
-                        <input type="radio" name="rating" value="1"><span class="star"></span>
-                    <i class="far fa-frown-open"></i>
-                    </span>
-                </form>
-                <p>Thanks For Giving <span id="selected-rating" class="selected-rating">0</span> Stars.</p>
+                            <input type="radio" name="rating" value="1"><span class="star"></span>
+                            <i class="far fa-frown-open"></i>
+                        </span>
+                    </form>
+                </div>
             </div>
-</div>
 
-BalanceRate
-WeightRate
-EyesRate
-EarsRate
-HeadShapeRate
-MuzzleRate
-ColorRate
-TotalPoints
+            <div id="votingComponent">
+                <h6>
+                    <i class="far fa-hand-point-right"></i>
+                    Evaluate the weight of the dog, i.e. is the weight in a range that is typical for the breed
+                </h6>
+                <div class="main">
+                    <form id="rating-form">
+                        <span onclick="calc()" class="rating-star">
+                            <i class="far fa-smile"></i>
+                            <input type="radio" name="rating" value="5"><span class="star"></span>
 
-<style>
-    #dogVideo{
-        cursor:pointer
-    }
+                            <input type="radio" name="rating" value="4"><span class="star"></span>
 
-    .rating-star {
-        direction: rtl;
-        font-size: 30px;
-        unicode-bidi: bidi-override;
-        display: inline-block;
-    }
+                            <input type="radio" name="rating" value="3"><span class="star"></span>
 
-        .rating-star input {
-            opacity: 0;
-            position: relative;
-            left: -30px;
-            z-index: 2;
-            cursor: pointer;
-        }
+                            <input type="radio" name="rating" value="2"><span class="star"></span>
 
-        .rating-star span.star:before {
-            color: #777777;
-        }
+                            <input type="radio" name="rating" value="1"><span class="star"></span>
+                            <i class="far fa-frown-open"></i>
+                        </span>
+                    </form>
+                </div>
+            </div>
 
-        .rating-star span.star {
-            display: inline-block;
-            font-family: FontAwesome;
-            font-style: normal;
-            font-weight: normal;
-            position: relative;
-            z-index: 1;
-        }
+            <div id="votingComponent">
+                <h6>
+                    <i class="far fa-hand-point-right"></i>
+                    Evaluate the eyes of the dog, i.e. are the eyes color and shape typical for the breed
+                </h6>
+                <div class="main">
+                    <form id="rating-form">
+                        <span onclick="calc()" class="rating-star">
+                            <i class="far fa-smile"></i>
+                            <input type="radio" name="rating" value="5"><span class="star"></span>
 
-        .rating-star span {
-            margin-left: 20px;
-        }
+                            <input type="radio" name="rating" value="4"><span class="star"></span>
 
-            .rating-star span.star:before {
-                color: #777777;
-                content: "\f006";
-            }
+                            <input type="radio" name="rating" value="3"><span class="star"></span>
 
-        .rating-star input:hover + span.star:before, .rating-star input:hover + span.star ~ span.star:before, .rating-star input:checked + span.star:before, .rating-star input:checked + span.star ~ span.star:before {
-            color: #ffd100;
-            content: "\f005";
-        }
+                            <input type="radio" name="rating" value="2"><span class="star"></span>
 
-    .selected-rating {
-        color: #ffd100;
-        font-weight: bold;
-        font-size: 42px;
-    }
-</style>
+                            <input type="radio" name="rating" value="1"><span class="star"></span>
+                            <i class="far fa-frown-open"></i>
+                        </span>
+                    </form>
+                </div>
+            </div>
+
+            <div id="votingComponent">
+                <h6>
+                    <i class="far fa-hand-point-right"></i>
+                    Evaluate the ears of the dog, i.e. are the ears shape, length and position typical for the breed
+                </h6>
+                <div class="main">
+                    <form id="rating-form">
+                        <span onclick="calc()" class="rating-star">
+                            <i class="far fa-smile"></i>
+                            <input type="radio" name="rating" value="5"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="4"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="3"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="2"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="1"><span class="star"></span>
+                            <i class="far fa-frown-open"></i>
+                        </span>
+                    </form>
+                </div>
+            </div>
+
+            <div id="votingComponent">
+                <h6>
+                    <i class="far fa-hand-point-right"></i>
+                    Evaluate the head shape of the dog, i.e. is it typical for the breed
+                </h6>
+                <div class="main">
+                    <form id="rating-form">
+                        <span onclick="calc()" class="rating-star">
+                            <i class="far fa-smile"></i>
+                            <input type="radio" name="rating" value="5"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="4"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="3"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="2"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="1"><span class="star"></span>
+                            <i class="far fa-frown-open"></i>
+                        </span>
+                    </form>
+                </div>
+            </div>
+
+            <div id="votingComponent">
+                <h6>
+                    <i class="far fa-hand-point-right"></i>
+                    Evaluate the muzzle of the dog, i.e. is the shape and size typical for the breed
+                </h6>
+                <div class="main">
+                    <form id="rating-form">
+                        <span onclick="calc()" class="rating-star">
+                            <i class="far fa-smile"></i>
+                            <input type="radio" name="rating" value="5"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="4"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="3"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="2"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="1"><span class="star"></span>
+                            <i class="far fa-frown-open"></i>
+                        </span>
+                    </form>
+                </div>
+            </div>
+
+            <div id="votingComponent">
+                <h6>
+                    <i class="far fa-hand-point-right"></i>
+                    Evaluate the color of the dog, i.e. is it among the accepted breed colors
+                </h6>
+                <div class="main">
+                    <form id="rating-form">
+                        <span onclick="calc()" class="rating-star">
+                            <i class="far fa-smile"></i>
+                            <input type="radio" name="rating" value="5"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="4"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="3"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="2"><span class="star"></span>
+
+                            <input type="radio" name="rating" value="1"><span class="star"></span>
+                            <i class="far fa-frown-open"></i>
+                        </span>
+                    </form>
+                </div>
+            </div>
+            @*<a class="btn btn-danger" onclick="calc()"></a>*@
+            <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" class="btn selected-rating"></span> Stars.</p>
+            <input type="submit" class="btn btn-success" value="Send Your Vote" />
+        </form>
+    </div>
+</body>
+</html>
+
