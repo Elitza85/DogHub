@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DogHub.Data.Migrations
 {
-    public partial class InitialCreateDb : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,7 @@ namespace DogHub.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    Age = table.Column<int>(nullable: false),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -263,7 +264,7 @@ namespace DogHub.Data.Migrations
                     HasBeenJudgeAssistant = table.Column<bool>(nullable: false),
                     AttendedJudgeInstituteCourse = table.Column<bool>(nullable: false),
                     JudgeInstituteCertificateUrl = table.Column<string>(nullable: false),
-                    IsApproved = table.Column<bool>(nullable: false)
+                    EvaluatorNotes = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -298,7 +299,7 @@ namespace DogHub.Data.Migrations
                     IsSpayedOrNeutered = table.Column<bool>(nullable: true),
                     IsSold = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(maxLength: 250, nullable: true),
-                    OwnerId = table.Column<string>(nullable: true)
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -322,8 +323,8 @@ namespace DogHub.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Dogs_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_Dogs_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -364,6 +365,7 @@ namespace DogHub.Data.Migrations
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     DogId = table.Column<int>(nullable: false),
+                    CompetitionId = table.Column<int>(nullable: false),
                     BalanceRate = table.Column<int>(nullable: false),
                     WeightRate = table.Column<int>(nullable: false),
                     EyesRate = table.Column<int>(nullable: false),
@@ -594,9 +596,9 @@ namespace DogHub.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Dogs_OwnerId",
+                name: "IX_Dogs_UserId",
                 table: "Dogs",
-                column: "OwnerId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DogsCompetitions_CompetitionId",
@@ -607,6 +609,11 @@ namespace DogHub.Data.Migrations
                 name: "IX_DogsCompetitions_DogId",
                 table: "DogsCompetitions",
                 column: "DogId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EvaluationForms_CompetitionId",
+                table: "EvaluationForms",
+                column: "CompetitionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EvaluationForms_DogId",
@@ -647,6 +654,14 @@ namespace DogHub.Data.Migrations
                 name: "IX_Settings_IsDeleted",
                 table: "Settings",
                 column: "IsDeleted");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_EvaluationForms_Competitions_CompetitionId",
+                table: "EvaluationForms",
+                column: "CompetitionId",
+                principalTable: "Competitions",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Competitions_CompetitionImages_CompetitionImageId",

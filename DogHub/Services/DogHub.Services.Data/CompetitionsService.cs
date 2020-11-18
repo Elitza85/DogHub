@@ -134,7 +134,7 @@
                     CompetitionName = c.Name,
                     CompetitionBreed = c.Breed.BreedName,
                     PossibleDogApplicants = c.DogsCompetitions
-                    .Where(d => d.Dog.OwnerId == userId)
+                    .Where(d => d.Dog.UserId == userId)
                     .Select(p => new PossibleDogApplicantsViewModel
                     {
                         DogId = p.DogId,

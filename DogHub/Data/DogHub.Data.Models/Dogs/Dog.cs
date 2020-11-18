@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     using DogHub.Common;
     using DogHub.Data.Common.Models;
@@ -63,10 +62,11 @@
         [MaxLength(GlobalConstants.DogDescriptionMaxLength)]
         public string Description { get; set; }
 
-        // [Required]
-        public string OwnerId { get; set; }
+        [Required]
 
-        public virtual ApplicationUser Owner { get; set; }
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<DogCompetition> DogsCompetiotions { get; set; }
 

@@ -42,7 +42,7 @@ namespace DogHub.Services.Data
                     IsSellable = y.Sellable,
                     IsSpayedOrNeutred = y.IsSpayedOrNeutered,
                     Name = y.Name,
-                    OwnerId = y.OwnerId,
+                    OwnerId = y.UserId,
                     Weight = y.Weight,
                 }).FirstOrDefault();
         }

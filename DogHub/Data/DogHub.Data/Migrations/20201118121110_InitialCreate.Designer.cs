@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201116114502_InitialCreateDb")]
-    partial class InitialCreateDb
+    [Migration("20201118121110_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -68,6 +68,9 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -139,6 +142,59 @@ namespace DogHub.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.CommonForms.JudgeApplicationForm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("AttendedJudgeInstituteCourse")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EvaluatorNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("HasBeenJudgeAssistant")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JudgeInstituteCertificateUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfChampionsOwned")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RaisedLitters")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("YearsOfExperience")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("JudgeApplicationForms");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.Competition", b =>
@@ -331,11 +387,12 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("nvarchar(60)")
                         .HasMaxLength(60);
 
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool?>("Sellable")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<double?>("Weight")
                         .HasColumnType("float");
@@ -350,7 +407,7 @@ namespace DogHub.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Dogs");
                 });
@@ -488,6 +545,9 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("ColorRate")
                         .HasColumnType("int");
 
+                    b.Property<int>("CompetitionId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -526,6 +586,8 @@ namespace DogHub.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CompetitionId");
+
                     b.HasIndex("DogId");
 
                     b.HasIndex("IsDeleted");
@@ -533,59 +595,6 @@ namespace DogHub.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("EvaluationForms");
-                });
-
-            modelBuilder.Entity("DogHub.Data.Models.Forms.JudgeApplicationForm", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("AttendedJudgeInstituteCourse")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("HasBeenJudgeAssistant")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("JudgeInstituteCertificateUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NumberOfChampionsOwned")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RaisedLitters")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("YearsOfExperience")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("JudgeApplicationForms");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Setting", b =>
@@ -724,6 +733,13 @@ namespace DogHub.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DogHub.Data.Models.CommonForms.JudgeApplicationForm", b =>
+                {
+                    b.HasOne("DogHub.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("DogHub.Data.Models.Competitions.Competition", b =>
                 {
                     b.HasOne("DogHub.Data.Models.Dogs.Breed", "Breed")
@@ -787,9 +803,11 @@ namespace DogHub.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DogHub.Data.Models.ApplicationUser", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId");
+                    b.HasOne("DogHub.Data.Models.ApplicationUser", "User")
+                        .WithMany("Dogs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Dogs.DogImage", b =>
@@ -803,6 +821,12 @@ namespace DogHub.Data.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.EvaluationForms.EvaluationForm", b =>
                 {
+                    b.HasOne("DogHub.Data.Models.Competitions.Competition", "Competitions")
+                        .WithMany("EvaluationForms")
+                        .HasForeignKey("CompetitionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("DogHub.Data.Models.Dog", "Dog")
                         .WithMany("EvaluationForms")
                         .HasForeignKey("DogId")
@@ -810,14 +834,7 @@ namespace DogHub.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("DogHub.Data.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("DogHub.Data.Models.Forms.JudgeApplicationForm", b =>
-                {
-                    b.HasOne("DogHub.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("EvalutionForms")
                         .HasForeignKey("UserId");
                 });
 
