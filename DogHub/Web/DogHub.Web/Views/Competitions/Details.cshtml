@@ -1,209 +1,129 @@
 ﻿@model DogHub.Web.ViewModels.Competitions.CompetitionDetailsViewModel
 
-<script>
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="~/js/Competitions/CompetitionDetailsScripts.js"></script>
+    <link rel="stylesheet" href="~/css/Competitions/CompetitionDetailsStyles.css" />
+</head>
+<body>
+    <div class="container">
+        <div id="comeptitionDetails">
+            <table>
+                <thead>
+                <th></th>
+                <th>Competition Details</th>
+                <th></th>
+                </thead>
 
-    //Style display details table
-
-    function displayFunc() {
-        var dataToDisplay = document.querySelector('#winnersDetails');
-        var openDatabtn = document.querySelector('.btn');
-        var closeDataBtn = document.querySelector('#closeData');
-
-        openDatabtn.style.display = "block";
-
-        if (openDatabtn.style.display === "block") {
-            openDatabtn.style.display = 'none';
-            dataToDisplay.style.display = 'block';
-        }
-
-        closeDataBtn.addEventListener("click", () => {
-            openDatabtn.style.display = 'block';
-            dataToDisplay.style.display = 'none';
-        })
-    }
-
-
-    // When the user clicks on div, open the popup
-    function popUpDataWindow() {
-
-        var popup = document.getElementById("myPopup");
-        popup.classList.toggle("show");
-    }
-
-
-    function buildDomElement(name, points, dogId) {
-
-        var pEl = document.createElement('p');
-        //pEl.setAttribute("id", "popUpWindow"); if it works
-
-        var divEl = document.createElement('div');
-        divEl.setAttribute("class", "popup");
-        divEl.setAttribute("onclick", "popUpDataWindow()");
-
-        var aNameEl = document.createElement("a");
-        aNameEl.setAttribute("id", "dogName");
-        aNameEl.textContent = name;
-
-        var spanEl = document.createElement("span");
-        spanEl.setAttribute("class", "popuptext");
-        spanEl.setAttribute("id", "myPopup");
-
-        var innerP = document.createElement("p");
-        innerP.setAttribute("id", "totalPoints");
-        innerP.textContent = "Total Points in the Competition: " + points;
-
-        var aDogProfileEl = document.createElement("a");
-        aDogProfileEl.setAttribute("href", "/Dogs/DogProfile?id=" + dogId);
-        aDogProfileEl.textContent = "Review Dog Profile";
-
-        var closeSignP = document.createElement("p");
-        closeSignP.setAttribute("id", "closePopUpX");
-
-        var iIconEl = document.createElement("i");
-        iIconEl.setAttribute("class", "fas fa-times");
-
-        closeSignP.appendChild(iIconEl);
-        spanEl.appendChild(innerP);
-        spanEl.appendChild(aDogProfileEl);
-        spanEl.appendChild(closeSignP);
-        divEl.appendChild(aNameEl);
-        divEl.appendChild(spanEl);
-        pEl.appendChild(divEl);
-
-        //<p>
-        //    <div class="popup" onclick="popUpDataWindow()">
-        //        <a id="dogName">Kassy</a>
-        //        <span class="popuptext" id="myPopup">
-        //            <p id="totalPoints">Total Points in the Competition: 200</p>
-        //            <a href="/Dogs/DogProfile?id=1">Review Dog Profile</a>
-        //            <p id="closePopUpX">
-        //                <i class="fas fa-times"></i>
-        //            </p>
-
-        //        </span>
-        //    </div>
-        //</p>
-    }
-
-</script>
-
-<div class="container">
-    <div id="comeptitionDetails">
-        <table>
-            <thead>
-            <th></th>
-            <th>Competition Details</th>
-            <th></th>
-            </thead>
-
-            <tbody>
-            <td>
-                <img width="200" class="j img-thumbnail" src="https://tse4.mm.bing.net/th?id=OIP.RUDRbKcVS6K6wTPgQFLuaQHaE8&pid=Api&P=0&w=229&h=153" />
-            </td>
-
-            <td>
-                <div class="font-weight-bold">
-                    @Model.Name
-                </div>
-                <p class="font-weight-normal">
-                    <li>Start Date and Time: @Model.StartDate.ToString("f")</li>
-                    <li>End Date and Time: @Model.EndDate.ToString("f")</li>
-                    <li>Participants: @Model.ParticipantsCount</li>
-                    <li>Status: @Model.Status</li>
-                </p>
-            </td>
-            @*Owner of participant CAN`T vote*@
-            @if (Model.Status == "In Progress")
-            {
+                <tbody>
                 <td>
-                    <a class="btn btn-info" href="/CurrentShows/Competitors?competitionId=@Model.CompetitionId">Vote</a>
+                    <img width="200" class="j img-thumbnail" src="https://tse4.mm.bing.net/th?id=OIP.RUDRbKcVS6K6wTPgQFLuaQHaE8&pid=Api&P=0&w=229&h=153" />
                 </td>
-            }
-            @*Judge CAN`T add dogs to competition*@
-            else if (Model.Status == "Upcoming")
-            {
+
                 <td>
-                    <a class="btn btn-info" href="/Competitions/AddDogToCompetition?id=competitionId">Add Dog to Competition</a>
+                    <div class="font-weight-bold">
+                        @Model.Name
+                    </div>
+                    <p class="font-weight-normal">
+                        <li>Start Date and Time: @Model.StartDate.ToString("f")</li>
+                        <li>End Date and Time: @Model.EndDate.ToString("f")</li>
+                        <li>Participants: @Model.ParticipantsCount</li>
+                        <li>Status: @Model.Status</li>
+                    </p>
                 </td>
-            }
+                @*Owner of participant CAN`T vote*@
+                @if (Model.Status == "In Progress")
+                {
+                    <td>
+                        <a class="btn btn-info" href="/CurrentShows/Competitors?competitionId=@Model.CompetitionId">Vote</a>
+                    </td>
+                }
+                @*Judge CAN`T add dogs to competition*@
+                else if (Model.Status == "Upcoming")
+                {
+                    <td>
+                        <a class="btn btn-info" href="/Competitions/AddDogToCompetition?id=@Model.CompetitionId">Add Dog to Competition</a>
+                    </td>
+                }
 
-            else if (Model.Status == "Complete")
-            {
+                else if (Model.Status == "Complete")
+                {
+                    <td>
+                        <a class="btn btn-info" id="detailsBtn" onclick="displayFunc()">Winners Details</a>
+                    </td>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div id="winnersDetails">
+            <table>
+                <thead>
+                <th>Place</th>
+                <th>Females</th>
+                <th>Males</th>
+                </thead>
+
+                <tbody>
                 <td>
-                    <a class="btn btn-info" id="detailsBtn" onclick="displayFunc()">Winners Details</a>
+                    <p>
+                        <i class="fas fa-trophy"></i>
+                        <span class="font-weight-bold"> Winner: </span>
+                    </p>
+                    <p>
+                        <span> 2nd place: </span>
+                    </p>
+                    <p>
+                        <span> 3rd place: </span>
+                    </p>
+                    <p>
+                        <span> 4th place: </span>
+                    </p>
+                    <p>
+                        <span> 5th place: </span>
+                    </p>
                 </td>
-            }
-            </tbody>
-        </table>
-    </div>
+                <td id="females">
+                    @*Put here the foreach for females*@
+                    @*use the Function buildDomElement to create data for each dog *@
+                    <p>
+                        <div class="popup" onclick="popUpDataWindow()">
+                            <a id="dogName">Kassy</a>
+                            <span class="popuptext" id="myPopup">
+                    <p id="totalPoints">Total Points in the Competition: 200</p>
+                    <a href="/Dogs/DogProfile?id=1">Review Profile</a>
+                    <p id="closePopUpX">
+                        <i class="fas fa-times"></i>
+                    </p>
 
-    <div id="winnersDetails">
-        <table>
-            <thead>
-            <th>Place</th>
-            <th>Females</th>
-            <th>Males</th>
-            </thead>
+                    </span>
+        </div>
+        </p>
+        </td>
+        <td id="males">
+            @*Put here the foreach for males*@
+            @*use the Function buildDomElement to create data for each dog *@
 
-            <tbody>
-            <td>
-                <p>
-                    <i class="fas fa-trophy"></i>
-                    <span class="font-weight-bold"> Winner: </span>
-                </p>
-                <p>
-                    <span> 2nd place: </span>
-                </p>
-                <p>
-                    <span> 3rd place: </span>
-                </p>
-                <p>
-                    <span> 4th place: </span>
-                </p>
-                <p>
-                    <span> 5th place: </span>
-                </p>
-            </td>
-            <td id="females">
-                @*Put here the foreach for females*@
-                @*use the Function buildDomElement to create data for each dog *@
-                <p>
-                    <div class="popup" onclick="popUpDataWindow()">
-                        <a id="dogName">Kassy</a>
-                        <span class="popuptext" id="myPopup">
-                <p id="totalPoints">Total Points in the Competition: 200</p>
-                <a href="/Dogs/DogProfile?id=1">Review Profile</a>
-                <p id="closePopUpX">
-                    <i class="fas fa-times"></i>
-                </p>
+            <p>
+                <div class="popup" onclick="popUpDataWindow()">
+                    <a id="dogName">Victor</a>
+                    <span class="popuptext" id="myPopup">
+            <p id="totalPoints">Total Points in the Competition: 200</p>
+            <a href="/Dogs/DogProfile?id=1">Review Dog Profile</a>
+            <p id="closePopUpX">
+                <i class="fas fa-times"></i>
+            </p>
 
-                </span>
+            </span>
     </div>
     </p>
     </td>
-    <td id="males">
-        @*Put here the foreach for males*@
-        @*use the Function buildDomElement to create data for each dog *@
-
-        <p>
-            <div class="popup" onclick="popUpDataWindow()">
-                <a id="dogName">Victor</a>
-                <span class="popuptext" id="myPopup">
-        <p id="totalPoints">Total Points in the Competition: 200</p>
-        <a href="/Dogs/DogProfile?id=1">Review Dog Profile</a>
-        <p id="closePopUpX">
+    <td>
+        <a class="btn" id="closeData">
             <i class="fas fa-times"></i>
-        </p>
-
-        </span>
-</div>
-           </p>
+        </a>
     </td>
-<td>
-    <a class="btn" id="closeData">
-        <i class="fas fa-times"></i>
-    </a>
-</td>
 
 
     </tbody>
@@ -211,94 +131,11 @@
 
     </div>
 
- </div>
+    </div>
 
-<span>
-    <a class="btn btn-light btn-outline-dark" style="margin-top: 10px; margin-left: -50px;" href="/Competitions/CompetitionsList">Back</a>
-</span>
+    <span>
+        <a class="btn btn-light btn-outline-dark" style="margin-top: 10px; margin-left: -50px;" href="/Competitions/CompetitionsList">Back</a>
+    </span>
 
-<style>
-    table {
-        margin-top: 60px;
-    }
-
-        table > thead {
-            text-align: center;
-        }
-
-        table > tbody {
-            border-bottom: solid;
-            border-top: solid;
-            border-color: grey;
-        }
-
-    td {
-        padding: 20px;
-    }
-
-
-    table {
-        float: left;
-        height: 300px;
-    }
-
-
-    div#winnersDetails {
-        display: none;
-    }
-
-    #dogName {
-        color: blue;
-    }
-
-    #closePopUpX {
-        margin-bottom: -10px;
-    }
-
-    /* Popup container - can be anything you want */
-    .popup {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-        /* The actual popup */
-        .popup .popuptext {
-            visibility: hidden;
-            width: 260px;
-            background-color: #afafaf;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 20px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -80px;
-        }
-
-            /* Popup arrow */
-            .popup .popuptext::after {
-                content: "";
-                position: absolute;
-                top: 100%;
-                left: 50%;
-                margin-left: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: #555 transparent transparent transparent;
-            }
-
-        /* Toggle this class - hide and show the popup */
-        .popup .show {
-            visibility: visible;
-            -webkit-animation: fadeIn 1s;
-            animation: fadeIn 1s;
-        }
-    }
-</style>
+</body>
+</html>

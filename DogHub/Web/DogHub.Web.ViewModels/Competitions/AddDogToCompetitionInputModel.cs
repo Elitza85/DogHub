@@ -8,6 +8,7 @@ namespace DogHub.Web.ViewModels.Competitions
     public class AddDogToCompetitionInputModel
     {
         public int CompetitionId { get; set; }
+
         public string CompetitionName { get; set; }
 
         public string CompetitionBreed { get; set; }

@@ -1,22 +1,26 @@
 ﻿namespace FirstViewsTests.Controllers
 {
     using System.Threading.Tasks;
-
+    using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Competitions;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class CompetitionsController : Controller
     {
         private readonly IBreedsListService breedsService;
         private readonly ICompetitionsService competitionsService;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public CompetitionsController(
             IBreedsListService breedsService,
-            ICompetitionsService competitionsService)
+            ICompetitionsService competitionsService,
+            UserManager<ApplicationUser> userManager)
         {
             this.breedsService = breedsService;
             this.competitionsService = competitionsService;
+            this.userManager = userManager;
         }
 
         public IActionResult Create()
@@ -53,13 +57,15 @@
             return this.View(viewModel);
         }
 
-        public IActionResult AddDogToCompetition()
+        public IActionResult AddDogToCompetition(int id)
         {
-            return this.View();
+            var userId = this.userManager.GetUserId(this.User);
+            var viewModel = this.competitionsService.DogsToAddToCpmpetition(id, userId);
+            return this.View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult AddDogToCompetition(string competitionId)
+        public IActionResult AddDogToCompetition(int id, string userId)
         {
             if (!this.ModelState.IsValid)
             {

@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
     using DogHub.Data.Models.Competitions;
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dogs;
@@ -14,13 +15,16 @@
     {
         private readonly DogHub.Data.Common.Repositories.IDeletableEntityRepository<Competition> competitionsRepository;
         private readonly IDeletableEntityRepository<Organiser> organisersRepository;
+        private readonly IDeletableEntityRepository<Dog> dogsRepository;
 
         public CompetitionsService(
             IDeletableEntityRepository<Competition> competitionsRepository,
-            IDeletableEntityRepository<Organiser> organisersRepository)
+            IDeletableEntityRepository<Organiser> organisersRepository,
+            IDeletableEntityRepository<Dog> dogsRepository)
         {
             this.competitionsRepository = competitionsRepository;
             this.organisersRepository = organisersRepository;
+            this.dogsRepository = dogsRepository;
         }
 
         public AllEventsViewModel AllEvents()
@@ -124,26 +128,33 @@
                 }).ToList();
         }
 
-        public AddDogToCompetitionInputModel DogsToAddToCpmpetition(int competitionId, string userId)
+        public AddDogToCompetitionInputModel DogsToAddToCpmpetition(int id, string userId)
         {
-            return this.competitionsRepository.All()
-                .Where(x => x.Id == competitionId)
+            var result = this.competitionsRepository.All()
+                .Where(x => x.Id == id)
                 .Select(c => new AddDogToCompetitionInputModel
                 {
                     CompetitionId = c.Id,
                     CompetitionName = c.Name,
                     CompetitionBreed = c.Breed.BreedName,
-                    PossibleDogApplicants = c.DogsCompetitions
-                    .Where(d => d.Dog.UserId == userId)
+                }).FirstOrDefault();
+            result.PossibleDogApplicants = this.GetPossibleDogApplicants(userId);
+
+            return result;
+        }
+
+        IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId)
+        {
+            return this.dogsRepository.All()
+            .Where(c => c.UserId == userId)
                     .Select(p => new PossibleDogApplicantsViewModel
                     {
-                        DogId = p.DogId,
-                        DogName = p.Dog.Name,
-                        DogBreed = p.Dog.Breed.BreedName,
-                        IsSpayedOrNeutered = p.Dog.IsSpayedOrNeutered,
-                        CompetitionsParticipatedIn = p.Dog.DogsCompetiotions.Count(),
-                    }).ToList(),
-                }).FirstOrDefault();
+                        DogId = p.Id,
+                        DogName = p.Name,
+                        DogBreed = p.Breed.BreedName,
+                        IsSpayedOrNeutered = p.IsSpayedOrNeutered,
+                        CompetitionsParticipatedIn = p.DogsCompetiotions.Count(),
+                    }).ToList();
         }
     }
 }
