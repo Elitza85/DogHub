@@ -31,5 +31,23 @@
             await this.commonFormsService.ApplyForJudge(input);
             return this.Redirect("/Success/JudgeApplicationSubmission");
         }
+
+        public IActionResult Vote()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Vote(VoteFormInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            await this.commonFormsService.VoteForDog(input);
+            return this.Redirect("/Success/ThankYouForVoting");
+        }
     }
 }

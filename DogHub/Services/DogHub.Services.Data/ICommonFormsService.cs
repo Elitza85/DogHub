@@ -1,13 +1,13 @@
-﻿using DogHub.Web.ViewModels.CommonForms;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DogHub.Services.Data
+﻿namespace DogHub.Services.Data
 {
+    using System.Threading.Tasks;
+
+    using DogHub.Web.ViewModels.CommonForms;
+
     public interface ICommonFormsService
     {
         Task ApplyForJudge(JudgeApplicationInputModel input);
+
+        Task VoteForDog(VoteFormInputModel input);
     }
 }

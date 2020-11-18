@@ -18,5 +18,7 @@
         CompetitionDetailsViewModel CompetitionDetails(int id);
 
         AllEventsViewModel AllEvents();
+
+        AddDogToCompetitionInputModel DogsToAddToCpmpetition(int competitionId, string userId);
     }
 }

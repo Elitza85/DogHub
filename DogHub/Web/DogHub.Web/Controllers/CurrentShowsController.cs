@@ -9,9 +9,6 @@
             return this.View();
         }
 
-        public IActionResult Vote()
-        {
-            return this.View();
-        }
+        
     }
 }

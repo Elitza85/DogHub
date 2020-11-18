@@ -8,6 +8,7 @@
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models.Competitions;
     using DogHub.Web.ViewModels.Competitions;
+    using DogHub.Web.ViewModels.Dogs;
 
     public class CompetitionsService : ICompetitionsService
     {
@@ -38,6 +39,7 @@
                 .Where(x => x.Id == id)
                 .Select(y => new CompetitionDetailsViewModel
                 {
+                    CompetitionId = y.Id,
                     Name = y.Name,
                     StartDate = y.CompetitionStart,
                     EndDate = y.CompetitionEnd,
@@ -120,6 +122,28 @@
                     CompetitionId = y.Id,
                     Organiser = y.Organiser.OrganiserName,
                 }).ToList();
+        }
+
+        public AddDogToCompetitionInputModel DogsToAddToCpmpetition(int competitionId, string userId)
+        {
+            return this.competitionsRepository.All()
+                .Where(x => x.Id == competitionId)
+                .Select(c => new AddDogToCompetitionInputModel
+                {
+                    CompetitionId = c.Id,
+                    CompetitionName = c.Name,
+                    CompetitionBreed = c.Breed.BreedName,
+                    PossibleDogApplicants = c.DogsCompetitions
+                    .Where(d => d.Dog.OwnerId == userId)
+                    .Select(p => new PossibleDogApplicantsViewModel
+                    {
+                        DogId = p.DogId,
+                        DogName = p.Dog.Name,
+                        DogBreed = p.Dog.Breed.BreedName,
+                        IsSpayedOrNeutered = p.Dog.IsSpayedOrNeutered,
+                        CompetitionsParticipatedIn = p.Dog.DogsCompetiotions.Count(),
+                    }).ToList(),
+                }).FirstOrDefault();
         }
     }
 }

@@ -116,7 +116,7 @@
             @if (Model.Status == "In Progress")
             {
                 <td>
-                    <a class="btn btn-info">Vote</a>
+                    <a class="btn btn-info" href="/CurrentShows/Competitors?competitionId=@Model.CompetitionId">Vote</a>
                 </td>
             }
             @*Judge CAN`T add dogs to competition*@

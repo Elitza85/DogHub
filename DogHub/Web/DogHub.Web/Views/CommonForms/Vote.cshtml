@@ -13,7 +13,7 @@
     </video>
 
     <div id="votingForm">
-        <form>
+        <form method="post" asp-controller="CommonForms" asp-action="Vote" role="form">
             <div id="votingComponent">
                 <h6>
                     <i class="far fa-hand-point-right"></i>
@@ -181,7 +181,6 @@
                     </form>
                 </div>
             </div>
-            @*<a class="btn btn-danger" onclick="calc()"></a>*@
             <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" class="btn selected-rating"></span> Stars.</p>
             <input type="submit" class="btn btn-success" value="Send Your Vote" />
         </form>
