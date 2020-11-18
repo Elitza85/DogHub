@@ -1,9 +1,11 @@
 ﻿namespace FirstViewsTests.Controllers
 {
     using DogHub.Common;
+    using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Dogs;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.IO;
     using System.Linq;
@@ -14,15 +16,18 @@
         private readonly IBreedsListService breedsListService;
         private readonly IDogsService dogService;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public DogsController(
             IBreedsListService breedsListService,
             IDogsService dogService,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            UserManager<ApplicationUser> userManager)
         {
             this.breedsListService = breedsListService;
             this.dogService = dogService;
             this.webHostEnvironment = webHostEnvironment;
+            this.userManager = userManager;
         }
 
         public IActionResult Catalogue()
@@ -58,7 +63,9 @@
             //{
             //    await input.Images.FirstOrDefault().CopyToAsync(fs);
             //}
+            var userId = this.userManager.GetUserId(this.User);
 
+            input.UserId = userId;
             await this.dogService.Register(input);
 
             return this.Redirect("/Dogs/Catalogue");

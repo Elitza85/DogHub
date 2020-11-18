@@ -78,6 +78,7 @@ namespace DogHub.Services.Data
                 Name = input.DogName,
                 Sellable = input.Sellable,
                 Weight = input.Weight,
+                UserId = input.UserId,
             };
 
             var dogColor = this.dogColorsRepository.All()

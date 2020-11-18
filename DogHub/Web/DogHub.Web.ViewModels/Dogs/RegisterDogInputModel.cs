@@ -11,6 +11,8 @@
 
     public class RegisterDogInputModel
     {
+        public string UserId { get; set; }
+
         [Display(Name = "Dog Name ")]
         [Required]
         [MinLength(GlobalConstants.DogNameMinValue, ErrorMessage = ErrorMessages.DogNameMinLengthMsg)]
