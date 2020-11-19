@@ -1,15 +1,14 @@
 ﻿namespace FirstViewsTests.Controllers
 {
-    using DogHub.Common;
+    using System.Threading.Tasks;
+
     using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Dogs;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class DogsController : Controller
     {
@@ -36,6 +35,8 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
+
         public IActionResult Register()
         {
             var viewModel = new RegisterDogInputModel();
@@ -43,7 +44,9 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
+
         public async Task<IActionResult> Register(RegisterDogInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -52,17 +55,17 @@
                 return this.View(input);
             }
 
-            //if (!input.Images.FirstOrDefault().FileName.EndsWith(".png")
+            // if (!input.Images.FirstOrDefault().FileName.EndsWith(".png")
             //    || !input.Images.FirstOrDefault().FileName.EndsWith(".jpg")
             //    || !input.Images.FirstOrDefault().FileName.EndsWith(".jpeg"))
-            //{
+            // {
             //    this.ModelState.AddModelError("Image", ErrorMessages.DogImageInvalidFormatMsg);
-            //}
+            // }
 
-            //using (FileStream fs = new FileStream(this.webHostEnvironment.WebRootPath + "/" + input.Images.FirstOrDefault().FileName, FileMode.Create))
-            //{
+            // using (FileStream fs = new FileStream(this.webHostEnvironment.WebRootPath + "/" + input.Images.FirstOrDefault().FileName, FileMode.Create))
+            // {
             //    await input.Images.FirstOrDefault().CopyToAsync(fs);
-            //}
+            // }
             var userId = this.userManager.GetUserId(this.User);
 
             input.UserId = userId;

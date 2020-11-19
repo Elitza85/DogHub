@@ -13,5 +13,15 @@
         {
             return this.View();
         }
+
+        public IActionResult SuccessfullyAddedDogToCompetition()
+        {
+            return this.View();
+        }
+
+        public IActionResult RemovedDogFromCompetition()
+        {
+            return this.View();
+        }
     }
 }

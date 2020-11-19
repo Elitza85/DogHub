@@ -1,6 +1,11 @@
 ﻿@model DogHub.Web.ViewModels.Competitions.AddDogToCompetitionInputModel
-
-<h2 style="padding:20px;">Fill the Form to Add Your Dog as a Participant in the Show:</h2>
+<!DOCTYPE>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Competitions/AddDogToCompetitionStyles.css" />
+</head>
+<body>
+    <h2>How to Add Your Dog as a Participant in the Show:</h2>
     <p>
         <i class="far fa-hand-point-right"></i>
         The selected dog breed for the competition <span class="font-weight-bold">@Model.CompetitionName</span> is <span class="font-weight-bold">@Model.CompetitionBreed</span>.
@@ -24,34 +29,59 @@
         <i class="far fa-hand-point-right"></i>
         Dogs List:
     <p>
-        <small> (If there are no dogs listed below, then you need to <a href="/Dogs/Register">Register</a> your dog in the catalogue first.)</small>
+        <small> (If there are no dogs listed below, then you need to <a href="/Dogs/Register">register</a> your dog in the catalogue first.)</small>
     </p>
     </p>
+    <div>
+        <table class="col-md-12 table-bordered" style="margin-top:30px;">
+            <tbody>
+                @foreach (var dog in Model.PossibleDogApplicants)
+                {
 
-<form method="post" asp-controller="Competitions" asp-action="AddDogToCompetition" role="form" class="col-md-9">
-    <table class="col-md-12 table-bordered" style="margin-top:30px;">
-        <tbody>
-            @foreach (var dog in Model.PossibleDogApplicants)
-            {
-
-            <tr>
-                <td class="text-center">
-                    <input type="checkbox" style="padding:10px;" />
-                </td>
-                <td class="text-center">
-                    <img height="150px;" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                </td>
-                <td class="text-center">@dog.DogName</td>
-                <td class="text-center">@dog.DogBreed</td>
-                <td class="text-center">@dog.CompetitionsParticipatedIn</td>
-                <td hidden="hidden">@dog.IsSpayedOrNeutered</td>
-            </tr>
-            }
-        </tbody>
-    </table>
-    </br>
-    <div class="form-group">
-        <input type="submit" class="btn btn-success" value="Add" />
+                    <tr>
+                        <td class="text-center">
+                            <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                        </td>
+                        <td class="text-center">
+                            @if (dog.Gender == "Female")
+                            {
+                                <i class="fas fa-paw" style="color:deeppink"></i>
+                            }
+                            else if (dog.Gender == "Male")
+                            {
+                                <i class="fas fa-paw" style="color:blue"></i>
+                            }
+                            @dog.DogName
+                        </td>
+                        <td class="text-center">
+                            @if (dog.Gender == "Female")
+                            {
+                                <i class="fas fa-dog" style="color:deeppink"></i>
+                            }
+                            else if (dog.Gender == "Male")
+                            {
+                                <i class="fas fa-dog" style="color:blue"></i>
+                            }
+                            @dog.DogBreed
+                        </td>
+                        <td class="text-center"><i class="fas fa-flag-checkered"></i> Participated in @dog.CompetitionsParticipatedIn past competition/s</td>
+                        <td class="text-center">
+                            @if (!dog.AlreadyAddedToCompetition)
+                            {
+                                <a class="btn btn-success" href="/Competitions/AddDogToCompetitionOrReturnError?dogId=@dog.DogId&competitionId=@Model.CompetitionId">Add</a>
+                            }
+                            else
+                            {
+                                <span>Dog is already added to this competition</span>
+                                <p style="padding-top:20px;">
+                                    <i class="fas fa-times"></i><a class="btn" href="/Competitions/RemoveDogFromCompetition?dogId=@dog.DogId&competitionId=@Model.CompetitionId"><small>Remove</small></a>
+                                </p>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</form>
-
+</body>
+</html>

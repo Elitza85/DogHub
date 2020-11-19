@@ -19,6 +19,12 @@
 
         AllEventsViewModel AllEvents();
 
-        AddDogToCompetitionInputModel DogsToAddToCpmpetition(int competitionId, string userId);
+        AddDogToCompetitionInputModel DogsToAddToCompetition(int competitionId, string userId);
+
+        bool DoesDogMeetTheCompetitionRequirements(int dogId, int competitionId);
+
+        Task SuccessfullyAddDogToCompetitionAsync(int dogId, int competitionId);
+
+        Task RemoveDogFromUpcomingCompetition(int dogId, int competitionId);
     }
 }

@@ -16,15 +16,21 @@
         private readonly DogHub.Data.Common.Repositories.IDeletableEntityRepository<Competition> competitionsRepository;
         private readonly IDeletableEntityRepository<Organiser> organisersRepository;
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
+        private readonly IRepository<DogCompetition> dogsCompetitionsRepository;
+        private readonly ICompetitionsHelpService competitionsHelpService;
 
         public CompetitionsService(
             IDeletableEntityRepository<Competition> competitionsRepository,
             IDeletableEntityRepository<Organiser> organisersRepository,
-            IDeletableEntityRepository<Dog> dogsRepository)
+            IDeletableEntityRepository<Dog> dogsRepository,
+            IRepository<DogCompetition> dogsCompetitionsRepository,
+            ICompetitionsHelpService competitionsHelpService)
         {
             this.competitionsRepository = competitionsRepository;
             this.organisersRepository = organisersRepository;
             this.dogsRepository = dogsRepository;
+            this.dogsCompetitionsRepository = dogsCompetitionsRepository;
+            this.competitionsHelpService = competitionsHelpService;
         }
 
         public AllEventsViewModel AllEvents()
@@ -128,7 +134,7 @@
                 }).ToList();
         }
 
-        public AddDogToCompetitionInputModel DogsToAddToCpmpetition(int id, string userId)
+        public AddDogToCompetitionInputModel DogsToAddToCompetition(int id, string userId)
         {
             var result = this.competitionsRepository.All()
                 .Where(x => x.Id == id)
@@ -138,23 +144,62 @@
                     CompetitionName = c.Name,
                     CompetitionBreed = c.Breed.BreedName,
                 }).FirstOrDefault();
-            result.PossibleDogApplicants = this.GetPossibleDogApplicants(userId);
+
+            result.PossibleDogApplicants = this.competitionsHelpService.GetPossibleDogApplicants(userId, id);
+
+            foreach (var dogViewModel in result.PossibleDogApplicants)
+            {
+                if (this.competitionsHelpService.IsDogAddedToCompetition(dogViewModel.DogId, id))
+                {
+                    dogViewModel.AlreadyAddedToCompetition = true;
+                }
+                else
+                {
+                    dogViewModel.AlreadyAddedToCompetition = false;
+                }
+            }
 
             return result;
         }
 
-        IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId)
+        public bool DoesDogMeetTheCompetitionRequirements(int dogId, int competitionId)
         {
-            return this.dogsRepository.All()
-            .Where(c => c.UserId == userId)
-                    .Select(p => new PossibleDogApplicantsViewModel
-                    {
-                        DogId = p.Id,
-                        DogName = p.Name,
-                        DogBreed = p.Breed.BreedName,
-                        IsSpayedOrNeutered = p.IsSpayedOrNeutered,
-                        CompetitionsParticipatedIn = p.DogsCompetiotions.Count(),
-                    }).ToList();
+            string dogBreed = this.competitionsHelpService.GetDogBreed(dogId);
+            string competitionBreed = this.competitionsHelpService.GetCompetitionRequiredBreed(competitionId);
+            bool isDogSpayedOrNeutered = this.competitionsHelpService.IsDogSpayedOrNeutered(dogId);
+
+            if (dogBreed == competitionBreed && !isDogSpayedOrNeutered)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task SuccessfullyAddDogToCompetitionAsync(int dogId, int competitionId)
+        {
+            Dog dog = this.competitionsHelpService.GetDogById(dogId);
+            Competition competition = this.competitionsHelpService.GetCompetitionById(competitionId);
+
+            await this.dogsCompetitionsRepository.AddAsync(new DogCompetition
+            {
+                Dog = dog,
+                Competition = competition,
+            });
+            await this.dogsCompetitionsRepository.SaveChangesAsync();
+        }
+
+        public async Task RemoveDogFromUpcomingCompetition(int dogId, int competitionId)
+        {
+            // Dog dog = this.competitionsHelpService.GetDogById(dogId);
+            Competition competition = this.competitionsHelpService.GetCompetitionById(competitionId);
+            var record = this.dogsCompetitionsRepository.All()
+                .Where(x => x.DogId == dogId && x.CompetitionId == competitionId)
+                .FirstOrDefault();
+            this.dogsCompetitionsRepository.Delete(record);
+            await this.competitionsRepository.SaveChangesAsync();
         }
     }
 }

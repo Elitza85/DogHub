@@ -16,5 +16,9 @@ namespace DogHub.Web.ViewModels.Dogs
         public bool? IsSpayedOrNeutered { get; set; }
 
         public int CompetitionsParticipatedIn { get; set; }
+
+        public bool AlreadyAddedToCompetition { get; set; }
+
+        public string Gender { get; set; }
     }
 }
