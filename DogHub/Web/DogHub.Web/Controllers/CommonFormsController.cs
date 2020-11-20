@@ -40,6 +40,20 @@
         [Authorize]
         public IActionResult Vote(int dogId, int competitionId)
         {
+            var userId = this.userManager.GetUserId(this.User);
+
+            var isUserDogOwner = this.commonFormsService.CheckIfUserIsOwner(userId, dogId, competitionId);
+            if (!isUserDogOwner)
+            {
+                return this.Redirect("/Errors/CantVoteForOwnDog");
+            }
+
+            var hasUserVoted = this.commonFormsService.CheckIfUserHasVoted(userId, dogId, competitionId);
+            if (!hasUserVoted)
+            {
+                return this.Redirect("/Errors/AlreadyVoted");
+            }
+
             var model = new VoteFormInputModel();
             model.CompetitionId = competitionId;
             model.DogId = dogId;

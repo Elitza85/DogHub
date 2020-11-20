@@ -8,5 +8,15 @@
         {
             return this.View();
         }
+
+        public IActionResult CantVoteForOwnDog()
+        {
+            return this.View();
+        }
+
+        public IActionResult AlreadyVoted()
+        {
+            return this.View();
+        }
     }
 }

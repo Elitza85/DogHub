@@ -15,8 +15,6 @@
     </video>
 
     <div id="votingForm">
-        @*<form method="post" asp-controller="CommonForms" asp-action="Vote" role="form">*@
-
             <div id="votingComponent">
                 <h6>
                     <i class="far fa-hand-point-right"></i>
@@ -184,20 +182,15 @@
                     </form>
                 </div>
             </div>
-            <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" class="btn selected-rating"></span> Stars.</p>
+            <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" class="btn selected-rating"></span> Points.</p>
             <form method="post" asp-controller="CommonForms" asp-action="Vote" role="form">
                 <input hidden="hidden" asp-for="DogId" value="@Model.DogId" />
                 <input hidden="hidden" asp-for="CompetitionId" value="@Model.CompetitionId" />
-                <input asp-for="TotalPoints" id="selected-ratingHidden" />
+                <span>Please add your points in the field and press the button: </span>
+                <input asp-for="TotalPoints" id="selected-ratingHidden" placeholder="Add your points here"/>
                 <input type="submit" class="btn btn-success" value="Send Your Vote" />
             </form>
     </div>
 </body>
 </html>
-
-@*<script>
-    var rating = document.querySelector('#selected-rating');
-    var takeResult = document.querySelector('#selected-ratingCopy');
-    takeResult.nodeValue = rating.textContent;
-</script>*@
 

@@ -9,5 +9,9 @@
         Task ApplyForJudge(JudgeApplicationInputModel input);
 
         Task VoteForDog(VoteFormInputModel input);
+
+        bool CheckIfUserHasVoted(string userId, int dogId, int competitionId);
+
+        bool CheckIfUserIsOwner(string userId, int dogId, int competitionId);
     }
 }
