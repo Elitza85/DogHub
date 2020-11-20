@@ -30,7 +30,7 @@
                     {
                         DogId = d.DogId,
                         DogName = d.Dog.Name,
-                        CurrentTotalPoints = d.Dog.EvaluationForms.Sum(p => p.TotalPoints),
+                        CurrentTotalPoints = d.Dog.EvaluationForms.Where(c => c.CompetitionId == competitionId).Sum(p => p.TotalPoints),
                     }).ToList(),
                 }).FirstOrDefault();
         }
