@@ -31,7 +31,7 @@
                         <td class="text-center">@dog.DogName</td>
                         <td class="text-center">@dog.CurrentTotalPoints</td>
                         <td class="text-center">
-                            <a class="btn btn-info" href="/CurrentShows/Vote?dogId=@dog.DogId&competitionId=@Model.CompetitionId">Vote</a>
+                            <a class="btn btn-info" href="/CommonForms/Vote?dogId=@dog.DogId&competitionId=@Model.CompetitionId">Vote</a>
                         </td>
                     </tr>
                 }
@@ -91,50 +91,3 @@
         </div>
     </body>
 </html>
-
-@*<style>
-        th {
-            position: sticky;
-            top: 0;
-            padding: 8px 16px;
-            background: #AFAFAF;
-        }
-
-        .content {
-            box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
-            max-width: 150px;
-            height: 150px;
-            width: 150px;
-        }
-
-        img {
-            transition: ease-out;
-            max-width: 150px;
-            max-height: 150px;
-            width: 50%;
-            height: 50%;
-            object-fit: cover;
-        }
-
-            img:hover {
-                transform: scale(1.5)
-            }
-
-        #blink {
-            color: gold;
-            -webkit-animation: blink 1s step-end infinite;
-            animation: blink 1s step-end infinite;
-        }
-
-        @@keyframes blink {
-            50% {
-                visibility: hidden;
-            }
-        }
-
-        @@-webkit-keyframes blink {
-            50% {
-                visibility: hidden;
-            }
-        }
-    </style>*@

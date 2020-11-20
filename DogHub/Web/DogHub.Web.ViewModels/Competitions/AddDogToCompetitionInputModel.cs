@@ -1,10 +1,9 @@
-﻿using DogHub.Web.ViewModels.Dogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.Competitions
+﻿namespace DogHub.Web.ViewModels.Competitions
 {
+    using System.Collections.Generic;
+
+    using DogHub.Web.ViewModels.Dogs;
+
     public class AddDogToCompetitionInputModel
     {
         public int CompetitionId { get; set; }

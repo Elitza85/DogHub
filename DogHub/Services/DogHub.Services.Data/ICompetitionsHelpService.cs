@@ -1,9 +1,9 @@
 ﻿namespace DogHub.Services.Data
 {
     using System.Collections.Generic;
+
     using DogHub.Data.Models;
     using DogHub.Data.Models.Competitions;
-    using DogHub.Data.Models.Dogs;
     using DogHub.Web.ViewModels.Dogs;
 
     public interface ICompetitionsHelpService

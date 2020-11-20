@@ -193,8 +193,6 @@
 
         public async Task RemoveDogFromUpcomingCompetition(int dogId, int competitionId)
         {
-            // Dog dog = this.competitionsHelpService.GetDogById(dogId);
-            Competition competition = this.competitionsHelpService.GetCompetitionById(competitionId);
             var record = this.dogsCompetitionsRepository.All()
                 .Where(x => x.DogId == dogId && x.CompetitionId == competitionId)
                 .FirstOrDefault();

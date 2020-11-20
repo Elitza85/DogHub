@@ -17,6 +17,7 @@ function calc() {
     var component = document.querySelector("#votingForm")
     var elements = component.querySelectorAll(".rating-star");
     var result = document.querySelector("#selected-rating");
+
     var total = 0;
     for (var i = 0; i < elements.length; i++) {
         var currentElements = elements[i];

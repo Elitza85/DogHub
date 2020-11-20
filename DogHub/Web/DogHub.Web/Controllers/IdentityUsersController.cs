@@ -1,13 +1,9 @@
-﻿using DogHub.Data.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogHub.Web.Controllers
+﻿namespace DogHub.Web.Controllers
 {
+    using DogHub.Data.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class IdentityUsersController : Controller
     {
         private readonly SignInManager<ApplicationUser> signInManager;

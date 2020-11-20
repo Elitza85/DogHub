@@ -1,6 +1,7 @@
 ﻿namespace FirstViewsTests.Controllers
 {
     using System.Threading.Tasks;
+
     using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Competitions;

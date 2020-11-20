@@ -1,18 +1,23 @@
 ﻿namespace DogHub.Web.Controllers
 {
     using System.Threading.Tasks;
-
+    using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.CommonForms;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class CommonFormsController : Controller
     {
         private readonly ICommonFormsService commonFormsService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public CommonFormsController(ICommonFormsService commonFormsService)
+        public CommonFormsController(ICommonFormsService commonFormsService,
+            UserManager<ApplicationUser> userManager)
         {
             this.commonFormsService = commonFormsService;
+            this.userManager = userManager;
         }
 
         public IActionResult ApplyForJudge()
@@ -32,19 +37,26 @@
             return this.Redirect("/Success/JudgeApplicationSubmission");
         }
 
-        public IActionResult Vote()
+        [Authorize]
+        public IActionResult Vote(int dogId, int competitionId)
         {
-            return this.View();
+            var model = new VoteFormInputModel();
+            model.CompetitionId = competitionId;
+            model.DogId = dogId;
+            return this.View(model);
         }
 
         [HttpPost]
-
+        [Authorize]
         public async Task<IActionResult> Vote(VoteFormInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.View();
             }
+
+            var userId = this.userManager.GetUserId(this.User);
+            input.UserId = userId;
 
             await this.commonFormsService.VoteForDog(input);
             return this.Redirect("/Success/ThankYouForVoting");

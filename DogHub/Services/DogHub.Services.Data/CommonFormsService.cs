@@ -12,14 +12,14 @@ namespace DogHub.Services.Data
     public class CommonFormsService : ICommonFormsService
     {
         private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository;
-        private readonly IDeletableEntityRepository<EvaluationForm> evalutionsFormsRepository;
+        private readonly IDeletableEntityRepository<EvaluationForm> evaluationFormsRepository;
 
         public CommonFormsService(
             IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository,
-            IDeletableEntityRepository<EvaluationForm> evalutionsFormsRepository)
+            IDeletableEntityRepository<EvaluationForm> evaluationFormsRepository)
         {
             this.judgeFormsRepository = judgeFormsRepository;
-            this.evalutionsFormsRepository = evalutionsFormsRepository;
+            this.evaluationFormsRepository = evaluationFormsRepository;
         }
 
         public async Task ApplyForJudge(JudgeApplicationInputModel input)
@@ -56,22 +56,29 @@ namespace DogHub.Services.Data
 
         public async Task VoteForDog(VoteFormInputModel input)
         {
+            
             var evaluationForm = new EvaluationForm
             {
-                BalanceRate = input.BalanceRate,
-                ColorRate = input.ColorRate,
-                EarsRate = input.EarsRate,
-                EyesRate = input.EyesRate,
-                HeadShapeRate = input.HeadShapeRate,
-                MuzzleRate = input.MuzzleRate,
-                WeightRate = input.WeightRate,
+                //BalanceRate = input.BalanceRate,
+                //ColorRate = input.ColorRate,
+                //EarsRate = input.EarsRate,
+                //EyesRate = input.EyesRate,
+                //HeadShapeRate = input.HeadShapeRate,
+                //MuzzleRate = input.MuzzleRate,
+                //WeightRate = input.WeightRate,
                 CompetitionId = input.CompetitionId,
                 DogId = input.DogId,
+                UserId = input.UserId,
                 TotalPoints = input.TotalPoints,
             };
+            //foreach (var item in input.BalanceRate)
+            //{
 
-            await this.evalutionsFormsRepository.AddAsync(evaluationForm);
-            await this.evalutionsFormsRepository.SaveChangesAsync();
+            //    var result = item.Rate1;
+            //}
+
+            await this.evaluationFormsRepository.AddAsync(evaluationForm);
+            await this.evaluationFormsRepository.SaveChangesAsync();
         }
     }
 }

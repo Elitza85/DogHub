@@ -31,13 +31,13 @@ img {
     animation: blink 1s step-end infinite;
 }
 
-@@keyframes blink {
+@keyframes blink {
     50% {
         visibility: hidden;
     }
 }
 
-@@-webkit-keyframes blink {
+@-webkit-keyframes blink {
     50% {
         visibility: hidden;
     }
