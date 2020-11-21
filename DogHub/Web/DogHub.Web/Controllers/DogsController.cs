@@ -1,5 +1,6 @@
 ﻿namespace FirstViewsTests.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using DogHub.Data.Models;
@@ -59,21 +60,20 @@
                 return this.View(input);
             }
 
-            // if (!input.Images.FirstOrDefault().FileName.EndsWith(".png")
-            //    || !input.Images.FirstOrDefault().FileName.EndsWith(".jpg")
-            //    || !input.Images.FirstOrDefault().FileName.EndsWith(".jpeg"))
-            // {
-            //    this.ModelState.AddModelError("Image", ErrorMessages.DogImageInvalidFormatMsg);
-            // }
-
-            // using (FileStream fs = new FileStream(this.webHostEnvironment.WebRootPath + "/" + input.Images.FirstOrDefault().FileName, FileMode.Create))
-            // {
-            //    await input.Images.FirstOrDefault().CopyToAsync(fs);
-            // }
             var userId = this.userManager.GetUserId(this.User);
-
             input.UserId = userId;
-            await this.dogService.Register(input);
+            var imagePath = $"{this.webHostEnvironment.WebRootPath}/images";
+
+            try
+            {
+                await this.dogService.Register(input, imagePath);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                input.BreedsItems = this.breedsListService.GetAllAsKVP();
+                return this.View(input);
+            }
 
             return this.Redirect("/Dogs/Catalogue");
         }

@@ -46,7 +46,7 @@
             @foreach (var item in Model.DogsData)
             {
                 <div class="singleDog">
-                    <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                    <img src="@item.ImageUrl" />
                     <div style="padding-top:2px;" class="font-weight-bold text-center"> @item.Name</div>
 
                     <span>

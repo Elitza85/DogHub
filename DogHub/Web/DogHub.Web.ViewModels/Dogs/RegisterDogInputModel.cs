@@ -60,10 +60,9 @@
         [MaxLength(GlobalConstants.DogDescriptionMaxLength)]
         public string Description { get; set; }
 
-        // [Required]
-        // [Display(Name = "Dog Images ")]
-
-        // public IEnumerable<IFormFile> Images { get; set; }
+        [Required]
+        [Display(Name = "Dog Images ")]
+        public IEnumerable<IFormFile> Images { get; set; }
 
         // [Required]
 

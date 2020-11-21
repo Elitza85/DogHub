@@ -5,6 +5,7 @@ using DogHub.Services.Mapping;
 using DogHub.Web.ViewModels.Dogs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace DogHub.Services.Data
 {
     public class DogsService : IDogsService
     {
+        private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
@@ -91,7 +93,7 @@ namespace DogHub.Services.Data
             return viewModel;
         }
 
-        public async Task Register(RegisterDogInputModel input)
+        public async Task Register(RegisterDogInputModel input, string imagePath)
         {
             var dog = new Dog
             {
@@ -122,6 +124,26 @@ namespace DogHub.Services.Data
 
             dog.DogColor = dogColor;
             dog.EyesColor = eyesColor;
+
+            Directory.CreateDirectory($"{imagePath}/dogs/");
+            foreach (var image in input.Images)
+            {
+                var extension = Path.GetExtension(image.FileName).TrimStart('.');
+                if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
+                {
+                    throw new Exception($"Invalid image extenstion {extension}");
+                }
+
+                var newImage = new DogImage
+                {
+                    Extension = extension,
+                };
+                dog.DogImages.Add(newImage);
+
+                var filePath = $"{imagePath}/dogs/{newImage.Id}.{extension}";
+                using Stream fileStream = new FileStream(filePath, FileMode.Create);
+                await image.CopyToAsync(fileStream);
+            }
 
             await this.dogsRepository.AddAsync(dog);
             await this.dogsRepository.SaveChangesAsync();

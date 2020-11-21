@@ -8,7 +8,7 @@ namespace DogHub.Services.Data
 {
     public interface IDogsService
     {
-        Task Register(RegisterDogInputModel input);
+        Task Register(RegisterDogInputModel input, string imagePath);
 
         DogProfileViewModel DogProfile(int id);
 
