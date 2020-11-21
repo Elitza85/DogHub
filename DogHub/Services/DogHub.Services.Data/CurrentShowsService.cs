@@ -24,7 +24,7 @@
                 {
                     CompetitionId = y.Id,
                     CompetitionName = y.Name,
-                    CompetitionBreed = y.Breed.BreedName,
+                    CompetitionBreed = y.Breed.Name,
                     CompetitorDogs = y.DogsCompetitions
                     .Select(d => new CompetitorViewModel
                     {

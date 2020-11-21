@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DogHub.Web.ViewModels.Dogs
 {
-    public class DogsCatalogueViewModel
+    public class DogsCatalogueViewModel : PagingViewModel
     {
         public IEnumerable<DogDataInCatalogueViewModel> DogsData { get; set; }
     }

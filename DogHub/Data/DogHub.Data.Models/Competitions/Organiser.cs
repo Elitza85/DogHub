@@ -12,7 +12,7 @@ namespace DogHub.Data.Models.Competitions
             this.OrganiserCompetitions = new HashSet<Competition>();
         }
 
-        public string OrganiserName { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<Competition> OrganiserCompetitions { get; set; }
     }

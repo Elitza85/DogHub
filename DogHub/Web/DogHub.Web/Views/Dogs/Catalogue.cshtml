@@ -60,7 +60,7 @@
                                 {
                                     <i style="color:blue;" class="fas fa-dog"></i>
                                 }
-                                @item.Breed
+                                @item.BreedName
                             </a>
                         </p>
                         <a style=" padding-left:10px;">
@@ -80,7 +80,7 @@
 
                     <span style="float: right; padding-right:10px;">
                         <a style="height:30px; width:60px;" class="btn btn-info" href="/Dogs/DogProfile?id=3"><small>Profile</small></a>
-                        @if (item.IsSellable == true)
+                        @if (item.Sellable == true)
                         {
                             <a style="height:30px; width:60px;" class="btn btn-warning" href="/Dogs/Buy?id=dogid"><small>Buy</small></a>
                         }
@@ -89,6 +89,9 @@
             }
         </div>
     </div>
+
+    <hr />
+    <partial name="_PagingPartial" model="@Model" />
 </body>
 </html>
 

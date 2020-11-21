@@ -1,6 +1,7 @@
 ﻿using DogHub.Data.Common.Repositories;
 using DogHub.Data.Models;
 using DogHub.Data.Models.Dogs;
+using DogHub.Services.Mapping;
 using DogHub.Web.ViewModels.Dogs;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace DogHub.Services.Data
                 .Select(y => new DogProfileViewModel
                 {
                     Age = y.Age,
-                    Breed = y.Breed.BreedName,
+                    Breed = y.Breed.Name,
                     Color = y.DogColor.ColorName,
                     CompetitionsCount = y.DogsCompetiotions.Count(),
                     Description = y.Description,
@@ -47,22 +48,46 @@ namespace DogHub.Services.Data
                 }).FirstOrDefault();
         }
 
-        public IEnumerable<DogDataInCatalogueViewModel> GetAllDogs()
+        //public IEnumerable<DogDataInCatalogueViewModel> GetAllDogs(int page, int itemsPerPage = 12)
+        //{
+        //    return this.dogsRepository.All()
+        //        .OrderByDescending(x => x.Id)
+        //        .Skip((page - 1) * itemsPerPage)
+        //        .Take(itemsPerPage)
+        //        .Select(x => new DogDataInCatalogueViewModel
+        //        {
+        //            Breed = x.Breed.BreedName,
+        //            Gender = x.Gender.ToString(),
+        //            Name = x.Name,
+        //            ImageUrl =
+        //            x.DogImages.FirstOrDefault().RemoteImageUrl != null ?
+        //            x.DogImages.FirstOrDefault().RemoteImageUrl :
+        //            "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." +
+        //            x.DogImages.FirstOrDefault().Extension,
+        //            IsSellable = x.Sellable,
+        //        }).ToList();
+        //}
+
+        public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
         {
             return this.dogsRepository.All()
-                .Select(x => new DogDataInCatalogueViewModel
-                {
-                    Breed = x.Breed.BreedName,
-                    Gender = x.Gender.ToString(),
-                    Name = x.Name,
-                    IsSellable = x.Sellable,
-                }).ToList();
+                .OrderByDescending(x => x.Id)
+                .Skip((page - 1) * itemsPerPage)
+                .Take(itemsPerPage)
+                .To<T>()
+                .ToList();
         }
 
-        public DogsCatalogueViewModel DogsData()
+        public DogsCatalogueViewModel DogsData(int id, int itemsPerPage = 12)
         {
-            var viewModel = new DogsCatalogueViewModel();
-            viewModel.DogsData = this.GetAllDogs();
+            const int ItemsPerPage = 12;
+            var viewModel = new DogsCatalogueViewModel
+            {
+                ItemsPerPage = ItemsPerPage,
+                PageNumber = id,
+                DogsCount = this.GetCount(),
+                DogsData = this.GetAll<DogDataInCatalogueViewModel>(id, ItemsPerPage),
+            };
             return viewModel;
         }
 
@@ -100,6 +125,11 @@ namespace DogHub.Services.Data
 
             await this.dogsRepository.AddAsync(dog);
             await this.dogsRepository.SaveChangesAsync();
+        }
+
+        public int GetCount()
+        {
+            return this.dogsRepository.All().Count();
         }
     }
 }

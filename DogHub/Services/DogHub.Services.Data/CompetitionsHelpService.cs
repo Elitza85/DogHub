@@ -26,7 +26,7 @@
         {
             return this.competitionsRepository.All()
                 .Where(x => x.Id == competitionId)
-                .Select(b => b.Breed.BreedName)
+                .Select(b => b.Breed.Name)
                 .FirstOrDefault();
         }
 
@@ -34,7 +34,7 @@
         {
             return this.dogsRepository.All()
                 .Where(x => x.Id == dogId)
-                .Select(b => b.Breed.BreedName)
+                .Select(b => b.Breed.Name)
                 .FirstOrDefault();
         }
 
@@ -55,7 +55,7 @@
                     {
                         DogId = p.Id,
                         DogName = p.Name,
-                        DogBreed = p.Breed.BreedName,
+                        DogBreed = p.Breed.Name,
                         IsSpayedOrNeutered = p.IsSpayedOrNeutered,
                         Gender = p.Gender.ToString(),
                         CompetitionsParticipatedIn = p.DogsCompetiotions

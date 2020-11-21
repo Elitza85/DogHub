@@ -1,0 +1,17 @@
+﻿h2 {
+    padding: 20px;
+}
+
+table > tbody {
+    border-top: solid;
+    border-bottom: solid;
+    border-color: grey;
+}
+
+th {
+    padding: 20px;
+}
+
+td {
+    padding: 20px;
+}

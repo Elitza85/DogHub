@@ -20,8 +20,8 @@
             return this.breedsRepository.All().Select(x => new
             {
                 x.Id,
-                x.BreedName,
-            }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.BreedName));
+                x.Name,
+            }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name));
         }
     }
 }

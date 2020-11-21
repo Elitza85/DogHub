@@ -29,9 +29,13 @@
             this.userManager = userManager;
         }
 
-        public IActionResult Catalogue()
+        public IActionResult Catalogue(int id = 1)
         {
-            var viewModel = this.dogService.DogsData();
+            if(id <= 0)
+            {
+                return this.NotFound();
+            }
+            var viewModel = this.dogService.DogsData(id, 12);
             return this.View(viewModel);
         }
 

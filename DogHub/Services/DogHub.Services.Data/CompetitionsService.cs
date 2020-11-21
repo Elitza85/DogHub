@@ -72,12 +72,12 @@
             };
 
             var organiser = this.organisersRepository.All()
-                .FirstOrDefault(x => x.OrganiserName == input.OrganisedBy);
+                .FirstOrDefault(x => x.Name == input.OrganisedBy);
             if (organiser == null)
             {
                 organiser = new Organiser
                 {
-                    OrganiserName = input.OrganisedBy,
+                    Name = input.OrganisedBy,
                 };
             }
 
@@ -95,9 +95,9 @@
                 .Select(y => new CurrentCompetitionViewModel
                 {
                     Name = y.Name,
-                    Breed = y.Breed.BreedName,
+                    Breed = y.Breed.Name,
                     CompetitionId = y.Id,
-                    Organiser = y.Organiser.OrganiserName,
+                    Organiser = y.Organiser.Name,
                 }).FirstOrDefault();
 
             if (competition == null)
@@ -115,9 +115,9 @@
                 .Select(y => new PastCompetitionsViewModel
                 {
                     Name = y.Name,
-                    Breed = y.Breed.BreedName,
+                    Breed = y.Breed.Name,
                     CompetitionId = y.Id,
-                    Organiser = y.Organiser.OrganiserName,
+                    Organiser = y.Organiser.Name,
                 }).ToList();
         }
 
@@ -128,9 +128,9 @@
                 .Select(y => new UpcomingCompetitionsViewModel
                 {
                     Name = y.Name,
-                    Breed = y.Breed.BreedName,
+                    Breed = y.Breed.Name,
                     CompetitionId = y.Id,
-                    Organiser = y.Organiser.OrganiserName,
+                    Organiser = y.Organiser.Name,
                 }).ToList();
         }
 
@@ -142,7 +142,7 @@
                 {
                     CompetitionId = c.Id,
                     CompetitionName = c.Name,
-                    CompetitionBreed = c.Breed.BreedName,
+                    CompetitionBreed = c.Breed.Name,
                 }).FirstOrDefault();
 
             result.PossibleDogApplicants = this.competitionsHelpService.GetPossibleDogApplicants(userId, id);

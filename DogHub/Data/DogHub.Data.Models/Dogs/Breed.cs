@@ -13,7 +13,7 @@
             this.BreedCompetitions = new HashSet<Competition>();
         }
 
-        public string BreedName { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<Dog> BreedDogs { get; set; }
 
