@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Data.Seeding
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using DogHub.Data.Models.Dogs;
