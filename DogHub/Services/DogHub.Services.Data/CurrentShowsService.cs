@@ -25,6 +25,8 @@
                     CompetitionId = y.Id,
                     CompetitionName = y.Name,
                     CompetitionBreed = y.Breed.Name,
+                    StartDate = y.CompetitionStart,
+                    EndDate = y.CompetitionEnd,
                     CompetitorDogs = y.DogsCompetitions
                     .Select(d => new CompetitorViewModel
                     {

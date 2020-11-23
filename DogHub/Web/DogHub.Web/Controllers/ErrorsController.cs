@@ -18,5 +18,10 @@
         {
             return this.View();
         }
+
+        public IActionResult NotPossibleToVote()
+        {
+            return this.View();
+        }
     }
 }

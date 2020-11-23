@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using DogHub.Data.Models;
     using DogHub.Services.Data;
@@ -12,20 +13,26 @@
     {
         private readonly ICommonFormsService commonFormsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICompetitionsHelpService competitionsHelpService;
 
-        public CommonFormsController(ICommonFormsService commonFormsService,
-            UserManager<ApplicationUser> userManager)
+        public CommonFormsController(
+            ICommonFormsService commonFormsService,
+            UserManager<ApplicationUser> userManager,
+            ICompetitionsHelpService competitionsHelpService)
         {
             this.commonFormsService = commonFormsService;
             this.userManager = userManager;
+            this.competitionsHelpService = competitionsHelpService;
         }
 
+        [Authorize]
         public IActionResult ApplyForJudge()
         {
             return this.View();
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ApplyForJudge(JudgeApplicationInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -54,10 +61,18 @@
                 return this.Redirect("/Errors/AlreadyVoted");
             }
 
-            var model = new VoteFormInputModel();
-            model.CompetitionId = competitionId;
-            model.DogId = dogId;
-            return this.View(model);
+            if (this.commonFormsService.IsCompetitionCurrentlyInProgress(competitionId)
+                && this.competitionsHelpService.IsDogAddedToCompetition(dogId, competitionId))
+            {
+                var model = new VoteFormInputModel();
+                model.CompetitionId = competitionId;
+                model.DogId = dogId;
+                return this.View(model);
+            }
+            else
+            {
+                return this.Redirect("/Errors/NotPossibleToVote");
+            }
         }
 
         [HttpPost]

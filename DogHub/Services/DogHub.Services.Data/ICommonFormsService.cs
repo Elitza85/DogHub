@@ -13,5 +13,7 @@
         bool CheckIfUserHasVoted(string userId, int dogId, int competitionId);
 
         bool CheckIfUserIsOwner(string userId, int dogId, int competitionId);
+
+        public bool IsCompetitionCurrentlyInProgress(int competitionId);
     }
 }

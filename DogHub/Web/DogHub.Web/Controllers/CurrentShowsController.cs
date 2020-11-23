@@ -2,6 +2,7 @@
 {
     using DogHub.Services.Data;
     using Microsoft.AspNetCore.Mvc;
+    using System;
 
     public class CurrentShowsController : Controller
     {
@@ -15,7 +16,14 @@
         public IActionResult Competitors(int competitionId)
         {
             var viewModel = this.currentShowsService.FullDataOfCurrentShow(competitionId);
-            return this.View(viewModel);
+            if (viewModel.StartDate < DateTime.UtcNow && DateTime.UtcNow < viewModel.EndDate)
+            {
+                return this.View(viewModel);
+            }
+            else
+            {
+                return this.Redirect("/Errors/NotPossibleToVote");
+            }
         }
     }
 }

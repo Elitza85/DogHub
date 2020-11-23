@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace DogHub.Web.ViewModels.CommonForms
+﻿namespace DogHub.Web.ViewModels.CommonForms
 {
     public class VoteFormInputModel
     {
@@ -11,5 +9,6 @@ namespace DogHub.Web.ViewModels.CommonForms
         public int CompetitionId { get; set; }
 
         public int TotalPoints { get; set; }
+    
     }
 }

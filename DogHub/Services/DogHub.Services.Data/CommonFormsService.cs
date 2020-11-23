@@ -102,7 +102,6 @@ namespace DogHub.Services.Data
 
         public async Task VoteForDog(VoteFormInputModel input)
         {
-
             var evaluationForm = new EvaluationForm
             {
                 CompetitionId = input.CompetitionId,
@@ -113,6 +112,22 @@ namespace DogHub.Services.Data
 
             await this.evaluationFormsRepository.AddAsync(evaluationForm);
             await this.evaluationFormsRepository.SaveChangesAsync();
+        }
+
+        public bool IsCompetitionCurrentlyInProgress(int competitionId)
+        {
+            var competition = this.competitionsRepository.All()
+                .Where(x => x.Id == competitionId)
+                .FirstOrDefault();
+
+            if (competition.CompetitionStart < DateTime.UtcNow && DateTime.UtcNow < competition.CompetitionEnd)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
