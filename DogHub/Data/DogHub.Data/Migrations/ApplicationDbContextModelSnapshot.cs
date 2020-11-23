@@ -15,9 +15,9 @@ namespace DogHub.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.10")
+                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.0");
 
             modelBuilder.Entity("DogHub.Data.Models.ApplicationRole", b =>
                 {
@@ -41,12 +41,12 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -54,7 +54,7 @@ namespace DogHub.Data.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
+                        .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
@@ -82,8 +82,8 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -101,12 +101,12 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -124,19 +124,19 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
+                        .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
@@ -147,7 +147,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<bool>("AttendedJudgeInstituteCourse")
                         .HasColumnType("bit");
@@ -200,7 +200,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("BreedId")
                         .HasColumnType("int");
@@ -228,12 +228,12 @@ namespace DogHub.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("OrganiserId")
-                        .HasColumnType("int")
-                        .HasMaxLength(80);
+                        .HasMaxLength(80)
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -253,7 +253,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("CompetitionId")
                         .HasColumnType("int");
@@ -287,7 +287,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("CompetitionId")
                         .HasColumnType("int");
@@ -309,7 +309,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -338,7 +338,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int?>("Age")
                         .HasColumnType("int");
@@ -353,8 +353,8 @@ namespace DogHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(250)")
-                        .HasMaxLength(250);
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<int>("DogColorId")
                         .HasColumnType("int");
@@ -382,8 +382,8 @@ namespace DogHub.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(60)")
-                        .HasMaxLength(60);
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<bool?>("Sellable")
                         .HasColumnType("bit");
@@ -415,7 +415,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -444,7 +444,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ColorName")
                         .HasColumnType("nvarchar(max)");
@@ -470,15 +470,10 @@ namespace DogHub.Data.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.Dogs.DogImage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("DogId")
@@ -486,9 +481,6 @@ namespace DogHub.Data.Migrations
 
                     b.Property<string>("Extension")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -500,8 +492,6 @@ namespace DogHub.Data.Migrations
 
                     b.HasIndex("DogId");
 
-                    b.HasIndex("IsDeleted");
-
                     b.ToTable("DogImages");
                 });
 
@@ -510,7 +500,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -520,8 +510,8 @@ namespace DogHub.Data.Migrations
 
                     b.Property<string>("EyesColorName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -541,7 +531,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<int>("BalanceRate")
                         .HasColumnType("int");
@@ -606,7 +596,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -638,7 +628,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -662,7 +652,7 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .UseIdentityColumn();
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -742,6 +732,8 @@ namespace DogHub.Data.Migrations
                     b.HasOne("DogHub.Data.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.Competition", b =>
@@ -761,6 +753,12 @@ namespace DogHub.Data.Migrations
                         .HasForeignKey("OrganiserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Breed");
+
+                    b.Navigation("CompetitionImage");
+
+                    b.Navigation("Organiser");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.CompetitionImage", b =>
@@ -770,6 +768,8 @@ namespace DogHub.Data.Migrations
                         .HasForeignKey("CompetitionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Competition");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.DogCompetition", b =>
@@ -785,6 +785,10 @@ namespace DogHub.Data.Migrations
                         .HasForeignKey("DogId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Competition");
+
+                    b.Navigation("Dog");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Dog", b =>
@@ -812,6 +816,14 @@ namespace DogHub.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Breed");
+
+                    b.Navigation("DogColor");
+
+                    b.Navigation("EyesColor");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Dogs.DogImage", b =>
@@ -821,6 +833,8 @@ namespace DogHub.Data.Migrations
                         .HasForeignKey("DogId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Dog");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.EvaluationForms.EvaluationForm", b =>
@@ -840,6 +854,12 @@ namespace DogHub.Data.Migrations
                     b.HasOne("DogHub.Data.Models.ApplicationUser", "User")
                         .WithMany("EvalutionForms")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Competitions");
+
+                    b.Navigation("Dog");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -891,6 +911,57 @@ namespace DogHub.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.ApplicationUser", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Dogs");
+
+                    b.Navigation("EvalutionForms");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("Roles");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Competitions.Competition", b =>
+                {
+                    b.Navigation("DogsCompetitions");
+
+                    b.Navigation("EvaluationForms");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Competitions.Organiser", b =>
+                {
+                    b.Navigation("OrganiserCompetitions");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Dog", b =>
+                {
+                    b.Navigation("DogImages");
+
+                    b.Navigation("DogsCompetiotions");
+
+                    b.Navigation("EvaluationForms");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Dogs.Breed", b =>
+                {
+                    b.Navigation("BreedCompetitions");
+
+                    b.Navigation("BreedDogs");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Dogs.DogColor", b =>
+                {
+                    b.Navigation("ColorDogs");
+                });
+
+            modelBuilder.Entity("DogHub.Data.Models.Dogs.EyesColor", b =>
+                {
+                    b.Navigation("EyesDogs");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,12 +23,6 @@
         [MaxLength(GlobalConstants.DogNameMaxValue)]
         public string Name { get; set; }
 
-        //[Required]
-        //[ForeignKey(nameof(DogImage))]
-        //public int? DogImageId { get; set; }
-
-        //public virtual DogImage DogImage { get; set; }
-
         // can do it with attach video option at later stage
         //[Required]
         public string DogVideoUrl { get; set; }

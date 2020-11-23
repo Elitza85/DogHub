@@ -62,7 +62,7 @@
 
         [Required]
         [Display(Name = "Dog Images ")]
-        public IEnumerable<IFormFile> Images { get; set; }
+        public IEnumerable<IFormFile> DogImages { get; set; }
 
         // [Required]
 

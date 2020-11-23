@@ -126,7 +126,7 @@ namespace DogHub.Services.Data
             dog.EyesColor = eyesColor;
 
             Directory.CreateDirectory($"{imagePath}/dogs/");
-            foreach (var image in input.Images)
+            foreach (var image in input.DogImages)
             {
                 var extension = Path.GetExtension(image.FileName).TrimStart('.');
                 if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
@@ -144,9 +144,9 @@ namespace DogHub.Services.Data
                 using Stream fileStream = new FileStream(filePath, FileMode.Create);
                 await image.CopyToAsync(fileStream);
             }
-
             await this.dogsRepository.AddAsync(dog);
             await this.dogsRepository.SaveChangesAsync();
+
         }
 
         public int GetCount()

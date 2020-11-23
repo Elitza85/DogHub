@@ -44,4 +44,8 @@
     <ProjectReference Include="..\DogHub.Data.Models\DogHub.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>
