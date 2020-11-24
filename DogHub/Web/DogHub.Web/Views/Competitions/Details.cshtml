@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    @*<script type="text/javascript" src="~/js/Competitions/CompetitionDetailsScripts.js"></script>*@
+    <script type="text/javascript" src="~/js/Competitions/CompetitionDetailsScripts.js"></script>
     <link rel="stylesheet" href="~/css/Competitions/CompetitionDetailsStyles.css" />
 </head>
 <body>
@@ -75,12 +75,6 @@
                     <p>
                         <span> 3rd place: </span>
                     </p>
-                    <p>
-                        <span> 4th place: </span>
-                    </p>
-                    <p>
-                        <span> 5th place: </span>
-                    </p>
                 </td>
                 <td id="females">
                     @*Put here the foreach for females*@
@@ -138,22 +132,3 @@
 </body>
 </html>
 
-<script>
-    function displayFunc() {
-        var dataToDisplay = document.querySelector('#winnersDetails');
-        var openDatabtn = document.querySelector('#detailsBtn');
-        var closeDataBtn = document.querySelector('#closeData');
-
-        openDatabtn.style.display = "block";
-
-        if (openDatabtn.style.display === "block") {
-            openDatabtn.style.display = 'none';
-            dataToDisplay.style.display = 'block';
-        }
-
-        closeDataBtn.addEventListener("click", () => {
-            openDatabtn.style.display = 'block';
-            dataToDisplay.style.display = 'none';
-        })
-    }
-</script>
