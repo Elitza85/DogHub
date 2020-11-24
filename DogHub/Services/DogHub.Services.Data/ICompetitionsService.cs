@@ -7,7 +7,7 @@
 
     public interface ICompetitionsService
     {
-        Task Create(CreateCompetitionInputModel input);
+        Task Create(CreateCompetitionInputModel input, string imagePath);
 
         CurrentCompetitionViewModel GetCurrentCompetition();
 

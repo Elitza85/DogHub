@@ -1,11 +1,13 @@
 ﻿namespace FirstViewsTests.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Competitions;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -14,15 +16,18 @@
         private readonly IBreedsListService breedsService;
         private readonly ICompetitionsService competitionsService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public CompetitionsController(
             IBreedsListService breedsService,
             ICompetitionsService competitionsService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.breedsService = breedsService;
             this.competitionsService = competitionsService;
             this.userManager = userManager;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Create()
@@ -41,7 +46,18 @@
                 return this.View(input);
             }
 
-            await this.competitionsService.Create(input);
+            var imagePath = $"{this.webHostEnvironment.WebRootPath}/images";
+
+            try
+            {
+                await this.competitionsService.Create(input, imagePath);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                input.BreedsList = this.breedsService.GetAllAsKVP();
+                return this.View(input);
+            }
 
             return this.Redirect("/Competitions/CompetitionsList");
         }

@@ -331,6 +331,39 @@ namespace DogHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Competitions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CompetitionStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompetitionEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OrganiserId = table.Column<int>(type: "int", maxLength: 80, nullable: false),
+                    BreedId = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Competitions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Competitions_Breeds_BreedId",
+                        column: x => x.BreedId,
+                        principalTable: "Breeds",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Competitions_Organisers_OrganiserId",
+                        column: x => x.OrganiserId,
+                        principalTable: "Organisers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DogImages",
                 columns: table => new
                 {
@@ -346,6 +379,53 @@ namespace DogHub.Data.Migrations
                     table.PrimaryKey("PK_DogImages", x => x.Id);
                     table.ForeignKey(
                         name: "FK_DogImages_Dogs_DogId",
+                        column: x => x.DogId,
+                        principalTable: "Dogs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CompetitionImages",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CompetitionId = table.Column<int>(type: "int", nullable: false),
+                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompetitionImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CompetitionImages_Competitions_CompetitionId",
+                        column: x => x.CompetitionId,
+                        principalTable: "Competitions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DogsCompetitions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DogId = table.Column<int>(type: "int", nullable: false),
+                    CompetitionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DogsCompetitions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DogsCompetitions_Competitions_CompetitionId",
+                        column: x => x.CompetitionId,
+                        principalTable: "Competitions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_DogsCompetitions_Dogs_DogId",
                         column: x => x.DogId,
                         principalTable: "Dogs",
                         principalColumn: "Id",
@@ -384,91 +464,13 @@ namespace DogHub.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
+                        name: "FK_EvaluationForms_Competitions_CompetitionId",
+                        column: x => x.CompetitionId,
+                        principalTable: "Competitions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_EvaluationForms_Dogs_DogId",
-                        column: x => x.DogId,
-                        principalTable: "Dogs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Competitions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CompetitionImageId = table.Column<int>(type: "int", nullable: true),
-                    CompetitionStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CompetitionEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OrganiserId = table.Column<int>(type: "int", maxLength: 80, nullable: false),
-                    BreedId = table.Column<int>(type: "int", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Competitions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Competitions_Breeds_BreedId",
-                        column: x => x.BreedId,
-                        principalTable: "Breeds",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Competitions_Organisers_OrganiserId",
-                        column: x => x.OrganiserId,
-                        principalTable: "Organisers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CompetitionImages",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CompetitionId = table.Column<int>(type: "int", nullable: false),
-                    Extension = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CompetitionImages", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CompetitionImages_Competitions_CompetitionId",
-                        column: x => x.CompetitionId,
-                        principalTable: "Competitions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DogsCompetitions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DogId = table.Column<int>(type: "int", nullable: false),
-                    CompetitionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DogsCompetitions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DogsCompetitions_Competitions_CompetitionId",
-                        column: x => x.CompetitionId,
-                        principalTable: "Competitions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DogsCompetitions_Dogs_DogId",
                         column: x => x.DogId,
                         principalTable: "Dogs",
                         principalColumn: "Id",
@@ -532,22 +534,13 @@ namespace DogHub.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_CompetitionImages_CompetitionId",
                 table: "CompetitionImages",
-                column: "CompetitionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompetitionImages_IsDeleted",
-                table: "CompetitionImages",
-                column: "IsDeleted");
+                column: "CompetitionId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Competitions_BreedId",
                 table: "Competitions",
                 column: "BreedId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Competitions_CompetitionImageId",
-                table: "Competitions",
-                column: "CompetitionImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Competitions_IsDeleted",
@@ -648,30 +641,10 @@ namespace DogHub.Data.Migrations
                 name: "IX_Settings_IsDeleted",
                 table: "Settings",
                 column: "IsDeleted");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_EvaluationForms_Competitions_CompetitionId",
-                table: "EvaluationForms",
-                column: "CompetitionId",
-                principalTable: "Competitions",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Competitions_CompetitionImages_CompetitionImageId",
-                table: "Competitions",
-                column: "CompetitionImageId",
-                principalTable: "CompetitionImages",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_CompetitionImages_Competitions_CompetitionId",
-                table: "CompetitionImages");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -686,6 +659,9 @@ namespace DogHub.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CompetitionImages");
 
             migrationBuilder.DropTable(
                 name: "DogImages");
@@ -706,28 +682,25 @@ namespace DogHub.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Competitions");
+
+            migrationBuilder.DropTable(
                 name: "Dogs");
 
             migrationBuilder.DropTable(
+                name: "Organisers");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Breeds");
 
             migrationBuilder.DropTable(
                 name: "DogColors");
 
             migrationBuilder.DropTable(
                 name: "EyesColors");
-
-            migrationBuilder.DropTable(
-                name: "Competitions");
-
-            migrationBuilder.DropTable(
-                name: "Breeds");
-
-            migrationBuilder.DropTable(
-                name: "CompetitionImages");
-
-            migrationBuilder.DropTable(
-                name: "Organisers");
         }
     }
 }

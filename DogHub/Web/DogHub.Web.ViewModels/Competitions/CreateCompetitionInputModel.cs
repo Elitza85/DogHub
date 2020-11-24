@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using DogHub.Common;
+    using Microsoft.AspNetCore.Http;
 
     public class CreateCompetitionInputModel
     {
@@ -13,9 +14,10 @@
         [MaxLength(GlobalConstants.CompetitionNameMaxLength)]
         public string Name { get; set; }
 
-        // public int CompetitionImageId { get; set; }
+        [Required]
+        [Display(Name = "Competition Image ")]
+        public IFormFile CompetitionImage { get; set; }
 
-        // public virtual CompetitionImage CompetitionImage { get; set; }
         [Display(Name = "Competition Start Date and Time")]
         public DateTime CompetitionStart { get; set; }
 

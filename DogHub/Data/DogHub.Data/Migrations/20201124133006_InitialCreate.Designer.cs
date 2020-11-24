@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DogHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201123162649_InitialCreate")]
+    [Migration("20201124133006_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -210,9 +210,6 @@ namespace DogHub.Data.Migrations
                     b.Property<DateTime>("CompetitionEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CompetitionImageId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CompetitionStart")
                         .HasColumnType("datetime2");
 
@@ -241,8 +238,6 @@ namespace DogHub.Data.Migrations
 
                     b.HasIndex("BreedId");
 
-                    b.HasIndex("CompetitionImageId");
-
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("OrganiserId");
@@ -252,10 +247,8 @@ namespace DogHub.Data.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.CompetitionImage", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CompetitionId")
                         .HasColumnType("int");
@@ -263,23 +256,16 @@ namespace DogHub.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Extension")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CompetitionId");
-
-                    b.HasIndex("IsDeleted");
+                    b.HasIndex("CompetitionId")
+                        .IsUnique();
 
                     b.ToTable("CompetitionImages");
                 });
@@ -746,10 +732,6 @@ namespace DogHub.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DogHub.Data.Models.Competitions.CompetitionImage", "CompetitionImage")
-                        .WithMany()
-                        .HasForeignKey("CompetitionImageId");
-
                     b.HasOne("DogHub.Data.Models.Competitions.Organiser", "Organiser")
                         .WithMany("OrganiserCompetitions")
                         .HasForeignKey("OrganiserId")
@@ -758,16 +740,14 @@ namespace DogHub.Data.Migrations
 
                     b.Navigation("Breed");
 
-                    b.Navigation("CompetitionImage");
-
                     b.Navigation("Organiser");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.CompetitionImage", b =>
                 {
                     b.HasOne("DogHub.Data.Models.Competitions.Competition", "Competition")
-                        .WithMany()
-                        .HasForeignKey("CompetitionId")
+                        .WithOne("CompetitionImage")
+                        .HasForeignKey("DogHub.Data.Models.Competitions.CompetitionImage", "CompetitionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -930,6 +910,8 @@ namespace DogHub.Data.Migrations
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.Competition", b =>
                 {
+                    b.Navigation("CompetitionImage");
+
                     b.Navigation("DogsCompetitions");
 
                     b.Navigation("EvaluationForms");

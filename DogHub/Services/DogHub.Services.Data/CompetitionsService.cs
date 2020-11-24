@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -13,7 +14,9 @@
 
     public class CompetitionsService : ICompetitionsService
     {
-        private readonly DogHub.Data.Common.Repositories.IDeletableEntityRepository<Competition> competitionsRepository;
+        private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
+
+        private readonly IDeletableEntityRepository<Competition> competitionsRepository;
         private readonly IDeletableEntityRepository<Organiser> organisersRepository;
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IRepository<DogCompetition> dogsCompetitionsRepository;
@@ -58,10 +61,12 @@
                     : y.CompetitionEnd < DateTime.UtcNow ? "Complete"
                     : "Upcoming",
                     ParticipantsCount = y.DogsCompetitions.Count(),
+                    CompetitionImage =
+                    "/images/competitions/" + y.CompetitionImage.Id + "." + y.CompetitionImage.Extension,
                 }).FirstOrDefault();
         }
 
-        public async Task Create(CreateCompetitionInputModel input)
+        public async Task Create(CreateCompetitionInputModel input, string imagePath)
         {
             var competition = new Competition
             {
@@ -82,6 +87,24 @@
             }
 
             competition.Organiser = organiser;
+
+            Directory.CreateDirectory($"{imagePath}/competitions/");
+            var image = input.CompetitionImage;
+            var extension = Path.GetExtension(image.FileName).TrimStart('.');
+            if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
+            {
+                throw new Exception($"Invalid image extenstion {extension}");
+            }
+
+            var newImage = new CompetitionImage
+            {
+                Extension = extension,
+            };
+            competition.CompetitionImage = newImage;
+
+            var filePath = $"{imagePath}/competitions/{newImage.Id}.{extension}";
+            using Stream fileStream = new FileStream(filePath, FileMode.Create);
+            await image.CopyToAsync(fileStream);
 
             await this.competitionsRepository.AddAsync(competition);
             await this.competitionsRepository.SaveChangesAsync();

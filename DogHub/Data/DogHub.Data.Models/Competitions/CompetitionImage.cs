@@ -1,11 +1,17 @@
 ﻿namespace DogHub.Data.Models.Competitions
 {
+    using System;
     using System.ComponentModel.DataAnnotations.Schema;
 
     using DogHub.Data.Common.Models;
 
-    public class CompetitionImage : BaseDeletableModel<int>
+    public class CompetitionImage : BaseModel<string>
     {
+        public CompetitionImage()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         [ForeignKey(nameof(Competition))]
         public int CompetitionId { get; set; }
 

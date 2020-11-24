@@ -16,16 +16,11 @@
         {
             this.DogsCompetitions = new HashSet<DogCompetition>();
             this.EvaluationForms = new HashSet<EvaluationForm>();
-
-            // this.CompetitionImages = new HashSet<CompetitionImage>();
         }
 
         [Required]
         [MaxLength(GlobalConstants.CompetitionNameMaxLength)]
         public string Name { get; set; }
-
-        [ForeignKey(nameof(CompetitionImage))]
-        public int? CompetitionImageId { get; set; }
 
         public virtual CompetitionImage CompetitionImage { get; set; }
 
@@ -42,7 +37,6 @@
 
         public virtual Breed Breed { get; set; }
 
-        // public virtual ICollection<CompetitionImage> CompetitionImages { get; set; }
         public virtual ICollection<DogCompetition> DogsCompetitions { get; set; }
 
         public virtual ICollection<EvaluationForm> EvaluationForms { get; set; }

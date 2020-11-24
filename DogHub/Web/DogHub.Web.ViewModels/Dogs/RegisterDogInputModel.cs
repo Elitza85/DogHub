@@ -28,11 +28,6 @@
         [Required(ErrorMessage = ErrorMessages.DogGenderRequiredMsg)]
         public DogGenderEnum? Gender { get; set; }
 
-        //[Display(Name = "Dog Color ")]
-        //public int DogColorId { get; set; }
-
-        //public virtual DogColor DogColor { get; set; }
-
         [Required(ErrorMessage =ErrorMessages.DogColorRequiredMsg)]
         public string DogColor { get; set; }
 

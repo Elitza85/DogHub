@@ -15,6 +15,7 @@ namespace DogHub.Services.Data
     public class DogsService : IDogsService
     {
         private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
+
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
@@ -144,6 +145,7 @@ namespace DogHub.Services.Data
                 using Stream fileStream = new FileStream(filePath, FileMode.Create);
                 await image.CopyToAsync(fileStream);
             }
+
             await this.dogsRepository.AddAsync(dog);
             await this.dogsRepository.SaveChangesAsync();
 

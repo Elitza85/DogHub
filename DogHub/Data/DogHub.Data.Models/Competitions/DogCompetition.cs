@@ -1,4 +1,7 @@
-﻿namespace DogHub.Data.Models.Competitions
+﻿using DogHub.Data.Common.Models;
+using System;
+
+namespace DogHub.Data.Models.Competitions
 {
     public class DogCompetition
     {
