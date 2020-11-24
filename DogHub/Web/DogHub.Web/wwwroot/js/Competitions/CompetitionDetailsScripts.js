@@ -1,6 +1,6 @@
 ﻿function displayFunc() {
     var dataToDisplay = document.querySelector('#winnersDetails');
-    var openDatabtn = document.querySelector('.btn');
+    var openDatabtn = document.querySelector('#detailsBtn');
     var closeDataBtn = document.querySelector('#closeData');
 
     openDatabtn.style.display = "block";

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="~/js/Competitions/CompetitionDetailsScripts.js"></script>
+    @*<script type="text/javascript" src="~/js/Competitions/CompetitionDetailsScripts.js"></script>*@
     <link rel="stylesheet" href="~/css/Competitions/CompetitionDetailsStyles.css" />
 </head>
 <body>
@@ -32,14 +32,12 @@
                         <li>Status: @Model.Status</li>
                     </p>
                 </td>
-                @*Owner of participant CAN`T vote*@
                 @if (Model.Status == "In Progress")
                 {
                     <td>
                         <a class="btn btn-info" href="/CurrentShows/Competitors?competitionId=@Model.CompetitionId">Vote</a>
                     </td>
                 }
-                @*Judge CAN`T add dogs to competition*@
                 else if (Model.Status == "Upcoming")
                 {
                     <td>
@@ -139,3 +137,23 @@
 
 </body>
 </html>
+
+<script>
+    function displayFunc() {
+        var dataToDisplay = document.querySelector('#winnersDetails');
+        var openDatabtn = document.querySelector('#detailsBtn');
+        var closeDataBtn = document.querySelector('#closeData');
+
+        openDatabtn.style.display = "block";
+
+        if (openDatabtn.style.display === "block") {
+            openDatabtn.style.display = 'none';
+            dataToDisplay.style.display = 'block';
+        }
+
+        closeDataBtn.addEventListener("click", () => {
+            openDatabtn.style.display = 'block';
+            dataToDisplay.style.display = 'none';
+        })
+    }
+</script>
