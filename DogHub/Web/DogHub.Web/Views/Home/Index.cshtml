@@ -3,7 +3,46 @@
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    
+</head>
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+
+    <!-- Countdown -->
+    <section id="elements-countdown" class="pt100 pb100 bg-grey">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12 text-center">
+                    <h1><strong>Countdown</strong></h1>
+                    <p class="lead">A simple JavaScript for producing an accurate count down to a specific<br>date or time. Control it by editing a single data attribute</p>
+                </div>
+
+                <div class="col-sm-12 text-center">
+                    <div data-date="December 29, 2022 12:00:00" id="countdown-timer">
+                        <div><h2 id="months"></h2><h6>Months</h6></div>
+                        <div><h2 id="days"></h2><h6>Days</h6></div>
+                        <div><h2 id="hours"></h2><h6>Hours</h6></div>
+                        <div><h2 id="minutes"></h2><h6>Minutes</h6></div>
+                        <div><h2 id="seconds"></h2><h6>Seconds</h6></div>
+                    </div>
+                    <a href="/CurrentShows/Competitors" target="_blank" class="btn btn-lg btn-primary btn-circle btn-appear mt40"><span>Vote Now <i class="fas fa-angle-double-right"></i></span></a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- End Countdown -->
+    @*<script src="js/Theme/jquery.js"></script>
+        <script src="js/Theme/init.js"></script>
+        <script src="js/Theme/scripts.js"></script>*@
+    
+</body>
+</html>
+

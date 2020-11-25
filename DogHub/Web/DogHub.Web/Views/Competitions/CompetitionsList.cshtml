@@ -1,5 +1,9 @@
 ﻿@model DogHub.Web.ViewModels.Competitions.AllEventsViewModel
 
+@{
+    this.ViewData["Title"] = "Full List of Competitions";
+}
+
 <!DOCTYPE>
 <html>
 <head>
@@ -35,7 +39,7 @@
                         @Model.CurrentEvent.Breed
                     </td>
                     <td>
-                        <a class="btn btn-info" href="/Competitions/Details?id=@Model.CurrentEvent.CompetitionId">Details</a>
+                        <a class="btn btn-dark" href="/Competitions/Details?id=@Model.CurrentEvent.CompetitionId">Details</a>
                     </td>
                 </tr>
             </tbody>
@@ -74,7 +78,7 @@
                             @item.Breed
                         </td>
                         <td>
-                            <a class="btn btn-info" href="/Competitions/Details?id=@item.CompetitionId">Details</a>
+                            <a class="btn btn-dark" href="/Competitions/Details?id=@item.CompetitionId">Details</a>
                         </td>
                     </tr>
                 </tbody>
@@ -113,7 +117,7 @@
                             @item.Breed
                         </td>
                         <td>
-                            <a class="btn btn-info" href="/Competitions/Details?id=@item.CompetitionId">Details</a>
+                            <a class="btn btn-dark" href="/Competitions/Details?id=@item.CompetitionId">Details</a>
                         </td>
                     </tr>
                 </tbody>

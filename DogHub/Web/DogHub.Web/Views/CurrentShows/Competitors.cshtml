@@ -1,93 +1,97 @@
 ﻿@model DogHub.Web.ViewModels.CurrentShows.CompetitorsListViewModel
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <link rel="stylesheet" href="~/css/CurrentShows/CompetitorsStyles.css" />
-    </head>
-    <body>
-        <div class="text-center" style="padding: 20px;">
-            <h2><i id="blink" class="fas fa-star"></i>Welcome to the @Model.CompetitionName<i id="blink" class="fas fa-star"></i></h2>
-            <h4>This Show Competition Breed is @Model.CompetitionBreed</h4>
-            <h4>Review the Full List of Participants and Vote for Your Favourite</h4>
-        </div>
+@{
+    this.ViewData["Title"] = "Competition Competitors";
+}
 
-        <table class="table-bordered table-hover col-md-12">
-            <thead style="background-color:gray">
-                <tr>
-                    <th class="text-center">Dog Image</th>
-                    <th class="text-center">Dog Name</th>
-                    <th class="text-center">Current Total Points</th>
-                    <th class="text-center"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var dog in Model.CompetitorDogs)
-                {
-                    <tr class="content">
-                        <td class="text-center">
-                            <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                        </td>
-                        <td class="text-center">@dog.DogName</td>
-                        <td class="text-center">@dog.CurrentTotalPoints</td>
-                        <td class="text-center">
-                            <a class="btn btn-info" href="/CommonForms/Vote?dogId=@dog.DogId&competitionId=@Model.CompetitionId">Vote</a>
-                        </td>
-                    </tr>
-                }
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/CurrentShows/CompetitorsStyles.css" />
+</head>
+<body>
+    <div class="text-center" style="padding: 20px;">
+        <h2><i id="blink" class="fas fa-star"></i>Welcome to the @Model.CompetitionName<i id="blink" class="fas fa-star"></i></h2>
+        <h4>This Show Competition Breed is @Model.CompetitionBreed</h4>
+        <h4>Review the Full List of Participants and Vote for Your Favourite</h4>
+    </div>
 
+    <table class="table-bordered table-hover col-md-12">
+        <thead style="background-color:gray">
+            <tr>
+                <th class="text-center">Dog Image</th>
+                <th class="text-center">Dog Name</th>
+                <th class="text-center">Current Total Points</th>
+                <th class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dog in Model.CompetitorDogs)
+            {
                 <tr class="content">
                     <td class="text-center">
-                        <img src="https://tse4.mm.bing.net/th?id=OIP.49CH_m8xcY3b6stGkMkG2AHaEO&pid=Api&P=0&w=349&h=200" />
+                        <img src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
                     </td>
-                    <td class="text-center">Riki</td>
-                    <td class="text-center">123</td>
+                    <td class="text-center">@dog.DogName</td>
+                    <td class="text-center">@dog.CurrentTotalPoints</td>
                     <td class="text-center">
-                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                        <a class="btn btn-info" href="/CommonForms/Vote?dogId=@dog.DogId&competitionId=@Model.CompetitionId">Vote</a>
                     </td>
                 </tr>
-                <tr class="content">
-                    <td class="text-center">
-                        <img src="https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/dogs_1280p_0.jpg?itok=cnRk0HYq" />
-                    </td>
-                    <td class="text-center">Riki</td>
-                    <td class="text-center">123</td>
-                    <td class="text-center">
-                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                    </td>
-                </tr>
-                <tr class="content">
-                    <td class="text-center">
-                        <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                    </td>
-                    <td class="text-center">Riki</td>
-                    <td class="text-center">123</td>
-                    <td class="text-center">
-                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                    </td>
-                </tr>
-                <tr class="content">
-                    <td class="text-center">
-                        <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                    </td>
-                    <td class="text-center">Riki</td>
-                    <td class="text-center">123</td>
-                    <td class="text-center">
-                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                    </td>
-                </tr>
-                <tr class="content">
-                    <td class="text-center">
-                        <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                    </td>
-                    <td class="text-center">Riki</td>
-                    <td class="text-center">123</td>
-                    <td class="text-center">
-                        <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        </div>
-    </body>
+            }
+
+            <tr class="content">
+                <td class="text-center">
+                    <img src="https://tse4.mm.bing.net/th?id=OIP.49CH_m8xcY3b6stGkMkG2AHaEO&pid=Api&P=0&w=349&h=200" />
+                </td>
+                <td class="text-center">Riki</td>
+                <td class="text-center">123</td>
+                <td class="text-center">
+                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                </td>
+            </tr>
+            <tr class="content">
+                <td class="text-center">
+                    <img src="https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/dogs_1280p_0.jpg?itok=cnRk0HYq" />
+                </td>
+                <td class="text-center">Riki</td>
+                <td class="text-center">123</td>
+                <td class="text-center">
+                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                </td>
+            </tr>
+            <tr class="content">
+                <td class="text-center">
+                    <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                </td>
+                <td class="text-center">Riki</td>
+                <td class="text-center">123</td>
+                <td class="text-center">
+                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                </td>
+            </tr>
+            <tr class="content">
+                <td class="text-center">
+                    <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                </td>
+                <td class="text-center">Riki</td>
+                <td class="text-center">123</td>
+                <td class="text-center">
+                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                </td>
+            </tr>
+            <tr class="content">
+                <td class="text-center">
+                    <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                </td>
+                <td class="text-center">Riki</td>
+                <td class="text-center">123</td>
+                <td class="text-center">
+                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
 </html>

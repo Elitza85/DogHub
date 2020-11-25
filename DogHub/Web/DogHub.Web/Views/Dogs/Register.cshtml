@@ -1,6 +1,9 @@
 ﻿@model DogHub.Web.ViewModels.Dogs.RegisterDogInputModel
+@{
+    this.ViewData["Title"] = "Register Your Dog";
+}
 
-@{ 
+@{
     var breedItems = this.Model.BreedsItems.Select(x => new SelectListItem(x.Value, x.Key));
 }
 
@@ -101,15 +104,15 @@
     </div>
 
     <div class="form-group">
-            <label asp-for="DogImages" class="font-weight-bold required"></label>
-            <span class="font-weight-normal">(approved file formats: .png, .jpg and .jpeg): </span>
-            <p>
-                <input asp-for="DogImages" class="form-control" />
-                <span asp-validation-for="DogImages" class="text-danger"></span>
-            </p>
-        </div>
+        <label asp-for="DogImages" class="font-weight-bold required"></label>
+        <span class="font-weight-normal">(approved file formats: .png, .jpg and .jpeg): </span>
+        <p>
+            <input asp-for="DogImages" class="form-control" />
+            <span asp-validation-for="DogImages" class="text-danger"></span>
+        </p>
+    </div>
 
-        @*<div class="form-group">
+    @*<div class="form-group">
             <label asp-for="Video" class="font-weight-bold required"></label>
             <p>
                 <input asp-for="Video" class="form-control" />
@@ -117,7 +120,7 @@
             </p>
         </div>*@
     <div class="form-group">
-        <input type="submit" class="btn btn-success" value="Register" />
+        <input type="submit" class="btn btn-light" value="Register" />
     </div>
 </form>
 

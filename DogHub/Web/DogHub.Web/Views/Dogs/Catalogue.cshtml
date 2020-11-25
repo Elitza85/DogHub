@@ -1,5 +1,9 @@
 ﻿@model DogHub.Web.ViewModels.Dogs.DogsCatalogueViewModel
 
+@{
+    this.ViewData["Title"] = "Dogs Catalogue";
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,10 +83,10 @@
                     </span>
 
                     <span style="float: right; padding-right:10px;">
-                        <a style="height:30px; width:60px;" class="btn btn-info" href="/Dogs/DogProfile?id=@item.Id"><small>Profile</small></a>
+                        <a class="btn btn-light" href="/Dogs/DogProfile?id=@item.Id"><small>Profile</small></a>
                         @if (item.Sellable == true)
                         {
-                            <a style="height:30px; width:60px;" class="btn btn-warning" href="/Dogs/Buy?id=dogid"><small>Buy</small></a>
+                            <a class="btn btn-light" href="/Dogs/Buy?id=dogid"><small>Buy</small></a>
                         }
                     </span>
                 </div>
@@ -90,7 +94,6 @@
         </div>
     </div>
 
-    <hr />
     <partial name="_PagingPartial" model="@Model" />
 </body>
 </html>
