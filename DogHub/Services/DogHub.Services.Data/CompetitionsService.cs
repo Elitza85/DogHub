@@ -56,9 +56,9 @@
                     Name = y.Name,
                     StartDate = y.CompetitionStart,
                     EndDate = y.CompetitionEnd,
-                    Status = y.CompetitionStart < DateTime.UtcNow
-                    && DateTime.UtcNow < y.CompetitionEnd ? "In Progress"
-                    : y.CompetitionEnd < DateTime.UtcNow ? "Complete"
+                    Status = y.CompetitionStart < DateTime.Now
+                    && DateTime.Now < y.CompetitionEnd ? "In Progress"
+                    : y.CompetitionEnd < DateTime.Now ? "Complete"
                     : "Upcoming",
                     ParticipantsCount = y.DogsCompetitions.Count(),
                     CompetitionImage =
@@ -113,8 +113,8 @@
         public CurrentCompetitionViewModel GetCurrentCompetition()
         {
             var competition = this.competitionsRepository.All()
-                .Where(x => x.CompetitionStart < DateTime.UtcNow
-                && DateTime.UtcNow < x.CompetitionEnd)
+                .Where(x => x.CompetitionStart < DateTime.Now
+                && DateTime.Now < x.CompetitionEnd)
                 .Select(y => new CurrentCompetitionViewModel
                 {
                     Name = y.Name,
@@ -134,7 +134,8 @@
         public IEnumerable<PastCompetitionsViewModel> GetPastCompetitions()
         {
             return this.competitionsRepository.All()
-                .Where(x => x.CompetitionEnd < DateTime.UtcNow)
+                .Where(x => x.CompetitionEnd < DateTime.Now)
+                .OrderByDescending(d => d.CompetitionStart)
                 .Select(y => new PastCompetitionsViewModel
                 {
                     Name = y.Name,
@@ -147,7 +148,8 @@
         public IEnumerable<UpcomingCompetitionsViewModel> GetUpcomingCompetitions()
         {
             return this.competitionsRepository.All()
-                .Where(x => DateTime.UtcNow < x.CompetitionStart)
+                .Where(x => DateTime.Now < x.CompetitionStart)
+                .OrderBy(d => d.CompetitionStart)
                 .Select(y => new UpcomingCompetitionsViewModel
                 {
                     Name = y.Name,

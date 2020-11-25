@@ -16,7 +16,7 @@
         public IActionResult Competitors(int competitionId)
         {
             var viewModel = this.currentShowsService.FullDataOfCurrentShow(competitionId);
-            if (viewModel.StartDate < DateTime.UtcNow && DateTime.UtcNow < viewModel.EndDate)
+            if (viewModel.StartDate < DateTime.Now && DateTime.Now < viewModel.EndDate)
             {
                 return this.View(viewModel);
             }

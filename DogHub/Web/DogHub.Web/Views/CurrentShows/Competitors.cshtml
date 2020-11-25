@@ -26,6 +26,10 @@
             </tr>
         </thead>
         <tbody>
+            @if(Model.CompetitorDogs.Count() == 0)
+            {
+                <h2>There are no competitors for this show.</h2>
+            }
             @foreach (var dog in Model.CompetitorDogs)
             {
                 <tr class="content">
@@ -39,57 +43,6 @@
                     </td>
                 </tr>
             }
-
-            <tr class="content">
-                <td class="text-center">
-                    <img src="https://tse4.mm.bing.net/th?id=OIP.49CH_m8xcY3b6stGkMkG2AHaEO&pid=Api&P=0&w=349&h=200" />
-                </td>
-                <td class="text-center">Riki</td>
-                <td class="text-center">123</td>
-                <td class="text-center">
-                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                </td>
-            </tr>
-            <tr class="content">
-                <td class="text-center">
-                    <img src="https://www.sciencemag.org/sites/default/files/styles/article_main_large/public/dogs_1280p_0.jpg?itok=cnRk0HYq" />
-                </td>
-                <td class="text-center">Riki</td>
-                <td class="text-center">123</td>
-                <td class="text-center">
-                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                </td>
-            </tr>
-            <tr class="content">
-                <td class="text-center">
-                    <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                </td>
-                <td class="text-center">Riki</td>
-                <td class="text-center">123</td>
-                <td class="text-center">
-                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                </td>
-            </tr>
-            <tr class="content">
-                <td class="text-center">
-                    <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                </td>
-                <td class="text-center">Riki</td>
-                <td class="text-center">123</td>
-                <td class="text-center">
-                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                </td>
-            </tr>
-            <tr class="content">
-                <td class="text-center">
-                    <img width="100" class="j img-thumbnail embed-responsive-4by3" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
-                </td>
-                <td class="text-center">Riki</td>
-                <td class="text-center">123</td>
-                <td class="text-center">
-                    <a class="btn btn-info" href="/CurrentShows/Vote?id=dogId">Vote</a>
-                </td>
-            </tr>
         </tbody>
     </table>
     </div>

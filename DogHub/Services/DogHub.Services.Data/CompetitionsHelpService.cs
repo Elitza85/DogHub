@@ -59,7 +59,7 @@
                         IsSpayedOrNeutered = p.IsSpayedOrNeutered,
                         Gender = p.Gender.ToString(),
                         CompetitionsParticipatedIn = p.DogsCompetiotions
-                        .Where(x => x.Competition.CompetitionEnd < DateTime.UtcNow).Count(),
+                        .Where(x => x.Competition.CompetitionEnd < DateTime.Now).Count(),
                     }).ToList();
             return result;
         }

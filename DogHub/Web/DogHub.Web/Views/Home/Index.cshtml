@@ -1,4 +1,6 @@
-﻿@using DogHub.Common
+﻿@model DogHub.Web.ViewModels.CurrentShows.CurrentShowOnIndexPageViewModel
+
+@using DogHub.Common
 @{
     this.ViewData["Title"] = "Home Page";
 }
@@ -7,77 +9,57 @@
 <html>
 <head>
     <script type="text/javascript" src="~/js/Home/IndexScripts.js"></script>
+    <link rel="stylesheet" href="~/css/IndexStyles.css" />
 </head>
 <body>
     <div class="text-center">
         <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-        <p>The place where you and your dog will get the best experience.</p>
+        <p>The dog competitions are not what they used to be...</p>
     </div>
 
-    <!-- Countdown -->
-    <section id="elements-countdown" class="pt100 pb100 bg-grey">
-        <div class="container">
-            <div class="row">
+    @if (Model != null)
+    {
+            <!-- Countdown -->
+            <section id="elements-countdown" class="pt100 pb100 bg-grey" style="margin-bottom:20px;">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h3>Vote now in</h3>
+                            <h1><strong>@Model.CompetitionName</strong></h1>
+                            <p class="lead">This competition has started on @Model.CompetitionStart.ToString("F")</p>
+                            <p class="lead">The ramaining time to vote for your favourites in the competition is</p>
+                        </div>
 
-                <div class="col-md-12 text-center">
-                    <h1><strong>Countdown</strong></h1>
-                    <p class="lead">The ramaining time to vote for your favourites in the competition is:</p>
-                </div>
+                        <div class="col-sm-12 text-center">
+                            <div id="countdown-timer">
+                                <div><h2 id="days"></h2><h6>Days</h6></div>
+                                <div><h2 id="hours"></h2><h6>Hours</h6></div>
+                                <div><h2 id="minutes"></h2><h6>Minutes</h6></div>
+                                <div><h2 id="seconds"></h2><h6>Seconds</h6></div>
+                            </div>
+                            @*!!!INSTEAD OF THE <P> below: <p id="endDate" hidden="hidden">@Model.Date.UtcNow.ToString("G")</p>*@
+                            <p id="endDate" hidden="hidden">@Model.CompetitionEnd.ToString("F")</p>
+                            <p id="counter"></p>
+                            <a href="/CurrentShows/Competitors?competitionId=@Model.CompetitionId" class="btn btn-lg btn-primary btn-circle btn-appear mt40"><span>Vote Now <i class="fas fa-angle-double-right"></i></span></a>
+                        </div>
 
-                <div class="col-sm-12 text-center">
-                    <div id="countdown-timer">
-                        <div><h2 id="days"></h2><h6>Days</h6></div>
-                        <div><h2 id="hours"></h2><h6>Hours</h6></div>
-                        <div><h2 id="minutes"></h2><h6>Minutes</h6></div>
-                        <div><h2 id="seconds"></h2><h6>Seconds</h6></div>
                     </div>
-                    @*!!!INSTEAD OF THE <P> below: <p id="endDate" hidden="hidden">@Model.Date.UtcNow.ToString("G")</p>*@
-                <p id="endDate" hidden="hidden">11/25/2020 16:32:32</p>
-                    <p id="counter"></p>
-                    <a href="/CurrentShows/Competitors" target="_blank" class="btn btn-lg btn-primary btn-circle btn-appear mt40"><span>Vote Now <i class="fas fa-angle-double-right"></i></span></a>
                 </div>
+            </section>
+        <!-- End Countdown -->
+    }
 
-            </div>
+    <!--Slider-->
+    <div class="container">
+        <div data-overlay-dark="5">
+            <img src="/images/common/competitionImage.jpg">
         </div>
-    </section>
-    <!-- End Countdown -->
-
-    <script>
-        //// Set the date we're counting down to
-        //var date = document.querySelector("#endDate").innerHTML;
-        //var countDownDate = new Date(date).getTime();
-
-        //// Update the count down every 1 second
-        //var x = setInterval(function () {
-
-        //    // Get today's date and time
-        //    var now = new Date().getTime();
-
-        //    // Find the distance between now and the count down date
-        //    var distance = countDownDate - now;
-
-        //    // Time calculations for days, hours, minutes and seconds
-        //    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        //    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        //    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        //    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        //    // Output the result in an element with id="demo"
-        //    //document.getElementById("counter").innerHTML = days + "d " + hours + "h "
-        //    //    + minutes + "m " + seconds + "s ";
-
-        //    document.getElementById("days").innerHTML = days;
-        //    document.getElementById("hours").innerHTML = hours;
-        //    document.getElementById("minutes").innerHTML = minutes;
-        //    document.getElementById("seconds").innerHTML = seconds;
-
-        //    // If the count down is over, write some text
-        //    if (distance < 0) {
-        //        clearInterval(x);
-        //        document.getElementById("counter").innerHTML = "EXPIRED";
-        //    }
-        //}, 1000);
-    </script>
+        <div class="text-block">
+            <h2>Get the Full Dog Experience</h2>
+        </div>
+    </div>
+    <!--End Slider-->
 </body>
 </html>
+
 

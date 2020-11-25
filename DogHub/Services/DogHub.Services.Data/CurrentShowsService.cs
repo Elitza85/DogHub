@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Services.Data
 {
+    using System;
     using System.Linq;
 
     using DogHub.Data.Common.Repositories;
@@ -35,6 +36,31 @@
                         CurrentTotalPoints = d.Dog.EvaluationForms.Where(c => c.CompetitionId == competitionId).Sum(p => p.TotalPoints),
                     }).ToList(),
                 }).FirstOrDefault();
+        }
+
+        public CurrentShowOnIndexPageViewModel GetCurrentShowData()
+        {
+            var competition = this.competitionsRepository.All()
+                .Where(x => x.CompetitionStart <= DateTime.Now
+                && DateTime.Now <= x.CompetitionEnd)
+                .FirstOrDefault();
+
+            if (competition != null)
+            {
+                var viewModel = new CurrentShowOnIndexPageViewModel
+                {
+                    CompetitionId = competition.Id,
+                    CompetitionName = competition.Name,
+                    CompetitionStart = competition.CompetitionStart,
+                    CompetitionEnd = competition.CompetitionEnd,
+                };
+
+                return viewModel;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

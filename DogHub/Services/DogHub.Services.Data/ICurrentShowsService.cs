@@ -5,5 +5,7 @@
     public interface ICurrentShowsService
     {
         CompetitorsListViewModel FullDataOfCurrentShow(int competitionId);
+
+        CurrentShowOnIndexPageViewModel GetCurrentShowData();
     }
 }

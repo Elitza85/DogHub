@@ -120,7 +120,7 @@ namespace DogHub.Services.Data
                 .Where(x => x.Id == competitionId)
                 .FirstOrDefault();
 
-            if (competition.CompetitionStart < DateTime.UtcNow && DateTime.UtcNow < competition.CompetitionEnd)
+            if (competition.CompetitionStart < DateTime.Now && DateTime.Now < competition.CompetitionEnd)
             {
                 return true;
             }
