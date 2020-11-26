@@ -1,4 +1,5 @@
-﻿using DogHub.Data.Models;
+﻿using DogHub.Common;
+using DogHub.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,14 +19,13 @@ namespace DogHub.Data.Seeding
             {
                 var user = new ApplicationUser
                 {
-                    UserName = "admin",
+                    UserName = "admin@admin.com",
                     Email = "admin@admin.com",
                     Age = 35,
                     EmailConfirmed = true,
                 };
                 await userManager.CreateAsync(user, "123456");
-
-                await userManager.AddToRoleAsync(user, "Administrator");
+                await userManager.AddToRoleAsync(user, GlobalConstants.AdministratorRoleName);
             }
         }
     }
