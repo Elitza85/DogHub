@@ -1,7 +1,8 @@
 ﻿namespace DogHub.Web
 {
+    using System.Linq;
     using System.Reflection;
-
+    using DogHub.Common;
     using DogHub.Data;
     using DogHub.Data.Common;
     using DogHub.Data.Common.Repositories;
@@ -16,6 +17,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;

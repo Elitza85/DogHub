@@ -28,6 +28,7 @@
                               new RolesSeeder(),
                               new SettingsSeeder(),
                               new BreedsSeeder(),
+                              new AdminUserSeeder(),
                           };
 
             foreach (var seeder in seeders)
