@@ -4,11 +4,10 @@
 
     public class JudgeApplicationInputModel
     {
-        //public string UserId { get; set; }
-
-        //public virtual ApplicationUser User { get; set; }
+        public string UserId { get; set; }
 
         [Display(Name = "Years of Experience ")]
+
         public int YearsOfExperience { get; set; }
 
         [Display(Name = "Number of Raised Litters ")]
@@ -30,7 +29,6 @@
         [Required]
         [Display(Name = "Add Location to Your Judge Course Certificate ")]
 
-        // It could be made as attachment option at later stage
         public string JudgeInstituteCertificateUrl { get; set; }
     }
 }

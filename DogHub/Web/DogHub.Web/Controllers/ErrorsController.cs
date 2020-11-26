@@ -23,5 +23,10 @@
         {
             return this.View();
         }
+
+        public IActionResult AlreadyAppliedForJudge()
+        {
+            return this.View();
+        }
     }
 }

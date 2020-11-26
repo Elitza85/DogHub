@@ -37,6 +37,7 @@
         {
             var appForm = new JudgeApplicationForm
             {
+                UserId = input.UserId,
                 YearsOfExperience = input.YearsOfExperience,
                 RaisedLitters = input.RaisedLitters,
                 NumberOfChampionsOwned = input.NumberOfChampionsOwned,
@@ -63,6 +64,13 @@
 
             await this.judgeFormsRepository.AddAsync(appForm);
             await this.judgeFormsRepository.SaveChangesAsync();
+        }
+
+        public bool HasAlreadyAppliedForJudge(string userId)
+        {
+            return this.judgeFormsRepository.All()
+                .Where(x => x.UserId == userId)
+                .Any();
         }
 
         public bool CheckIfUserHasVoted(string userId, int dogId, int competitionId)

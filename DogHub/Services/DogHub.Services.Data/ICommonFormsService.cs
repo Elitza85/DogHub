@@ -8,6 +8,8 @@
     {
         Task ApplyForJudge(JudgeApplicationInputModel input);
 
+        bool HasAlreadyAppliedForJudge(string userId);
+
         Task VoteForDog(VoteFormInputModel input, string userId);
 
         bool CheckIfUserHasVoted(string userId, int dogId, int competitionId);

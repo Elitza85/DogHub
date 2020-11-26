@@ -5,6 +5,7 @@ namespace DogHub.Data.Models
     using System.Collections.Generic;
 
     using DogHub.Data.Common.Models;
+    using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.EvaluationForms;
     using Microsoft.AspNetCore.Identity;
 
@@ -31,6 +32,8 @@ namespace DogHub.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public virtual JudgeApplicationForm JudgeApplicationForm { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

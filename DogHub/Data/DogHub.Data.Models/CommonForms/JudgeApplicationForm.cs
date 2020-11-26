@@ -6,7 +6,7 @@
 
     public class JudgeApplicationForm : BaseDeletableModel<int>
     {
-        // [Required]
+        [Required]
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
