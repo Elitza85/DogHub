@@ -1,17 +1,16 @@
-﻿using DogHub.Data.Common.Repositories;
-using DogHub.Data.Models;
-using DogHub.Data.Models.CommonForms;
-using DogHub.Data.Models.Competitions;
-using DogHub.Data.Models.EvaluationForms;
-using DogHub.Web.ViewModels.CommonForms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DogHub.Services.Data
+﻿namespace DogHub.Services.Data
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
+    using DogHub.Data.Models.CommonForms;
+    using DogHub.Data.Models.Competitions;
+    using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Web.ViewModels.CommonForms;
+
     public class CommonFormsService : ICommonFormsService
     {
         private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository;
@@ -100,13 +99,13 @@ namespace DogHub.Services.Data
             }
         }
 
-        public async Task VoteForDog(VoteFormInputModel input)
+        public async Task VoteForDog(VoteFormInputModel input, string userId)
         {
             var evaluationForm = new EvaluationForm
             {
                 CompetitionId = input.CompetitionId,
                 DogId = input.DogId,
-                UserId = input.UserId,
+                UserId = userId,
                 TotalPoints = input.TotalPoints,
             };
 
