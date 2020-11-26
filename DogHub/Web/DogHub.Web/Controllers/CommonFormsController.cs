@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using DogHub.Data.Models;
+    using DogHub.Data.Models.EvaluationForms;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.CommonForms;
     using Microsoft.AspNetCore.Authorization;
@@ -64,9 +65,11 @@
             if (this.commonFormsService.IsCompetitionCurrentlyInProgress(competitionId)
                 && this.competitionsHelpService.IsDogAddedToCompetition(dogId, competitionId))
             {
-                var model = new VoteFormInputModel();
-                model.CompetitionId = competitionId;
-                model.DogId = dogId;
+                var model = new VoteFormInputModel
+                {
+                    CompetitionId = competitionId,
+                    DogId = dogId,
+                };
                 return this.View(model);
             }
             else
@@ -75,20 +78,63 @@
             }
         }
 
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> Vote(VoteFormInputModel input)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.View();
-            }
+        //[HttpPost]
+        //[Authorize]
+        //public async Task<IActionResult> Vote(VoteFormInputModel input)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return this.View();
+        //    }
 
-            var userId = this.userManager.GetUserId(this.User);
-            input.UserId = userId;
+        //    var userId = this.userManager.GetUserId(this.User);
+        //    input.UserId = userId;
 
-            await this.commonFormsService.VoteForDog(input);
-            return this.Redirect("/Success/ThankYouForVoting");
-        }
+        //    await this.commonFormsService.VoteForDog(input);
+        //    return this.Redirect("/Success/ThankYouForVoting");
+        //}
+
+        //[Authorize]
+        //public IActionResult Vote(int dogId, int competitionId)
+        //{
+        //    var userId = this.userManager.GetUserId(this.User);
+
+        //    var isUserDogOwner = this.commonFormsService.CheckIfUserIsOwner(userId, dogId, competitionId);
+        //    if (!isUserDogOwner)
+        //    {
+        //        return this.Redirect("/Errors/CantVoteForOwnDog");
+        //    }
+
+        //    var hasUserVoted = this.commonFormsService.CheckIfUserHasVoted(userId, dogId, competitionId);
+        //    if (!hasUserVoted)
+        //    {
+        //        return this.Redirect("/Errors/AlreadyVoted");
+        //    }
+
+        //    if (this.commonFormsService.IsCompetitionCurrentlyInProgress(competitionId)
+        //        && this.competitionsHelpService.IsDogAddedToCompetition(dogId, competitionId))
+        //    {
+        //        return this.View();
+        //    }
+        //    else
+        //    {
+        //        return this.Redirect("/Errors/NotPossibleToVote");
+        //    }
+        //}
+
+        //[HttpPost]
+        //[Authorize]
+        //public async Task<IActionResult> Vote(int dogId, int competitionId, int totalPoints)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return this.View();
+        //    }
+
+        //    var userId = this.userManager.GetUserId(this.User);
+
+        //    await this.commonFormsService.VoteForDog(dogId, competitionId, totalPoints, userId);
+        //    return this.Redirect("/Success/ThankYouForVoting");
+        //}
     }
 }

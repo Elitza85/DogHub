@@ -186,14 +186,39 @@
                 </form>
             </div>
         </div>
-        <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" class="btn selected-rating"></span> Points.</p>
-        <form method="post" asp-controller="CommonForms" asp-action="Vote" role="form">
-            <input hidden="hidden" asp-for="DogId" value="@Model.DogId" />
-            <input hidden="hidden" asp-for="CompetitionId" value="@Model.CompetitionId" />
-            <span>Please add your points in the field and press the button: </span>
-            <input asp-for="TotalPoints" id="selected-ratingHidden" placeholder="Add your points here" />
-            <input type="submit" class="btn btn-light" value="Send Your Vote" />
-        </form>
+        <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" name="totalPoints" class="btn selected-rating"></span> Points.</p>
+        <input type="submit" id="submitBtn" class="btn btn-light" value="Send Your Vote" />
+        <a type="submit" style="display:none;" id="backBtn" class="btn btn-dark" asp-controller="Competitions" asp-action="Details" asp-route-id="@Model.CompetitionId">Back To Competition</a>
     </div>
+    <form method="post" id="antiForgeryForm"></form>
 </body>
 </html>
+
+@section Scripts{
+    <script>
+        $('#submitBtn')
+            .click(function () {
+                var dogId = @Model.DogId;
+                var competitionId = @Model.CompetitionId;
+                var totalPoints = document.querySelector("#selected-rating").textContent;
+                var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
+
+                var data = { dogId: dogId, competitionId: competitionId, totalPoints: totalPoints };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/Votes",
+                        data: JSON.stringify(data),
+                        headers: {
+                            'X-CSRF-TOKEN': antiForgeryToken
+                        },
+                        success: function ()
+                        {
+                            document.querySelector("#submitBtn").style.display = "none";
+                            document.querySelector("#backBtn").style.display = "block";
+                        },
+                        contentType: "application/json",
+                    })
+                });
+    </script>
+}
