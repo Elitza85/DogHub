@@ -2,10 +2,11 @@
 {
     public class PossibleDogApplicantsViewModel
     {
-        // public int Image { get; set; }
         public int DogId { get; set; }
 
         public string DogName { get; set; }
+
+        public string DogImage { get; set; }
 
         public string DogBreed { get; set; }
 

@@ -58,6 +58,7 @@
                         DogBreed = p.Breed.Name,
                         IsSpayedOrNeutered = p.IsSpayedOrNeutered,
                         Gender = p.Gender.ToString(),
+                        DogImage = "/images/dogs/" + p.DogImages.FirstOrDefault().Id + "." + p.DogImages.FirstOrDefault().Extension,
                         CompetitionsParticipatedIn = p.DogsCompetiotions
                         .Where(x => x.Competition.CompetitionEnd < DateTime.Now).Count(),
                     }).ToList();
