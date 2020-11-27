@@ -26,8 +26,6 @@
         public bool AttendedJudgeInstituteCourse { get; set; }
 
         [Required]
-
-        // It could be made as attachment option at later stage
         public string JudgeInstituteCertificateUrl { get; set; }
 
         public string EvaluatorNotes { get; set; }

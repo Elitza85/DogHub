@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using DogHub.Data.Common.Repositories;
@@ -19,7 +20,7 @@
 
         public CompetitorsListViewModel FullDataOfCurrentShow(int competitionId)
         {
-            return this.competitionsRepository.All()
+            var result = this.competitionsRepository.All()
                 .Where(x => x.Id == competitionId)
                 .Select(y => new CompetitorsListViewModel
                 {
@@ -33,9 +34,12 @@
                     {
                         DogId = d.DogId,
                         DogName = d.Dog.Name,
+                        ImageUrl =
+                        "/images/dogs/" + d.Dog.DogImages.FirstOrDefault().Id + "." + d.Dog.DogImages.FirstOrDefault().Extension,
                         CurrentTotalPoints = d.Dog.EvaluationForms.Where(c => c.CompetitionId == competitionId).Sum(p => p.TotalPoints),
                     }).ToList(),
                 }).FirstOrDefault();
+            return result;
         }
 
         public CurrentShowOnIndexPageViewModel GetCurrentShowData()

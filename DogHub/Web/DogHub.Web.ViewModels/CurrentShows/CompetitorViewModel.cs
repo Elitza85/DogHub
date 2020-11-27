@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.CurrentShows
+﻿namespace DogHub.Web.ViewModels.CurrentShows
 {
+    using AutoMapper;
+    using DogHub.Data.Models;
+    using DogHub.Services.Mapping;
+    using System.Linq;
+
     public class CompetitorViewModel
     {
-        //public int ImageId { get; set; }
+        public string ImageUrl { get; set; }
 
         public string DogName { get; set; }
 
