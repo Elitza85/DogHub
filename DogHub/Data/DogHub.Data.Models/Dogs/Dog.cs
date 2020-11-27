@@ -23,15 +23,13 @@
         [MaxLength(GlobalConstants.DogNameMaxValue)]
         public string Name { get; set; }
 
-        // can do it with attach video option at later stage
-        //[Required]
+        [Required]
         public string DogVideoUrl { get; set; }
 
         public int BreedId { get; set; }
 
         public virtual Breed Breed { get; set; }
 
-        // drop-down menu with two options
         public DogGenderEnum? Gender { get; set; }
 
         public int? Age { get; set; }
@@ -46,7 +44,6 @@
 
         public virtual DogColor DogColor { get; set; }
 
-        // as it is required by default we do not put [Required]
         public bool? Sellable { get; set; }
 
         public bool? IsSpayedOrNeutered { get; set; }

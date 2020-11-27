@@ -107,20 +107,6 @@
             }
         }
 
-        public async Task VoteForDog(VoteFormInputModel input, string userId)
-        {
-            var evaluationForm = new EvaluationForm
-            {
-                CompetitionId = input.CompetitionId,
-                DogId = input.DogId,
-                UserId = userId,
-                TotalPoints = input.TotalPoints,
-            };
-
-            await this.evaluationFormsRepository.AddAsync(evaluationForm);
-            await this.evaluationFormsRepository.SaveChangesAsync();
-        }
-
         public bool IsCompetitionCurrentlyInProgress(int competitionId)
         {
             var competition = this.competitionsRepository.All()
@@ -135,6 +121,36 @@
             {
                 return false;
             }
+        }
+
+        public async Task VoteForDog(VoteFormInputModel input, string userId)
+        {
+            var evaluationForm = new EvaluationForm
+            {
+                CompetitionId = input.CompetitionId,
+                DogId = input.DogId,
+                UserId = userId,
+                TotalPoints = input.TotalPoints,
+            };
+
+            await this.evaluationFormsRepository.AddAsync(evaluationForm);
+            await this.evaluationFormsRepository.SaveChangesAsync();
+        }
+
+        public string GetDogVideoByDogId(int dogId)
+        {
+            var videoString = this.dogsRepository.All()
+                .Where(x => x.Id == dogId)
+                .Select(v => v.DogVideoUrl)
+                .FirstOrDefault();
+
+            var firstIndex = videoString.IndexOf('/', 8);
+
+            var substring = videoString.Substring(firstIndex, 9);
+
+            videoString = videoString.Replace(substring, "/embed/");
+
+            return videoString;
         }
     }
 }

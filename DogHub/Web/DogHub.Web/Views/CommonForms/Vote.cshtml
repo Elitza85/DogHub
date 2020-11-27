@@ -11,12 +11,11 @@
     <script type="text/javascript" src="~/js/CommonForms/VotingFormScripts.js"></script>
 </head>
 <body>
-    <h2 class="text-center" style="padding:20px;">You Have to Judge the Dog Based on the Following Criteria</h2>
+    <h2 class="text-center" style="padding:20px;">You Have to Judge the Dog Based on the Criteria Listed Below</h2>
     <h4>But first you can watch the <a id="dogVideo" style="color:blue" onclick="DisplayVideo()">dog presentation video</a> to help you make your exaggeration</h4>
     <i id="closeBtn" class="fas fa-times" style="display: none; padding-left: 560px;"></i>
-    <iframe id="videoBlock" style="display:none;" width="560" height="315" src="https://www.youtube.com/embed/XChw5CkhSkg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <video id="videoBlock" style="display:none;">
-    </video>
+    <iframe id="videoBlock" style="display:none;" width="560" height="315" src="@Model.DogVideoUrl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!--<video id="videoBlock" style="display:none;" width="560" height="315" src="@Model.DogVideoUrl" frameborder="0"--> @*allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"*@ <!--allowfullscreen></video>-->
 
     <div id="votingForm">
         <div id="votingComponent">
@@ -188,6 +187,7 @@
         </div>
         <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" name="totalPoints" class="btn selected-rating"></span> Points.</p>
         <input type="submit" id="submitBtn" class="btn btn-light" value="Send Your Vote" />
+        <b id="successfullyVoted" style="display:none; text-align:center;">Thank you for voting!</b>
         <a type="submit" style="display:none;" id="backBtn" class="btn btn-dark" asp-controller="Competitions" asp-action="Details" asp-route-id="@Model.CompetitionId">Back To Competition</a>
     </div>
     <form method="post" id="antiForgeryForm"></form>
@@ -215,6 +215,7 @@
                         success: function ()
                         {
                             document.querySelector("#submitBtn").style.display = "none";
+                            document.querySelector('#successfullyVoted').style.display = "block";
                             document.querySelector("#backBtn").style.display = "block";
                         },
                         contentType: "application/json",

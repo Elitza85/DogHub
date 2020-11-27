@@ -32,10 +32,11 @@
 
         public IActionResult Catalogue(int id = 1)
         {
-            if(id <= 0)
+            if (id <= 0)
             {
                 return this.NotFound();
             }
+
             var viewModel = this.dogService.DogsData(id, 12);
             return this.View(viewModel);
         }

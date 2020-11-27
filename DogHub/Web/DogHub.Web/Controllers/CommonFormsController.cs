@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Web.Controllers
 {
+    using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -76,7 +77,9 @@
                 {
                     CompetitionId = competitionId,
                     DogId = dogId,
+                    DogVideoUrl = this.commonFormsService.GetDogVideoByDogId(dogId),
                 };
+
                 return this.View(model);
             }
             else

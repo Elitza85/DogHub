@@ -9,6 +9,7 @@
         public int CompetitionId { get; set; }
 
         public int TotalPoints { get; set; }
-    
+
+        public string DogVideoUrl { get; set; }
     }
 }

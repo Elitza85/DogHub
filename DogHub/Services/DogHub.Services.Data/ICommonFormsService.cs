@@ -17,5 +17,7 @@
         bool CheckIfUserIsOwner(string userId, int dogId, int competitionId);
 
         public bool IsCompetitionCurrentlyInProgress(int competitionId);
+
+        string GetDogVideoByDogId(int dogId);
     }
 }

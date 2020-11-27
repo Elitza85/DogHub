@@ -20,7 +20,6 @@
 </script>
 
 <h2 style="margin:20px;">Fill the Form to Register Your Dog in the Catalogue</h2>
-<p style="margin:20px;">If you haven`t registered yet, then <a href="/Identity/Account/Register">register as a new user first!</a></p>
 
 <form method="post" enctype="multipart/form-data" asp-controller="Dogs" asp-action="Register" role="form" class="table-bordered col-md-6">
 
@@ -56,7 +55,7 @@
 
     <div class="form-group">
         <label asp-for="Age" class="font-weight-bold"></label>
-        <span class="font-weight-normal">(optional)</span>:
+        <span class="font-weight-normal">(optional)</span>
         <input asp-for="Age" class="form-control" />
         <span asp-validation-for="Age" class="text-danger"></span>
     </div>
@@ -105,20 +104,21 @@
 
     <div class="form-group">
         <label asp-for="DogImages" class="font-weight-bold required"></label>
-        <span class="font-weight-normal">(approved file formats: .png, .jpg and .jpeg): </span>
+        <span class="font-weight-normal">(approved file formats: .png, .jpg and .jpeg) </span>
         <p>
             <input asp-for="DogImages" class="form-control" />
             <span asp-validation-for="DogImages" class="text-danger"></span>
         </p>
     </div>
 
-    @*<div class="form-group">
-            <label asp-for="Video" class="font-weight-bold required"></label>
-            <p>
-                <input asp-for="Video" class="form-control" />
-                <span asp-validation-for="Video" class="text-danger"></span>
-            </p>
-        </div>*@
+    <div class="form-group">
+        <label asp-for="DogVideoUrl" class="font-weight-bold required"></label>
+        <span class="font-weight-normal"> (only YouTube videos allowed)</span>
+        <p>
+            <input asp-for="DogVideoUrl" class="form-control" />
+            <span asp-validation-for="DogVideoUrl" class="text-danger"></span>
+        </p>
+    </div>
     <div class="form-group">
         <input type="submit" class="btn btn-light" value="Register" />
     </div>

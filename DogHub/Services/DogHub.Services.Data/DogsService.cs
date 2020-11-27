@@ -146,14 +146,25 @@ namespace DogHub.Services.Data
                 await image.CopyToAsync(fileStream);
             }
 
+            if (!this.IsVideoFromYouTube(input.DogVideoUrl))
+            {
+                throw new Exception("The video should be from YouTube.");
+            }
+
+            dog.DogVideoUrl = input.DogVideoUrl;
+
             await this.dogsRepository.AddAsync(dog);
             await this.dogsRepository.SaveChangesAsync();
-
         }
 
         public int GetCount()
         {
             return this.dogsRepository.All().Count();
+        }
+
+        public bool IsVideoFromYouTube(string videoString)
+        {
+            return videoString.Contains("youtube");
         }
     }
 }

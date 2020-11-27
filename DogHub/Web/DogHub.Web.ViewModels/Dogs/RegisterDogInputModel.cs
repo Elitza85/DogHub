@@ -59,10 +59,8 @@
         [Display(Name = "Dog Images ")]
         public IEnumerable<IFormFile> DogImages { get; set; }
 
-        // [Required]
-
-        // [Display(Name = "Dog Video ")]
-        // public IFormFile Video { get; set; }
-
+        [Required]
+        [Display(Name = "Link To Your Dog Video")]
+        public string DogVideoUrl { get; set; }
     }
 }
