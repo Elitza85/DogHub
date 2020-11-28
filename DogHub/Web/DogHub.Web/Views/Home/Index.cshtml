@@ -14,38 +14,38 @@
 <body>
     <div class="text-center">
         <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-        <p>The dog competitions are not what they used to be...</p>
+        <h3>The dog competitions are not what they used to be...</h3>
     </div>
 
     @if (Model != null)
     {
-            <!-- Countdown -->
-            <section id="elements-countdown" class="pt100 pb100 bg-grey" style="margin-bottom:20px;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <h3>Vote now in</h3>
-                            <h1><strong>@Model.CompetitionName</strong></h1>
-                            <p class="lead">This competition has started on @Model.CompetitionStart.ToString("F")</p>
-                            <p class="lead">The ramaining time to vote for your favourites in the competition is</p>
-                        </div>
-
-                        <div class="col-sm-12 text-center">
-                            <div id="countdown-timer">
-                                <div><h2 id="days"></h2><h6>Days</h6></div>
-                                <div><h2 id="hours"></h2><h6>Hours</h6></div>
-                                <div><h2 id="minutes"></h2><h6>Minutes</h6></div>
-                                <div><h2 id="seconds"></h2><h6>Seconds</h6></div>
-                            </div>
-                            @*!!!INSTEAD OF THE <P> below: <p id="endDate" hidden="hidden">@Model.Date.UtcNow.ToString("G")</p>*@
-                            <p id="endDate" hidden="hidden">@Model.CompetitionEnd.ToString("F")</p>
-                            <p id="counter"></p>
-                            <a href="/CurrentShows/Competitors?competitionId=@Model.CompetitionId" class="btn btn-lg btn-primary btn-circle btn-appear mt40"><span>Vote Now <i class="fas fa-angle-double-right"></i></span></a>
-                        </div>
-
+        <!-- Countdown -->
+        <section id="elements-countdown" class="pt100 pb100 bg-grey" style="margin-bottom:20px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3>Vote now in</h3>
+                        <h1><strong>@Model.CompetitionName</strong></h1>
+                        <p class="lead">This competition has started on @Model.CompetitionStart.ToString("F")</p>
+                        <p class="lead">The ramaining time to vote for your favourites in the competition is</p>
                     </div>
+
+                    <div class="col-sm-12 text-center">
+                        <div id="countdown-timer">
+                            <div><h2 id="days"></h2><h6>Days</h6></div>
+                            <div><h2 id="hours"></h2><h6>Hours</h6></div>
+                            <div><h2 id="minutes"></h2><h6>Minutes</h6></div>
+                            <div><h2 id="seconds"></h2><h6>Seconds</h6></div>
+                        </div>
+                        @*!!!INSTEAD OF THE <P> below: <p id="endDate" hidden="hidden">@Model.Date.UtcNow.ToString("G")</p>*@
+                        <p id="endDate" hidden="hidden">@Model.CompetitionEnd.ToString("F")</p>
+                        <p id="counter"></p>
+                        <a href="/CurrentShows/Competitors?competitionId=@Model.CompetitionId" class="btn btn-lg btn-primary btn-circle btn-appear mt40"><span>Vote Now <i class="fas fa-angle-double-right"></i></span></a>
+                    </div>
+
                 </div>
-            </section>
+            </div>
+        </section>
         <!-- End Countdown -->
     }
 
@@ -59,6 +59,70 @@
         </div>
     </div>
     <!--End Slider-->
+    <partial name="_DogExperiencePartial"></partial>
+
+    <!-- Get Connected -->
+    <section class="parallax pt100 pb100" data-overlay-dark="9">
+        <div class="background-image">
+            <img src="img/backgrounds/bg-7.jpg" alt="#">
+        </div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-8 mr-auto text-center">
+                    <h2>Get Connected<br><strong>Follow Us</strong></h2>
+                    <p class="lead">Get connected with us on social networks!</p>
+                </div>
+
+                <div class="col-md-12">
+                    <ul class="connected-icons social-icons">
+
+                        <li class="connected-icon">
+                            <a target="_blank" href="#">
+                                <i class="fab fa-facebook-f"></i>
+                                <h5>Facebook</h5>
+                                <p>Be Our Friend</p>
+                            </a>
+                        </li>
+
+                        <li class="connected-icon">
+                            <a target="_blank" href="#">
+                                <i class="fab fa-youtube"></i>
+                                <h5>Youtube</h5>
+                                <p>Watch Our Videos</p>
+                            </a>
+                        </li>
+
+                        <li class="connected-icon">
+                            <a target="_blank" href="#">
+                                <i class="fab fa-twitter"></i>
+                                <h5>Twitter</h5>
+                                <p>Follow Us</p>
+                            </a>
+                        </li>
+
+                        <li class="connected-icon">
+                            <a target="_blank" href="#">
+                                <i class="fab fa-instagram"></i>
+                                <h5>Instagram</h5>
+                                <p>See Our Pictures</p>
+                            </a>
+                        </li>
+
+                        <li class="connected-icon">
+                            <a target="_blank" href="#">
+                                <i class="fab fa-skype"></i>
+                                <h5>Skype</h5>
+                                <p>Get in Touch</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Get Connected -->
 </body>
 </html>
 
