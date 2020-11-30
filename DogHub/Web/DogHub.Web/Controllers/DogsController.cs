@@ -92,7 +92,7 @@
 
         public IActionResult BreedsList()
         {
-            var viewModel = this.dogService.BreedsListData();
+            var viewModel = this.breedsListService.BreedsListData();
             return this.View(viewModel);
         }
 
@@ -109,7 +109,7 @@
                 return this.View();
             }
 
-            await this.dogService.ProposeBreed(input);
+            await this.breedsListService.ProposeBreed(input);
 
             return this.Redirect("/Success/ThankYouForProposingNewBreed");
         }

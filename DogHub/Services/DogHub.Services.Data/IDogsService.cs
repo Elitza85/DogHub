@@ -19,9 +19,5 @@ namespace DogHub.Services.Data
         DogsCatalogueViewModel DogsData(int page, int itemsPerPage = 12);
 
         int GetCount();
-
-        BreedsListViewModel BreedsListData();
-
-        Task ProposeBreed(NewBreedInputModel input);
     }
 }

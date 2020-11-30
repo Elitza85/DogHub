@@ -1,17 +1,17 @@
-﻿using DogHub.Data.Common.Repositories;
-using DogHub.Data.Models;
-using DogHub.Data.Models.Dogs;
-using DogHub.Services.Mapping;
-using DogHub.Web.ViewModels.Dogs;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DogHub.Services.Data
+﻿namespace DogHub.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
+    using DogHub.Data.Models.Dogs;
+    using DogHub.Services.Mapping;
+    using DogHub.Web.ViewModels.Dogs;
+
     public class DogsService : IDogsService
     {
         private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
@@ -19,18 +19,15 @@ namespace DogHub.Services.Data
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
-        private readonly IDeletableEntityRepository<Breed> breedsRepository;
 
         public DogsService(
             IDeletableEntityRepository<Dog> dogsRepository,
             IDeletableEntityRepository<DogColor> dogColorsRepository,
-            IDeletableEntityRepository<EyesColor> eyesColorRepository,
-            IDeletableEntityRepository<Breed> breedsRepository)
+            IDeletableEntityRepository<EyesColor> eyesColorRepository)
         {
             this.dogsRepository = dogsRepository;
             this.dogColorsRepository = dogColorsRepository;
             this.eyesColorRepository = eyesColorRepository;
-            this.breedsRepository = breedsRepository;
         }
 
         public DogProfileViewModel DogProfile(int id)
@@ -168,44 +165,6 @@ namespace DogHub.Services.Data
         public bool IsVideoFromYouTube(string videoString)
         {
             return videoString.Contains("youtube");
-        }
-
-        public BreedsListViewModel BreedsListData()
-        {
-            var breedsPage = new BreedsListViewModel();
-            breedsPage.AllBreeds = this.GelAllBreeds();
-            return breedsPage;
-        }
-
-        public async Task ProposeBreed(NewBreedInputModel input)
-        {
-            var breedName = input.BreedName.ToLower();
-            if (!this.breedsRepository.All().Any(x => x.Name.ToLower() == breedName))
-            {
-                var newBreedProposal = new Breed
-                {
-                    Name = input.BreedName,
-                    IsRejected = false,
-                    IsApproved = false,
-                    IsUnderReview = true,
-                };
-
-                await this.breedsRepository.AddAsync(newBreedProposal);
-                await this.breedsRepository.SaveChangesAsync();
-            }
-        }
-
-        private IEnumerable<BreedNames> GelAllBreeds()
-        {
-            return this.breedsRepository.All()
-                .Where(x => x.IsApproved == true)
-                .Select(x => new BreedNames
-                {
-                    BreedName = x.Name,
-                    TotalDogsInBreed = x.BreedDogs.Count(),
-                })
-                .OrderBy(x => x.BreedName)
-                .ToList();
         }
     }
 }
