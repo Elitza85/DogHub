@@ -5,6 +5,7 @@
         public const string SystemName = "DogHub";
 
         public const string AdministratorRoleName = "Administrator";
+        public const string RegularUserRoleName = "Regular";
 
         // User
         public const int UserFullNameMaxValue = 50;

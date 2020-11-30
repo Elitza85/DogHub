@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using DogHub.Common;
 
 namespace DogHub.Web.Areas.Identity.Pages.Account
 {
@@ -84,6 +85,8 @@ namespace DogHub.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+                    // Add user to role upon registration
+                    await _userManager.AddToRoleAsync(user, GlobalConstants.RegularUserRoleName);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
