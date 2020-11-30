@@ -68,6 +68,10 @@
                 appForm.AttendedJudgeInstituteCourse = false;
             }
 
+            appForm.IsApproved = false;
+            appForm.IsRejected = false;
+            appForm.IsUnderReview = true;
+
             Directory.CreateDirectory($"{imagePath}/judges/");
             var image = input.JudgeImage;
             var extension = Path.GetExtension(image.FileName).TrimStart('.');

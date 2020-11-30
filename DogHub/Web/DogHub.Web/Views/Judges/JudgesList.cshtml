@@ -1,4 +1,6 @@
-﻿@{
+﻿@model DogHub.Web.ViewModels.Judges.JudgesListViewModel 
+
+@{
     this.ViewData["Title"] = "Judges List";
 }
 
@@ -11,138 +13,30 @@
             </div>
 
 
-            <div class="team-slider owl-carousel dark-pagination col-md-6">
+            <div class="team-slider owl-carousel dark-pagination col-md-5">
+                @foreach (var judge in Model.JudgesList)
+                {
+
                 <div class="team">
                     <div class="team-container">
                         <div class="team-image">
-                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8d29tYW58ZW58MHx8MHw%3D&w=1000&q=80" class="img-responsive" alt="#" />
+                            <img src="@judge.JudgeImage" class="img-responsive" alt="#" />
                         </div>
                         <div class="team-caption">
                             <div>
                                 <div>
-                                    <p>Years of experience: 3</p>
-                                    <p>Raised litters: 2</p>
-                                    <p>Number of dog champions owned: 2</p>
+                                    <p>Years of experience: @judge.YearsOfExperience</p>
+                                    <p>Raised litters: @judge.RaisedLitters</p>
+                                    <p>Number of dog champions owned: @judge.NumberOfChampionsOwned</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <h6>Developer</h6>
-                    <h5>Kelly Swanson</h5>
-                    <p>Vivamus motestues phasellus enim sed orci eu pharetra. Donec posuere nunc vitae tortor sagittis feugiat in non massa. Quisqueeas sed mi nec.</p>
+                    <h5>@judge.FirstName @judge.LastName</h5>
+                    <p>@judge.SelfDescription</p>
                 </div>
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            <img src="img/team/3.jpg" class="img-responsive" alt="#" />
-                        </div>
-                        <div class="team-caption">
-                            <div>
-                                <div>
-                                    <ul>
-                                        <li class="social-icon"><a href="https://www.facebook.com/" target="_blank"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.twitter.com/" target="_blank"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.youtube.com/" target="_blank"><i class="ion-social-youtube"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.dribbble.com/" target="_blank"><i class="ion-social-dribbble"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.linkedin.com/" target="_blank"><i class="ion-social-linkedin"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6>Designer</h6>
-                    <h5>Chris Holland</h5>
-                    <p>Vivamus motestues phasellus enim sed orci eu pharetra. Donec posuere nunc vitae tortor sagittis feugiat in non massa. Quisqueeas sed mi nec.</p>
-                </div>
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            <img src="img/team/4.jpg" class="img-responsive" alt="#" />
-                        </div>
-                        <div class="team-caption">
-                            <div>
-                                <div>
-                                    <ul>
-                                        <li class="social-icon"><a href="https://www.facebook.com/" target="_blank"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.twitter.com/" target="_blank"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.dribbble.com/" target="_blank"><i class="ion-social-dribbble"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.linkedin.com/" target="_blank"><i class="ion-social-linkedin"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6>Art Director</h6>
-                    <h5>Dave Harper</h5>
-                    <p>Vivamus motestues phasellus enim sed orci eu pharetra. Donec posuere nunc vitae tortor sagittis feugiat in non massa. Quisqueeas sed mi nec.</p>
-                </div>
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            <img src="img/team/5.jpg" class="img-responsive" alt="#" />
-                        </div>
-                        <div class="team-caption">
-                            <div>
-                                <div>
-                                    <ul>
-                                        <li class="social-icon"><a href="https://www.facebook.com/" target="_blank"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.twitter.com/" target="_blank"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.youtube.com/" target="_blank"><i class="ion-social-youtube"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.dribbble.com/" target="_blank"><i class="ion-social-dribbble"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.linkedin.com/" target="_blank"><i class="ion-social-linkedin"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6>Founder</h6>
-                    <h5>Tracey Mathis</h5>
-                    <p>Vivamus motestues phasellus enim sed orci eu pharetra. Donec posuere nunc vitae tortor sagittis feugiat in non massa. Quisqueeas sed mi nec.</p>
-                </div>
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            <img src="img/team/6.jpg" class="img-responsive" alt="#" />
-                        </div>
-                        <div class="team-caption">
-                            <div>
-                                <div>
-                                    <ul>
-                                        <li class="social-icon"><a href="https://www.facebook.com/" target="_blank"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.twitter.com/" target="_blank"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.youtube.com/" target="_blank"><i class="ion-social-youtube"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.linkedin.com/" target="_blank"><i class="ion-social-linkedin"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6>Developer</h6>
-                    <h5>William Beck</h5>
-                    <p>Vivamus motestues phasellus enim sed orci eu pharetra. Donec posuere nunc vitae tortor sagittis feugiat in non massa. Quisqueeas sed mi nec.</p>
-                </div>
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            <img src="img/team/7.jpg" class="img-responsive" alt="#" />
-                        </div>
-                        <div class="team-caption">
-                            <div>
-                                <div>
-                                    <ul>
-                                        <li class="social-icon"><a href="https://www.facebook.com/" target="_blank"><i class="ion-social-facebook"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.twitter.com/" target="_blank"><i class="ion-social-twitter"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.youtube.com/" target="_blank"><i class="ion-social-youtube"></i></a></li>
-                                        <li class="social-icon"><a href="https://www.linkedin.com/" target="_blank"><i class="ion-social-linkedin"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <h6>Designer</h6>
-                    <h5>Steven Griffin</h5>
-                    <p>Vivamus motestues phasellus enim sed orci eu pharetra. Donec posuere nunc vitae tortor sagittis feugiat in non massa. Quisqueeas sed mi nec.</p>
-                </div>
+                }
+                
             </div>
 
         </div>

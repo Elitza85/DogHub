@@ -1274,6 +1274,8 @@ fieldset[disabled] .btn-primary.active, fieldset[disabled] .btn-primary.focus, f
 }
 .team-image img {
 	width: 100%;
+	object-fit:cover;
+	height: 450px;
 }
 .team-container .team-caption {
 	width: 100%;

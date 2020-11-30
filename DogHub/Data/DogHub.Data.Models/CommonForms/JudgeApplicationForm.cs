@@ -38,10 +38,10 @@
 
         public string SelfDescription { get; set; }
 
-        public bool IsApproved => false;
+        public bool IsApproved { get; set; }
 
-        public bool IsUnderReview => true;
+        public bool IsUnderReview { get; set; }
 
-        public bool IsRejected => false;
+        public bool IsRejected { get; set; }
     }
 }

@@ -76,6 +76,7 @@
             services.AddTransient<ICommonFormsService, CommonFormsService>();
             services.AddTransient<ICurrentShowsService, CurrentShowsService>();
             services.AddTransient<ICompetitionsHelpService, CompetitionsHelpService>();
+            services.AddTransient<IJudgesService, JudgesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

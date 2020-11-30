@@ -56,5 +56,11 @@
         [Display(Name = "Add Location to Your Judge Course Certificate ")]
 
         public string JudgeInstituteCertificateUrl { get; set; }
+
+        public bool IsApproved => false;
+
+        public bool IsUnderReview => true;
+
+        public bool IsRejected => false;
     }
 }
