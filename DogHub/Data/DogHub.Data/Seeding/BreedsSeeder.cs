@@ -15,8 +15,9 @@
             {
                 return;
             }
-            await dbContext.Breeds.AddAsync(new Breed { Name = "American Bully" });
-            await dbContext.Breeds.AddAsync(new Breed { Name = "Chao Chao" });
+
+            await dbContext.Breeds.AddAsync(new Breed { Name = "American Bully", IsApproved = true, });
+            await dbContext.Breeds.AddAsync(new Breed { Name = "Chao Chao", IsApproved = true, });
             await dbContext.SaveChangesAsync();
         }
     }

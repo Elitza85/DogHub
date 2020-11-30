@@ -89,5 +89,29 @@
             var viewModel = this.dogService.DogProfile(id);
             return this.View(viewModel);
         }
+
+        public IActionResult BreedsList()
+        {
+            var viewModel = this.dogService.BreedsListData();
+            return this.View(viewModel);
+        }
+
+        public IActionResult ProposeBreed()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProposeBreed(NewBreedInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            await this.dogService.ProposeBreed(input);
+
+            return this.Redirect("/Success/ThankYouForProposingNewBreed");
+        }
     }
 }

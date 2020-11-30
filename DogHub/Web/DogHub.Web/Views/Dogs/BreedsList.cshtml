@@ -1,0 +1,28 @@
+﻿@model DogHub.Web.ViewModels.Dogs.BreedsListViewModel
+@{
+    this.ViewData["Title"] = "Breeds List";
+}
+
+<div style="text-align:center; margin-bottom:50px;">
+    <h2>Review All Dog Breeds <br />or</h2>
+    <a class="btn btn-light" asp-controller="Dogs" asp-action="ProposeBreed">Propose A New Breed</a>
+</div>
+<table class="table table-active table-bordered col-md-6" style="text-align:center;">
+    <thead>
+        <th>Breed Name</th>
+        <th>Total Dogs in The Breed</th>
+    </thead>
+    @foreach (var breed in Model.AllBreeds)
+    {
+        <tbody>
+            <tr>
+                <td>
+                    @breed.BreedName
+                </td>
+                <td>
+                    @breed.TotalDogsInBreed
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>

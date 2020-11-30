@@ -23,5 +23,10 @@
         {
             return this.View();
         }
+
+        public IActionResult ThankYouForProposingNewBreed()
+        {
+            return this.View();
+        }
     }
 }

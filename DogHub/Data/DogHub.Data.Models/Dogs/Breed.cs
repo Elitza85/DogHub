@@ -15,6 +15,12 @@
 
         public string Name { get; set; }
 
+        public bool IsApproved { get; set; }
+
+        public bool IsUnderReview { get; set; }
+
+        public bool IsRejected { get; set; }
+
         public virtual ICollection<Dog> BreedDogs { get; set; }
 
         public virtual ICollection<Competition> BreedCompetitions { get; set; }

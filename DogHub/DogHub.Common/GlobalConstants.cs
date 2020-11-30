@@ -18,6 +18,7 @@
         // Dog
         public const int DogNameMinValue = 3;
         public const int DogNameMaxValue = 60;
+        public const int BreedMinLength = 3;
         public const int BreedMaxLength = 40;
         public const int DogEyesColorMaxLength = 20;
         public const int DogColorMaxLength = 20;

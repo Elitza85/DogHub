@@ -12,12 +12,16 @@ namespace DogHub.Services.Data
 
         DogProfileViewModel DogProfile(int id);
 
-        //IEnumerable<DogDataInCatalogueViewModel> GetAllDogs(int page, int itemsPerPage = 12);
+        // IEnumerable<DogDataInCatalogueViewModel> GetAllDogs(int page, int itemsPerPage = 12);
 
         IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12);
 
         DogsCatalogueViewModel DogsData(int page, int itemsPerPage = 12);
 
         int GetCount();
+
+        BreedsListViewModel BreedsListData();
+
+        Task ProposeBreed(NewBreedInputModel input);
     }
 }
