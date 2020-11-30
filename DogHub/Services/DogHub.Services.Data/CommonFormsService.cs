@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Services.Data
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@
 
     public class CommonFormsService : ICommonFormsService
     {
+        private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
+
         private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository;
         private readonly IDeletableEntityRepository<EvaluationForm> evaluationFormsRepository;
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
@@ -33,15 +36,18 @@
             this.evaluationForms = evaluationForms;
         }
 
-        public async Task ApplyForJudge(JudgeApplicationInputModel input)
+        public async Task ApplyForJudge(JudgeApplicationInputModel input, string imagePath)
         {
             var appForm = new JudgeApplicationForm
             {
                 UserId = input.UserId,
+                FirstName = input.FirstName,
+                LastName = input.LastName,
                 YearsOfExperience = input.YearsOfExperience,
                 RaisedLitters = input.RaisedLitters,
                 NumberOfChampionsOwned = input.NumberOfChampionsOwned,
                 JudgeInstituteCertificateUrl = input.JudgeInstituteCertificateUrl,
+                SelfDescription = input.SelfDescription,
             };
 
             if (input.HasBeenJudgeAssistant)
@@ -61,6 +67,24 @@
             {
                 appForm.AttendedJudgeInstituteCourse = false;
             }
+
+            Directory.CreateDirectory($"{imagePath}/judges/");
+            var image = input.JudgeImage;
+            var extension = Path.GetExtension(image.FileName).TrimStart('.');
+            if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
+            {
+                throw new Exception($"Invalid image extenstion {extension}");
+            }
+
+            var newImage = new JudgeImage
+            {
+                Extension = extension,
+            };
+            appForm.JudgeImage = newImage;
+
+            var filePath = $"{imagePath}/judges/{newImage.Id}.{extension}";
+            using Stream fileStream = new FileStream(filePath, FileMode.Create);
+            await image.CopyToAsync(fileStream);
 
             await this.judgeFormsRepository.AddAsync(appForm);
             await this.judgeFormsRepository.SaveChangesAsync();

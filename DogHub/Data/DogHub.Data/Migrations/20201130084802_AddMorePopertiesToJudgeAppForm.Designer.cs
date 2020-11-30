@@ -4,14 +4,16 @@ using DogHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DogHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201130084802_AddMorePopertiesToJudgeAppForm")]
+    partial class AddMorePopertiesToJudgeAppForm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,7 +234,7 @@ namespace DogHub.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("JudgeImages");
+                    b.ToTable("JudgeImage");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Competitions.Competition", b =>

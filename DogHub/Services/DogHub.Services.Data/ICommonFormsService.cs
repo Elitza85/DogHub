@@ -6,7 +6,7 @@
 
     public interface ICommonFormsService
     {
-        Task ApplyForJudge(JudgeApplicationInputModel input);
+        Task ApplyForJudge(JudgeApplicationInputModel input, string imagePath);
 
         bool HasAlreadyAppliedForJudge(string userId);
 

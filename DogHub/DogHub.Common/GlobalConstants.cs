@@ -33,8 +33,11 @@
 
         public const int OrganisedByMaxLength = 80;
 
-        // Town
-        public const int MaxTownLength = 20;
+        // Judge
+        public const int JudjeNameMinLength = 2;
+        public const int JudgeNameMaxLenght = 20;
+        public const int JudgeDescriptionMinLength = 150;
+        public const int JudgeDescriptionMaxLength = 250;
 
         // Chat
         public const int ChatTopicMaxLength = 150;

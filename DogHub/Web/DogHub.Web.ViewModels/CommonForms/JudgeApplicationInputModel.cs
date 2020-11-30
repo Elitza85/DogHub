@@ -1,13 +1,39 @@
 ﻿namespace DogHub.Web.ViewModels.CommonForms
 {
+    using AutoMapper;
+    using DogHub.Common;
+    using DogHub.Data.Models.CommonForms;
+    using DogHub.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
 
     public class JudgeApplicationInputModel
     {
         public string UserId { get; set; }
 
-        [Display(Name = "Years of Experience ")]
+        [Required]
+        [Display(Name = "First Name")]
+        [MinLength(GlobalConstants.JudjeNameMinLength)]
+        [MaxLength(GlobalConstants.JudgeNameMaxLenght)]
+        public string FirstName { get; set; }
 
+        [Required]
+        [Display(Name = "Last Name")]
+        [MinLength(GlobalConstants.JudjeNameMinLength)]
+        [MaxLength(GlobalConstants.JudgeNameMaxLenght)]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Describe Yourself")]
+        [MinLength(GlobalConstants.JudgeDescriptionMinLength)]
+        [MaxLength(GlobalConstants.JudgeDescriptionMaxLength)]
+        public string SelfDescription { get; set; }
+
+        [Required]
+        [Display(Name = "Profile Image")]
+        public IFormFile JudgeImage { get; set; }
+
+        [Display(Name = "Years of Experience ")]
         public int YearsOfExperience { get; set; }
 
         [Display(Name = "Number of Raised Litters ")]

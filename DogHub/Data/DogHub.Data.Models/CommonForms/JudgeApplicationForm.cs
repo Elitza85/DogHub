@@ -11,6 +11,12 @@
 
         public virtual ApplicationUser User { get; set; }
 
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public virtual JudgeImage JudgeImage { get; set; }
+
         public int YearsOfExperience { get; set; }
 
         // should be 5 or above
@@ -29,6 +35,8 @@
         public string JudgeInstituteCertificateUrl { get; set; }
 
         public string EvaluatorNotes { get; set; }
+
+        public string SelfDescription { get; set; }
 
         public bool IsApproved => false;
 

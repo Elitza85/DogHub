@@ -12,9 +12,27 @@
 <body>
     <h2>Apply for Judge in the Competitions Through Filling This Form</h2>
 
-    <form method="post" asp-controller="CommonForms" asp-action="ApplyForJudge" role="form" class="table-bordered col-md-6">
+    <form method="post" enctype="multipart/form-data" asp-controller="CommonForms" asp-action="ApplyForJudge" role="form" class="table-bordered col-md-6">
 
         <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="FirstName" class="font-weight-bold required"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="LastName" class="font-weight-bold required"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SelfDescription" class="font-weight-bold required"></label>
+            <textarea asp-for="SelfDescription" class="form-control"></textarea>
+            <span asp-validation-for="SelfDescription" class="text-danger"></span>
+        </div>
 
         <div class="form-group">
             <label asp-for="YearsOfExperience" class="font-weight-bold required"></label>
@@ -53,7 +71,16 @@
         </div>
 
         <div class="form-group">
-            <input type="submit" class="btn btn-light" value="Apply" /input>
+            <label asp-for="JudgeImage" class="font-weight-bold required"></label>
+            <span class="font-weight-normal">(approved file formats: .png, .jpg and .jpeg) </span>
+            <p>
+                <input asp-for="JudgeImage" class="form-control" />
+                <span asp-validation-for="JudgeImage" class="text-danger"></span>
+            </p>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-light" value="Apply" />
         </div>
     </form>
 </body>

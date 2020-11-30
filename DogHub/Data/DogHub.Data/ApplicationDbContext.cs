@@ -49,6 +49,8 @@
 
         public DbSet<JudgeApplicationForm> JudgeApplicationForms { get; set; }
 
+        public DbSet<JudgeImage> JudgeImages { get; set; }
+
         public DbSet<Setting> Settings { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);

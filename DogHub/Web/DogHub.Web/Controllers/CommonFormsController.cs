@@ -8,6 +8,7 @@
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.CommonForms;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,15 +17,18 @@
         private readonly ICommonFormsService commonFormsService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ICompetitionsHelpService competitionsHelpService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public CommonFormsController(
             ICommonFormsService commonFormsService,
             UserManager<ApplicationUser> userManager,
-            ICompetitionsHelpService competitionsHelpService)
+            ICompetitionsHelpService competitionsHelpService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.commonFormsService = commonFormsService;
             this.userManager = userManager;
             this.competitionsHelpService = competitionsHelpService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         [Authorize]
@@ -49,7 +53,19 @@
             }
 
             input.UserId = userId;
-            await this.commonFormsService.ApplyForJudge(input);
+
+            var imagePath = $"{this.webHostEnvironment.WebRootPath}/images";
+
+            try
+            {
+                await this.commonFormsService.ApplyForJudge(input, imagePath);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.View(input);
+            }
+
             return this.Redirect("/Success/JudgeApplicationSubmission");
         }
 
