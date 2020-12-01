@@ -42,7 +42,8 @@
                     Age = y.Age,
                     Breed = y.Breed.Name,
                     Color = y.DogColor.ColorName,
-                    CompetitionsCount = y.DogsCompetiotions.Count(),
+                    CompetitionsCount = y.DogsCompetiotions
+                    .Where(c => c.Competition.CompetitionEnd < DateTime.Now).Count(),
                     Description = y.Description,
                     EyesColor = y.EyesColor.EyesColorName,
                     Gender = y.Gender.ToString(),
