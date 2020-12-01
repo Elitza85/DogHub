@@ -19,20 +19,23 @@
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
+        private readonly ICommonFormsService commonFormsService;
 
         public DogsService(
             IDeletableEntityRepository<Dog> dogsRepository,
             IDeletableEntityRepository<DogColor> dogColorsRepository,
-            IDeletableEntityRepository<EyesColor> eyesColorRepository)
+            IDeletableEntityRepository<EyesColor> eyesColorRepository,
+            ICommonFormsService commonFormsService)
         {
             this.dogsRepository = dogsRepository;
             this.dogColorsRepository = dogColorsRepository;
             this.eyesColorRepository = eyesColorRepository;
+            this.commonFormsService = commonFormsService;
         }
 
         public DogProfileViewModel DogProfile(int id)
         {
-            return this.dogsRepository.All()
+            var dogProfileViewModel = this.dogsRepository.All()
                 .Where(x => x.Id == id)
                 .Select(y => new DogProfileViewModel
                 {
@@ -48,7 +51,13 @@
                     Name = y.Name,
                     OwnerId = y.UserId,
                     Weight = y.Weight,
+                    DogImage = "/images/dogs/" + y.DogImages.FirstOrDefault().Id + "." + y.DogImages.FirstOrDefault().Extension,
                 }).FirstOrDefault();
+
+            var videoString = this.commonFormsService.GetDogVideoByDogId(id);
+            dogProfileViewModel.DogVideoUrl = videoString;
+
+            return dogProfileViewModel;
         }
 
         //public IEnumerable<DogDataInCatalogueViewModel> GetAllDogs(int page, int itemsPerPage = 12)

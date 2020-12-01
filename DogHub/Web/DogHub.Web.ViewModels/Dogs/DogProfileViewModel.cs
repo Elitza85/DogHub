@@ -30,6 +30,8 @@ namespace DogHub.Web.ViewModels.Dogs
 
         public string OwnerId { get; set; }
 
-        //public int Image { get; set; }
+        public string DogImage { get; set; }
+
+        public string DogVideoUrl { get; set; }
     }
 }

@@ -9,8 +9,8 @@
 <div class="border col-md-9">
     <table>
         <tr>
-            <td>
-                <img class="circle" src="" />
+            <td style="width:450px;">
+                <img src="@Model.DogImage" />
             </td>
             <td>
                 <p>
@@ -108,34 +108,15 @@
     </table>
     <p>
         <i class="fas fa-paw"></i>
-        @Model.Name participated in @Model.CompetitionsCount competitions.
+        <strong>@Model.Name</strong> participated in @Model.CompetitionsCount competition/s.
     </p>
     <p>
         <i class="fas fa-paw"></i>
-        Enjoy the dog video
+        Enjoy the dog video:
     </p>
-    <video></video>
+    <iframe width="450" height="315" src="@Model.DogVideoUrl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 <div style="padding-top:20px; padding-left:180px;">
-
-    @*@if(Model.OwnerId== currentUserId)*@
-    <a class="btn btn-danger">Edit</a>
-    @*else*@
-    <a class="btn btn-warning">Buy</a>
-
     <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
 </div>
-
-<style>
-    .circle {
-        height: 400px;
-        border-radius: 50%;
-        padding: 20px;
-    }
-
-    .border {
-        background-color: lightcyan;
-        padding: 20px;
-    }
-</style>
