@@ -14,5 +14,7 @@
         public int CurrentTotalPoints { get; set; }
 
         public int DogId { get; set; }
+
+        public string Gender { get; set; }
     }
 }

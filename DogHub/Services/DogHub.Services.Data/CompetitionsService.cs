@@ -48,7 +48,7 @@
 
         public CompetitionDetailsViewModel CompetitionDetails(int id)
         {
-            return this.competitionsRepository.All()
+            var result = this.competitionsRepository.All()
                 .Where(x => x.Id == id)
                 .Select(y => new CompetitionDetailsViewModel
                 {
@@ -64,6 +64,11 @@
                     CompetitionImage =
                     "/images/competitions/" + y.CompetitionImage.Id + "." + y.CompetitionImage.Extension,
                 }).FirstOrDefault();
+
+            result.FemaleDogWinners = this.competitionsHelpService.FemaleWinners(id);
+            result.MaleDogWinners = this.competitionsHelpService.MaleWinners(id);
+
+            return result;
         }
 
         public async Task Create(CreateCompetitionInputModel input, string imagePath)

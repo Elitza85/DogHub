@@ -63,8 +63,8 @@
             <table>
                 <thead>
                 <th>Place</th>
-                <th>Females</th>
-                <th>Males</th>
+                <th>Females/Points</th>
+                <th>Males/Points</th>
                 </thead>
 
                 <tbody>
@@ -81,51 +81,34 @@
                     </p>
                 </td>
                 <td id="females">
-                    @*Put here the foreach for females*@
-                    @*use the Function buildDomElement to create data for each dog *@
-                    <p>
-                        <div class="popup" onclick="popUpDataWindow()">
-                            <a id="dogName">Kassy</a>
-                            <span class="popuptext" id="myPopup">
-                    <p id="totalPoints">Total Points in the Competition: 200</p>
-                    <a href="/Dogs/DogProfile?id=1">Review Profile</a>
-                    <p id="closePopUpX">
+                    @foreach (var female in Model.FemaleDogWinners)
+                    {
+                        <p>
+                            <a id="dogName" href="/Dogs/DogProfile?id=@female.Id">@female.Name/ @female.TotalPoints points</a>
+                        </p>
+                    }
+
+                </td>
+                <td id="males">
+                    @foreach (var male in Model.MaleDogWinners)
+                    {
+                        <p>
+                            <a id="dogName" href="/Dogs/DogProfile?id=@male.Id">@male.Name/ @male.TotalPoints points</a>
+                        </p>
+                    }
+
+                </td>
+                <td>
+                    <a class="btn" id="closeData">
                         <i class="fas fa-times"></i>
-                    </p>
+                    </a>
+                </td>
 
-                    </span>
+
+                </tbody>
+            </table>
+
         </div>
-        </p>
-        </td>
-        <td id="males">
-            @*Put here the foreach for males*@
-            @*use the Function buildDomElement to create data for each dog *@
-
-            <p>
-                <div class="popup" onclick="popUpDataWindow()">
-                    <a id="dogName">Victor</a>
-                    <span class="popuptext" id="myPopup">
-            <p id="totalPoints">Total Points in the Competition: 200</p>
-            <a href="/Dogs/DogProfile?id=1">Review Dog Profile</a>
-            <p id="closePopUpX">
-                <i class="fas fa-times"></i>
-            </p>
-
-            </span>
-    </div>
-    </p>
-    </td>
-    <td>
-        <a class="btn" id="closeData">
-            <i class="fas fa-times"></i>
-        </a>
-    </td>
-
-
-    </tbody>
-    </table>
-
-    </div>
 
     </div>
 

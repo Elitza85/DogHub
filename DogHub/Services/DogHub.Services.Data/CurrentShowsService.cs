@@ -34,6 +34,7 @@
                     {
                         DogId = d.DogId,
                         DogName = d.Dog.Name,
+                        Gender = d.Dog.Gender.ToString(),
                         ImageUrl =
                         "/images/dogs/" + d.Dog.DogImages.FirstOrDefault().Id + "." + d.Dog.DogImages.FirstOrDefault().Extension,
                         CurrentTotalPoints = d.Dog.EvaluationForms.Where(c => c.CompetitionId == competitionId).Sum(p => p.TotalPoints),

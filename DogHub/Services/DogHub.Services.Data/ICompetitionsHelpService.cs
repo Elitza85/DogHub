@@ -4,6 +4,7 @@
 
     using DogHub.Data.Models;
     using DogHub.Data.Models.Competitions;
+    using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dogs;
 
     public interface ICompetitionsHelpService
@@ -21,5 +22,9 @@
         Dog GetDogById(int dogId);
 
         Competition GetCompetitionById(int competitionId);
+
+        IEnumerable<WinnersViewModel> FemaleWinners(int id);
+
+        IEnumerable<WinnersViewModel> MaleWinners(int id);
     }
 }

@@ -2,6 +2,8 @@
 {
     using Microsoft.AspNetCore.Http;
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
 
     public class CompetitionDetailsViewModel
     {
@@ -18,5 +20,9 @@
         public int ParticipantsCount { get; set; }
 
         public string CompetitionImage { get; set; }
+
+        public IEnumerable<WinnersViewModel> FemaleDogWinners { get; set; }
+
+        public IEnumerable<WinnersViewModel> MaleDogWinners { get; set; }
     }
 }

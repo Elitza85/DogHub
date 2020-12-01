@@ -36,7 +36,17 @@
                     <td class="text-center">
                         <img src="@dog.ImageUrl" />
                     </td>
-                    <td class="text-center">@dog.DogName</td>
+                    <td class="text-center">
+                        @if (dog.Gender == "Female")
+                        {
+                            <i class="fas fa-dog" style="color:deeppink"></i>
+                        }
+                        else if (dog.Gender == "Male")
+                        {
+                            <i class="fas fa-dog" style="color:blue"></i>
+                        }
+                        @dog.DogName
+                    </td>
                     <td class="text-center">@dog.CurrentTotalPoints</td>
                     <td class="text-center">
                         <a class="btn btn-info" href="/CommonForms/Vote?dogId=@dog.DogId&competitionId=@Model.CompetitionId">Vote</a>
