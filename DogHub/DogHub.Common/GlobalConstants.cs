@@ -6,6 +6,7 @@
 
         public const string AdministratorRoleName = "Administrator";
         public const string RegularUserRoleName = "Regular";
+        public const string DogOwnerUserRoleName = "Owner";
 
         // User
         public const int UserFullNameMaxValue = 50;

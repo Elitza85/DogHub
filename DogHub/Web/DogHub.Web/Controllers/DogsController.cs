@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-
+    using DogHub.Common;
     using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Dogs;
@@ -75,6 +75,9 @@
                 input.BreedsItems = this.breedsListService.GetAllAsKVP();
                 return this.View(input);
             }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+            await this.userManager.AddToRoleAsync(user, GlobalConstants.DogOwnerUserRoleName);
 
             return this.Redirect("/Dogs/Catalogue");
         }
