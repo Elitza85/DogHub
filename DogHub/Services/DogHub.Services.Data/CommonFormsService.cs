@@ -151,15 +151,16 @@
             }
         }
 
-        public async Task VoteForDog(VoteFormInputModel input, string userId)
+        public async Task VoteForDog(VoteFormInputModel input, ApplicationUser user)
         {
             var evaluationForm = new EvaluationForm
             {
                 CompetitionId = input.CompetitionId,
                 DogId = input.DogId,
-                UserId = userId,
-                TotalPoints = input.TotalPoints,
+                UserId = user.Id,
+                //TotalPoints = input.TotalPoints,
             };
+
 
             await this.evaluationFormsRepository.AddAsync(evaluationForm);
             await this.evaluationFormsRepository.SaveChangesAsync();

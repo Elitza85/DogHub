@@ -7,8 +7,6 @@
 
     public interface ICompetitionsService
     {
-        Task Create(CreateCompetitionInputModel input, string imagePath);
-
         CurrentCompetitionViewModel GetCurrentCompetition();
 
         IEnumerable<PastCompetitionsViewModel> GetPastCompetitions();

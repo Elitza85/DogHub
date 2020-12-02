@@ -13,53 +13,15 @@
 
     public class CompetitionsController : Controller
     {
-        private readonly IBreedsListService breedsService;
         private readonly ICompetitionsService competitionsService;
         private readonly UserManager<ApplicationUser> userManager;
-        private readonly IWebHostEnvironment webHostEnvironment;
 
         public CompetitionsController(
-            IBreedsListService breedsService,
             ICompetitionsService competitionsService,
-            UserManager<ApplicationUser> userManager,
-            IWebHostEnvironment webHostEnvironment)
+            UserManager<ApplicationUser> userManager)
         {
-            this.breedsService = breedsService;
             this.competitionsService = competitionsService;
             this.userManager = userManager;
-            this.webHostEnvironment = webHostEnvironment;
-        }
-
-        public IActionResult Create()
-        {
-            var viewModel = new CreateCompetitionInputModel();
-            viewModel.BreedsList = this.breedsService.GetAllAsKVP();
-            return this.View(viewModel);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateCompetitionInputModel input)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                input.BreedsList = this.breedsService.GetAllAsKVP();
-                return this.View(input);
-            }
-
-            var imagePath = $"{this.webHostEnvironment.WebRootPath}/images";
-
-            try
-            {
-                await this.competitionsService.Create(input, imagePath);
-            }
-            catch (Exception ex)
-            {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
-                input.BreedsList = this.breedsService.GetAllAsKVP();
-                return this.View(input);
-            }
-
-            return this.Redirect("/Competitions/CompetitionsList");
         }
 
         public IActionResult CompetitionsList()

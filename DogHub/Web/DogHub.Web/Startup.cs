@@ -12,6 +12,7 @@
     using DogHub.Services.Data;
     using DogHub.Services.Mapping;
     using DogHub.Services.Messaging;
+    using DogHub.Web.Areas.Administration.Services;
     using DogHub.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
@@ -77,6 +78,7 @@
             services.AddTransient<ICurrentShowsService, CurrentShowsService>();
             services.AddTransient<ICompetitionsHelpService, CompetitionsHelpService>();
             services.AddTransient<IJudgesService, JudgesService>();
+            services.AddTransient<IDashboardService, DashboardService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

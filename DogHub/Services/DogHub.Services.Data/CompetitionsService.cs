@@ -14,24 +14,16 @@
 
     public class CompetitionsService : ICompetitionsService
     {
-        private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
-
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
-        private readonly IDeletableEntityRepository<Organiser> organisersRepository;
-        private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IRepository<DogCompetition> dogsCompetitionsRepository;
         private readonly ICompetitionsHelpService competitionsHelpService;
 
         public CompetitionsService(
             IDeletableEntityRepository<Competition> competitionsRepository,
-            IDeletableEntityRepository<Organiser> organisersRepository,
-            IDeletableEntityRepository<Dog> dogsRepository,
             IRepository<DogCompetition> dogsCompetitionsRepository,
             ICompetitionsHelpService competitionsHelpService)
         {
             this.competitionsRepository = competitionsRepository;
-            this.organisersRepository = organisersRepository;
-            this.dogsRepository = dogsRepository;
             this.dogsCompetitionsRepository = dogsCompetitionsRepository;
             this.competitionsHelpService = competitionsHelpService;
         }
@@ -69,50 +61,6 @@
             result.MaleDogWinners = this.competitionsHelpService.MaleWinners(id);
 
             return result;
-        }
-
-        public async Task Create(CreateCompetitionInputModel input, string imagePath)
-        {
-            var competition = new Competition
-            {
-                BreedId = input.BreedId,
-                CompetitionEnd = input.CompetitionEnd,
-                CompetitionStart = input.CompetitionStart,
-                Name = input.Name,
-            };
-
-            var organiser = this.organisersRepository.All()
-                .FirstOrDefault(x => x.Name == input.OrganisedBy);
-            if (organiser == null)
-            {
-                organiser = new Organiser
-                {
-                    Name = input.OrganisedBy,
-                };
-            }
-
-            competition.Organiser = organiser;
-
-            Directory.CreateDirectory($"{imagePath}/competitions/");
-            var image = input.CompetitionImage;
-            var extension = Path.GetExtension(image.FileName).TrimStart('.');
-            if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
-            {
-                throw new Exception($"Invalid image extenstion {extension}");
-            }
-
-            var newImage = new CompetitionImage
-            {
-                Extension = extension,
-            };
-            competition.CompetitionImage = newImage;
-
-            var filePath = $"{imagePath}/competitions/{newImage.Id}.{extension}";
-            using Stream fileStream = new FileStream(filePath, FileMode.Create);
-            await image.CopyToAsync(fileStream);
-
-            await this.competitionsRepository.AddAsync(competition);
-            await this.competitionsRepository.SaveChangesAsync();
         }
 
         public CurrentCompetitionViewModel GetCurrentCompetition()

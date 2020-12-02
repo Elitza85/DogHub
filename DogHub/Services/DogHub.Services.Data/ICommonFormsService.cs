@@ -1,7 +1,7 @@
 ﻿namespace DogHub.Services.Data
 {
     using System.Threading.Tasks;
-
+    using DogHub.Data.Models;
     using DogHub.Web.ViewModels.CommonForms;
 
     public interface ICommonFormsService
@@ -10,7 +10,7 @@
 
         bool HasAlreadyAppliedForJudge(string userId);
 
-        Task VoteForDog(VoteFormInputModel input, string userId);
+        Task VoteForDog(VoteFormInputModel input, ApplicationUser user);
 
         bool CheckIfUserHasVoted(string userId, int dogId, int competitionId);
 
