@@ -1,0 +1,41 @@
+﻿@model DogHub.Web.ViewModels.Dogs.BreedsListViewModel
+
+@{
+    this.ViewData["Title"] = "Breeds To Approve";
+}
+
+<h1>@this.ViewData["Title"]</h1>
+@if (Model.AllBreeds.Count() == 0)
+{
+    <h4>Currently there are no new breeds for approval</h4>
+}
+else
+{
+<table>
+    <thead>
+    <th>
+        Proposed Breed Name
+    </th>
+    </thead>
+    <tbody>
+        @foreach (var breed in Model.AllBreeds)
+        {
+            <tr>
+                <td>
+                    @breed.BreedName
+                </td>
+                <td>
+                    <a class="btn btn-light" style="color:green" href="/Administration/Dashboard/ApproveBreed?breedId=@breed.BreedId"><i class="fas fa-check"></i> Approve</a>
+                </td>
+                <td>
+                    <a class="btn btn-light" style="color:red"><i class="fas fa-times"></i> Reject</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+<div style="padding-top:20px; padding-left:180px;">
+    <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+</div>
+

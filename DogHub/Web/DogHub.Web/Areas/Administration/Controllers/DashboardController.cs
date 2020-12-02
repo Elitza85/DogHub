@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Web.Areas.Administration.Controllers
 {
+    using DogHub.Common;
     using DogHub.Services.Data;
     using DogHub.Web.Areas.Administration.Services;
     using DogHub.Web.ViewModels.Administration.Dashboard;
@@ -16,7 +17,8 @@
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IDashboardService dashboardService;
 
-        public DashboardController(ISettingsService settingsService,
+        public DashboardController(
+            ISettingsService settingsService,
             IBreedsListService breedsService,
             IWebHostEnvironment webHostEnvironment,
             IDashboardService dashboardService)
@@ -63,6 +65,20 @@
             }
 
             return this.Redirect("/Competitions/CompetitionsList");
+        }
+
+        public IActionResult NewBreedsList()
+        {
+            var viewModel = this.dashboardService.BreedsListData();
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> ApproveBreed(int breedId)
+        {
+            var breedName = await this.dashboardService.ApproveNewBreed(breedId);
+
+            this.TempData["Message"] = string.Format(SuccessMessages.ApprovedDogBreedMsg, breedName);
+            return this.Redirect("Index");
         }
     }
 }

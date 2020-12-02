@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Common
+﻿namespace DogHub.Common
 {
     public static class ErrorMessages
     {
