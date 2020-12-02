@@ -14,5 +14,7 @@ namespace DogHub.Web.Areas.Administration.Services
         BreedsListViewModel BreedsListData();
 
         Task<string> ApproveNewBreed(int breedId);
+
+        Task<string> RejectBreed(int breedId);
     }
 }

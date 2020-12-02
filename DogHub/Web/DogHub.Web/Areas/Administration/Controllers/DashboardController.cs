@@ -80,5 +80,13 @@
             this.TempData["Message"] = string.Format(SuccessMessages.ApprovedDogBreedMsg, breedName);
             return this.Redirect("Index");
         }
+
+        public async Task<IActionResult> RejectBreed(int breedId)
+        {
+            var breedName = await this.dashboardService.RejectBreed(breedId);
+
+            this.TempData["Message"] = string.Format(SuccessMessages.RejectedDogBreedMsg, breedName);
+            return this.Redirect("Index");
+        }
     }
 }

@@ -92,6 +92,18 @@ namespace DogHub.Web.Areas.Administration.Services
             return breed.Name;
         }
 
+        public async Task<string> RejectBreed(int breedId)
+        {
+            var breed = this.breedsRepository.All()
+                .Where(x => x.Id == breedId).FirstOrDefault();
+            breed.IsRejected = true;
+            breed.IsUnderReview = false;
+
+            await this.breedsRepository.SaveChangesAsync();
+
+            return breed.Name;
+        }
+
         private IEnumerable<BreedNames> GelAllBreeds()
         {
             return this.breedsRepository.All()
