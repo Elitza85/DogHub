@@ -5,9 +5,9 @@
 }
 
 <section id="team" class="hero-fullscreen2 pt100 pb90">
-    <div class="container">
+    <div class="container col-md-9">
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div>
                 <h2>Our Fair <strong>Judges</strong></h2>
                 <p class="lead">They do their best to judge the competition participants fairly.</p>
             </div>
@@ -17,28 +17,33 @@
                 @foreach (var judge in Model.JudgesList)
                 {
 
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            <img src="@judge.JudgeImage" class="img-responsive" alt="#" />
-                        </div>
-                        <div class="team-caption">
-                            <div>
+                    <div class="team">
+                        <div class="team-container">
+                            <div class="team-image">
+                                <img src="@judge.JudgeImage" class="img-responsive" alt="#" />
+                            </div>
+                            <div class="team-caption">
                                 <div>
-                                    <p>Years of experience: @judge.YearsOfExperience</p>
-                                    <p>Raised litters: @judge.RaisedLitters</p>
-                                    <p>Number of dog champions owned or bred: @judge.NumberOfChampionsOwned</p>
+                                    <div>
+                                        <p>Years of experience: @judge.YearsOfExperience</p>
+                                        <p>Raised litters: @judge.RaisedLitters</p>
+                                        <p>Number of dog champions owned or bred: @judge.NumberOfChampionsOwned</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <h5>@judge.FirstName @judge.LastName</h5>
+                        <p>@judge.SelfDescription</p>
                     </div>
-                    <h5>@judge.FirstName @judge.LastName</h5>
-                    <p>@judge.SelfDescription</p>
-                </div>
                 }
-                
+
             </div>
 
         </div>
+    </div>
+    <div class="col-md-3"style="margin-top:-1400px; margin-bottom:70px; float:right">
+        <cache expires-after="TimeSpan.FromMinutes(5)">
+            <vc:last-registered-dogs title="Last Registered Dogs"></vc:last-registered-dogs>
+        </cache>
     </div>
 </section>
