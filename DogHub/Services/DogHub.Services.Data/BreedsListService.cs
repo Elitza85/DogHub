@@ -24,7 +24,10 @@
             {
                 x.Id,
                 x.Name,
-            }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name));
+            })
+                .OrderBy(x => x.Name)
+                .ToList()
+                .Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name));
         }
 
         public BreedsListViewModel BreedsListData()

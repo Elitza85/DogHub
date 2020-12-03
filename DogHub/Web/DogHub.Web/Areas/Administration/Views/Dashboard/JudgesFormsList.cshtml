@@ -1,0 +1,115 @@
+﻿@model DogHub.Web.ViewModels.Administration.Dashboard.JudgeAppFormsViewModel
+
+@{
+    this.ViewData["Title"] = "Judge Application Forms For Approval";
+}
+
+<h2>@this.ViewData["Title"]</h2>
+@if (Model.FormsList.Count() == 0)
+{
+    <h4>Currently there are no new judge application forms for approval</h4>
+}
+else
+{
+<table style="margin-top:40px;" class="col-md-6">
+    @foreach (var applicant in Model.FormsList)
+    {
+        <tr>
+            <th>
+                Applicant Full Name
+            </th>
+            <td>
+                @applicant.FirstName @applicant.LastName
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Years of Experience
+                <p>
+                    <small>At least 7 required</small>
+                </p>
+            </th>
+            <td>
+                @applicant.YearsOfExperience
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Been Judge Assistant
+                <p>
+                    <small>Required to be true</small>
+                </p>
+            </th>
+            <td>
+                @applicant.HasBeenJudgeAssistant
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Raised Litters
+                <p>
+                    <small>At least 5 required</small>
+                </p>
+            </th>
+            <td>
+                @applicant.RaisedLitters
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Champions Owned or Bred
+                <p>
+                    <small>At least 4 required</small>
+                </p>
+            </th>
+            <td>
+                @applicant.NumberOfChampionsOwned
+            </td>
+        </tr>
+
+        <tr>
+            <th>
+                Link to Certificate
+            </th>
+            <td>
+                <a href="@applicant.JudgeInstituteCertificateUrl" target="_blank" style="color:blue;">Review</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <a class="btn btn-light" style="color:green" href="/Administration/Dashboard/ApproveApplication?userId=@applicant.UserId"><i class="fas fa-check"></i> Approve</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form method="post" asp-area="Administration" asp-controller="Dashboard" asp-action="RejectApplication" role="form" class="table-bordered col-md-12">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div>
+                        <label asp-for="EvaluatorNotes" class="font-weight-bold required"></label>
+                        <textarea asp-for="EvaluatorNotes" class="form-control"></textarea>
+                        <span asp-validation-for="EvaluatorNotes" class="text-danger"></span>
+                    </div>
+
+                    <div>
+                        <input asp-for="UserId" style="display:none;" value="@applicant.UserId"/>
+                    </div>
+                    <div class="form-group">
+                        <i class="fas fa-times"></i><input type="submit" class="btn btn-light" style="color:red" value="Reject" />
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td  class="col-md-12">
+                <hr style="height:2px;color:gray;background-color:gray">
+            </td>
+        </tr>
+    }
+</table>
+
+}
+<div style="padding-top:20px; padding-left:180px;">
+    <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+</div>

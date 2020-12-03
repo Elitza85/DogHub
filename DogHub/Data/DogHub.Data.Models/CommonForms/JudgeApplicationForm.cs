@@ -19,10 +19,8 @@
 
         public int YearsOfExperience { get; set; }
 
-        // should be 5 or above
         public int RaisedLitters { get; set; }
 
-        // number of dog-champions that the judge applicant owned or bred is 4 or above
         public int NumberOfChampionsOwned { get; set; }
 
         // it should be true to be able to become a judge

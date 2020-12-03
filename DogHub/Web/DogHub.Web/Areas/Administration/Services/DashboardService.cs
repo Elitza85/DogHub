@@ -1,6 +1,8 @@
 ﻿using DogHub.Data.Common.Repositories;
+using DogHub.Data.Models.CommonForms;
 using DogHub.Data.Models.Competitions;
 using DogHub.Data.Models.Dogs;
+using DogHub.Web.ViewModels.Administration.Dashboard;
 using DogHub.Web.ViewModels.Competitions;
 using DogHub.Web.ViewModels.Dogs;
 using System;
@@ -18,15 +20,18 @@ namespace DogHub.Web.Areas.Administration.Services
         private readonly IDeletableEntityRepository<Organiser> organisersRepository;
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
         private readonly IDeletableEntityRepository<Breed> breedsRepository;
+        private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository;
 
         public DashboardService(
             IDeletableEntityRepository<Organiser> organisersRepository,
             IDeletableEntityRepository<Competition> competitionsRepository,
-            IDeletableEntityRepository<Breed> breedsRepository)
+            IDeletableEntityRepository<Breed> breedsRepository,
+            IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository)
         {
             this.organisersRepository = organisersRepository;
             this.competitionsRepository = competitionsRepository;
             this.breedsRepository = breedsRepository;
+            this.judgeFormsRepository = judgeFormsRepository;
         }
 
         public async Task Create(CreateCompetitionInputModel input, string imagePath)
@@ -102,6 +107,56 @@ namespace DogHub.Web.Areas.Administration.Services
             await this.breedsRepository.SaveChangesAsync();
 
             return breed.Name;
+        }
+
+        public JudgeAppFormsViewModel JudgeAppForms()
+        {
+            var appsPage = new JudgeAppFormsViewModel();
+            appsPage.FormsList = this.GetAllForms();
+
+            return appsPage;
+        }
+
+        public async Task<string> ApproveApplication(string userId)
+        {
+            var application = this.judgeFormsRepository.All()
+                .Where(x => x.UserId == userId).FirstOrDefault();
+            application.IsApproved = true;
+            application.IsUnderReview = false;
+
+            await this.judgeFormsRepository.SaveChangesAsync();
+
+            return application.FirstName + " " + application.LastName;
+        }
+
+        public async Task<string> RejectApplication(string userId, string notes)
+        {
+            var application = this.judgeFormsRepository.All()
+                .Where(x => x.UserId == userId).FirstOrDefault();
+            application.IsRejected = true;
+            application.IsUnderReview = false;
+            application.EvaluatorNotes = notes;
+
+            await this.judgeFormsRepository.SaveChangesAsync();
+
+            return application.FirstName + " " + application.LastName;
+        }
+
+        private IEnumerable<SingleJudgeAppFormViewModel> GetAllForms()
+        {
+            return this.judgeFormsRepository.All()
+                .Where(x => x.IsUnderReview == true)
+                .Select(f => new SingleJudgeAppFormViewModel
+                {
+                    UserId = f.UserId,
+                    FirstName = f.FirstName,
+                    LastName = f.LastName,
+                    YearsOfExperience = f.YearsOfExperience,
+                    HasBeenJudgeAssistant = f.HasBeenJudgeAssistant,
+                    NumberOfChampionsOwned = f.NumberOfChampionsOwned,
+                    RaisedLitters = f.RaisedLitters,
+                    JudgeInstituteCertificateUrl = f.JudgeInstituteCertificateUrl,
+                }).ToList();
         }
 
         private IEnumerable<BreedNames> GelAllBreeds()

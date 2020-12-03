@@ -88,5 +88,29 @@
             this.TempData["Message"] = string.Format(SuccessMessages.RejectedDogBreedMsg, breedName);
             return this.Redirect("Index");
         }
+
+        public IActionResult JudgesFormsList()
+        {
+            var viewModel = this.dashboardService.JudgeAppForms();
+            return this.View(viewModel);
+        }
+
+        public async Task<IActionResult> ApproveApplication(string userId)
+        {
+            var applicantName = await this.dashboardService.ApproveApplication(userId);
+
+            this.TempData["Message"] = string.Format(SuccessMessages.ApproveJudgeApplication, applicantName);
+            return this.Redirect("Index");
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> RejectApplication(JudgeAppFormsViewModel input)
+        {
+            var applicantName = await this.dashboardService.RejectApplication(input.UserId, input.EvaluatorNotes);
+
+            this.TempData["Message"] = string.Format(SuccessMessages.RejectJudgeApplication, applicantName);
+            return this.Redirect("Index");
+        }
     }
 }
