@@ -83,6 +83,11 @@
 
         public async Task<IActionResult> RejectBreed(int breedId)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
             var breedName = await this.dashboardService.RejectBreed(breedId);
 
             this.TempData["Message"] = string.Format(SuccessMessages.RejectedDogBreedMsg, breedName);
@@ -103,10 +108,14 @@
             return this.Redirect("Index");
         }
 
-        [HttpPost]
 
         public async Task<IActionResult> RejectApplication(JudgeAppFormsViewModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
             var applicantName = await this.dashboardService.RejectApplication(input.UserId, input.EvaluatorNotes);
 
             this.TempData["Message"] = string.Format(SuccessMessages.RejectJudgeApplication, applicantName);

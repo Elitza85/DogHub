@@ -8,5 +8,8 @@
         public const string RejectedDogBreedMsg = "You rejected the {0} breed.";
         public const string ApproveJudgeApplication = "You approved the application request of {0}.";
         public const string RejectJudgeApplication = "You rejected the application request of {0}.";
+
+        // Dog
+        public const string RegisteredDogMsg = "Thank you for registering your dog in the Dog Hub.";
     }
 }

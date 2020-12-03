@@ -6,15 +6,15 @@
 
     public class NewBreedInputModel
     {
-        [Required]
-        [MinLength(GlobalConstants.BreedMinLength)]
-        [MaxLength(GlobalConstants.BreedMaxLength)]
-        public string BreedName { get; set; }
+        //[Required]
+        //[MinLength(GlobalConstants.BreedMinLength)]
+        //[MaxLength(GlobalConstants.BreedMaxLength)]
+        //public string BreedName { get; set; }
 
-        public bool IsApproved { get; set; }
+        //public bool IsApproved { get; set; }
 
-        public bool IsUnderReview { get; set; }
+        //public bool IsUnderReview { get; set; }
 
-        public bool IsRejected { get; set; }
+        //public bool IsRejected { get; set; }
     }
 }

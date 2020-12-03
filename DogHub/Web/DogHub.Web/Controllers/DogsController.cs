@@ -2,6 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
+
     using DogHub.Common;
     using DogHub.Data.Models;
     using DogHub.Services.Data;
@@ -79,6 +80,8 @@
             var user = await this.userManager.GetUserAsync(this.User);
             await this.userManager.AddToRoleAsync(user, GlobalConstants.DogOwnerUserRoleName);
 
+            this.TempData["Message"] = SuccessMessages.RegisteredDogMsg;
+
             return this.Redirect("/Dogs/Catalogue");
         }
 
@@ -105,7 +108,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> ProposeBreed(NewBreedInputModel input)
+        public async Task<IActionResult> ProposeBreed(BreedsListViewModel input)
         {
             if (!this.ModelState.IsValid)
             {

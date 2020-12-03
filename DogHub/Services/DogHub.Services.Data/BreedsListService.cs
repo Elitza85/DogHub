@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models.Dogs;
     using DogHub.Web.ViewModels.Dogs;
@@ -37,7 +38,7 @@
             return breedsPage;
         }
 
-        public async Task ProposeBreed(NewBreedInputModel input)
+        public async Task ProposeBreed(BreedsListViewModel input)
         {
             var breedName = input.BreedName.ToLower();
             if (!this.breedsRepository.All().Any(x => x.Name.ToLower() == breedName))

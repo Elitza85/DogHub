@@ -11,6 +11,6 @@
 
         BreedsListViewModel BreedsListData();
 
-        Task ProposeBreed(NewBreedInputModel input);
+        Task ProposeBreed(BreedsListViewModel input);
     }
 }
