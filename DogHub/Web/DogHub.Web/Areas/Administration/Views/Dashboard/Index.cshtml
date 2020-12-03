@@ -8,13 +8,22 @@
     <div class="alert alert-success">@this.TempData["Message"]</div>
 }
 
-<h1>@this.ViewData["Title"]</h1>
-<h4>Competitions Management Section</h4>
-<a class="btn btn-light" asp-area="Administration" asp-controller="Dashboard" asp-action="Create">Create Competition</a>
-<hr style="margin:20px;" />
-<h4>Breeds Management Section</h4>
-<a class="btn btn-light" asp-area="Administration" asp-controller="Dashboard" asp-action="NewBreedsList">Breeds To Approve</a>
-<hr style="margin:20px;" />
-<h4>Judge Application Forms Management Section</h4>
-<a class="btn btn-light" asp-area="Administration" asp-controller="Dashboard" asp-action="JudgesFormsList">Application Forms</a>
-<hr style="margin:20px;" />
+<div class="row">
+    <div class="col-md-9">
+        <h1>@this.ViewData["Title"]</h1>
+        <h4>Competitions Management Section</h4>
+        <a class="btn btn-light" asp-area="Administration" asp-controller="Dashboard" asp-action="Create">Create Competition</a>
+        <hr style="margin:20px;" />
+        <h4>Breeds Management Section</h4>
+        <a class="btn btn-light" asp-area="Administration" asp-controller="Dashboard" asp-action="NewBreedsList">Breeds To Approve</a>
+        <hr style="margin:20px;" />
+        <h4>Judge Application Forms Management Section</h4>
+        <a class="btn btn-light" asp-area="Administration" asp-controller="Dashboard" asp-action="JudgesFormsList">Application Forms</a>
+        <hr style="margin:20px;" />
+    </div>
+    <div class="col-md-3">
+        <cache expires-after="TimeSpan.FromMinutes(5)">
+            <vc:last-registered-dogs title="Last Registered Dogs"></vc:last-registered-dogs>
+        </cache>
+    </div>
+</div>

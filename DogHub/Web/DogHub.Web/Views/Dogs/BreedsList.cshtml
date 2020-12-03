@@ -3,6 +3,7 @@
     this.ViewData["Title"] = "Breeds List";
 }
 
+<div class="row">
     <div class="col-md-9">
         <div style="text-align:center; margin-bottom:50px;">
             <h2>Review All Dog Breeds <br />or Propose a New Breed</h2>
@@ -41,8 +42,9 @@
             }
         </table>
     </div>
-    <div class="col-md-3"style="margin-top:-490px; margin-bottom:70px; float:right">
+    <div class="col-md-3">
         <cache expires-after="TimeSpan.FromMinutes(5)">
             <vc:last-registered-dogs title="Last Registered Dogs"></vc:last-registered-dogs>
         </cache>
     </div>
+</div>
