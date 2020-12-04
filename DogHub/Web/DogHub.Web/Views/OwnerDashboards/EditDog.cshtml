@@ -17,13 +17,12 @@
     <div class="form-group">
         <label asp-for="BreedId"></label>
         <select asp-for="BreedId" asp-items="breedItems"></select>
-        <span asp-validation-for="Gender" class="text-danger"></span>
+        <span asp-validation-for="BreedId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Gender"></label>
         <select asp-for="Gender" class="form-control" asp-items="@Html.GetEnumSelectList<DogHub.Data.Models.Enums.DogGenderEnum>()"></select>
-        @*<input asp-for="Gender" class="form-control" />*@
         <span asp-validation-for="Gender" class="text-danger"></span>
     </div>
 
@@ -59,7 +58,6 @@
             <option>True</option>
             <option>False</option>
         </select>
-        @*<input asp-for="IsSpayedOrNeutered" class="form-control" />*@
         <span asp-validation-for="IsSpayedOrNeutered" class="text-danger"></span>
     </div>
 
@@ -69,7 +67,6 @@
             <option>True</option>
             <option>False</option>
         </select>
-        @*<input asp-for="Sellable" class="form-control" />*@
         <span asp-validation-for="Sellable" class="text-danger"></span>
     </div>
 

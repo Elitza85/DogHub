@@ -58,7 +58,7 @@
         public IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId, int id)
         {
             var result = this.dogsRepository.All()
-            .Where(c => c.UserId == userId)
+            .Where(c => c.UserId == userId && !c.IsDeleted)
                     .Select(p => new PossibleDogApplicantsViewModel
                     {
                         DogId = p.Id,

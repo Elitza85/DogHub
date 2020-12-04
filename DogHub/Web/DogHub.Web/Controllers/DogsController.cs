@@ -39,6 +39,7 @@
             }
 
             var viewModel = this.dogService.DogsData(id, 12);
+            viewModel.BreedsItems = this.breedsListService.GetAllAsKVP();
             return this.View(viewModel);
         }
 

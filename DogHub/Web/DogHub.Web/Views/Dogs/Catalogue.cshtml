@@ -2,6 +2,7 @@
 
 @{
     this.ViewData["Title"] = "Dogs Catalogue, page" + Model.PageNumber;
+    var breedItems = this.Model.BreedsItems.Select(x => new SelectListItem(x.Value, x.Key));
 }
 
 @if (this.TempData.ContainsKey("Message"))
@@ -24,27 +25,15 @@
         </div>
         <br />
 
-        <div class="componentFilter col-md-12">
+        <div class="componentFilter col-md-6">
             <p>
                 <i class="fas fa-filter"></i>
-                Get dogs by Dog Color:
-                <input name="DogColor" />
-                and by Dog Eyes Color:
-                <input name="DogEyesColor" />
-            </p>
-            <p>
-                <i class="fas fa-filter"></i>
-                Get dogs by breed:
-                <select name="breedType" id="breedType">
-                    <option value="none" class="font-weight-bold">--Select--</option>
-                    @*forech(var breed in Model)*@
-                    <option>breed</option>
-                </select>
-            </p>
-            <p>
-                <i class="fas fa-filter"></i>
-                Get only sellable dogs:
-                <input type="checkbox" id="getSellableDogs" name="getSellableDogs" value="Yes" />
+                Filter dogs by breed (please select from the drop-down menu):
+                <div class="form-group">
+                    @*<label asp-for="BreedId"></label>*@
+                    <select asp-for="BreedId" asp-items="breedItems"></select>
+                    <span asp-validation-for="BreedId" class="text-danger"></span>
+                </div>
             </p>
 
         </div>
