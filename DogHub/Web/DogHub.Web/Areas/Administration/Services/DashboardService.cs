@@ -34,7 +34,7 @@ namespace DogHub.Web.Areas.Administration.Services
             this.judgeFormsRepository = judgeFormsRepository;
         }
 
-        public async Task Create(CreateCompetitionInputModel input, string imagePath)
+        public async Task<string> CreateCompetition(CreateCompetitionInputModel input, string imagePath)
         {
             var competition = new Competition
             {
@@ -76,6 +76,8 @@ namespace DogHub.Web.Areas.Administration.Services
 
             await this.competitionsRepository.AddAsync(competition);
             await this.competitionsRepository.SaveChangesAsync();
+
+            return competition.Name;
         }
 
         public BreedsListViewModel BreedsListData()

@@ -35,7 +35,7 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Create()
+        public IActionResult CreateCompetition()
         {
             var viewModel = new CreateCompetitionInputModel();
             viewModel.BreedsList = this.breedsService.GetAllAsKVP();
@@ -43,7 +43,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateCompetitionInputModel input)
+        public async Task<IActionResult> CreateCompetition(CreateCompetitionInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -55,7 +55,8 @@
 
             try
             {
-                await this.dashboardService.Create(input, imagePath);
+                string competitionName = await this.dashboardService.CreateCompetition(input, imagePath);
+                this.TempData["Message"] = string.Format(SuccessMessages.SuccessfullyCreatedCompetitionMsg, competitionName);
             }
             catch (Exception ex)
             {
@@ -64,7 +65,8 @@
                 return this.View(input);
             }
 
-            return this.Redirect("/Competitions/CompetitionsList");
+
+            return this.Redirect("Index");
         }
 
         public IActionResult NewBreedsList()

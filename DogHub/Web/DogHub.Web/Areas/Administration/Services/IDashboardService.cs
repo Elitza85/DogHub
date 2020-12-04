@@ -10,7 +10,7 @@ namespace DogHub.Web.Areas.Administration.Services
 {
     public interface IDashboardService
     {
-        Task Create(CreateCompetitionInputModel input, string imagePath);
+        Task<string> CreateCompetition(CreateCompetitionInputModel input, string imagePath);
 
         BreedsListViewModel BreedsListData();
 
