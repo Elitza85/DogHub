@@ -11,5 +11,7 @@
         public int TotalPoints { get; set; }
 
         public string DogVideoUrl { get; set; }
+
+        public bool IsUserJudge { get; set; }
     }
 }

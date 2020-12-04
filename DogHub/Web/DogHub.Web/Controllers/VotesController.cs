@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Web.Controllers
 {
     using System.Security.Claims;
+    using System.Linq;
     using System.Threading.Tasks;
     using DogHub.Common;
     using DogHub.Data.Models;
@@ -34,11 +35,17 @@
                 return this.View();
             }
 
-            var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await this.userManager.GetUserAsync(this.User);
-            var role = await this.userManager.GetRolesAsync(user);
-
+            if (await this.userManager.IsInRoleAsync(user, GlobalConstants.JudgeRoleName))
+            {
+                input.IsUserJudge = true;
+            }
+            else
+            {
+                input.IsUserJudge = false;
+            }
             await this.commonFormsService.VoteForDog(input, user);
+
             return this.NoContent();
         }
     }

@@ -185,7 +185,13 @@
         </div>
         <p style="padding-top:50px;">Thanks For Giving <span id="selected-rating" name="totalPoints" class="btn selected-rating"></span> Points.</p>
         <input type="submit" id="submitBtn" class="btn btn-light" value="Send Your Vote" />
-        <b id="successfullyVoted" style="display:none; text-align:center;">Thank you for voting!</b>
+        <b id="successfullyVoted" style="display:none; text-align:center;">
+        Thank you for voting!
+            @if (this.User.IsInRole("Judge"))
+            {
+                <p>As you are a judge voter your voting points will be doubled in the system!</p>
+            }
+        </b>
         <a type="submit" style="display:none;" id="backBtn" class="btn btn-dark" asp-controller="Competitions" asp-action="Details" asp-route-id="@Model.CompetitionId">Back To Competition</a>
     </div>
     <form method="post" id="antiForgeryForm"></form>

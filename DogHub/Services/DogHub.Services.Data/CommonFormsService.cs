@@ -158,9 +158,12 @@
                 CompetitionId = input.CompetitionId,
                 DogId = input.DogId,
                 UserId = user.Id,
-                //TotalPoints = input.TotalPoints,
+                TotalPoints = input.TotalPoints,
             };
-
+            if (input.IsUserJudge)
+            {
+                evaluationForm.TotalPoints *= 2;
+            }
 
             await this.evaluationFormsRepository.AddAsync(evaluationForm);
             await this.evaluationFormsRepository.SaveChangesAsync();
