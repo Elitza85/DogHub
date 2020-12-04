@@ -1,13 +1,17 @@
 ﻿namespace DogHub.Web.Areas.Administration.Controllers
 {
     using DogHub.Common;
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.Areas.Administration.Services;
     using DogHub.Web.ViewModels.Administration.Dashboard;
     using DogHub.Web.ViewModels.Competitions;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class DashboardController : AdministrationController
@@ -16,17 +20,23 @@
         private readonly IBreedsListService breedsService;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IDashboardService dashboardService;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+        private readonly UserManager<ApplicationUser> userManager;
 
         public DashboardController(
             ISettingsService settingsService,
             IBreedsListService breedsService,
             IWebHostEnvironment webHostEnvironment,
-            IDashboardService dashboardService)
+            IDashboardService dashboardService,
+            IDeletableEntityRepository<ApplicationUser> usersRepository,
+            UserManager<ApplicationUser> userManager)
         {
             this.settingsService = settingsService;
             this.breedsService = breedsService;
             this.webHostEnvironment = webHostEnvironment;
             this.dashboardService = dashboardService;
+            this.usersRepository = usersRepository;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -105,6 +115,10 @@
         public async Task<IActionResult> ApproveApplication(string userId)
         {
             var applicantName = await this.dashboardService.ApproveApplication(userId);
+
+            var user = this.usersRepository.All().First(x => x.Id == userId);
+
+            await this.userManager.AddToRoleAsync(user, GlobalConstants.JudgeRoleName);
 
             this.TempData["Message"] = string.Format(SuccessMessages.ApproveJudgeApplication, applicantName);
             return this.Redirect("Index");
