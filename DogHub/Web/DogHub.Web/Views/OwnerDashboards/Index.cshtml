@@ -1,4 +1,15 @@
-﻿<h2 style="padding:20px;">Dashboard</h2>
+﻿@model DogHub.Web.ViewModels.OwnerDashboards.OwnerIndexViewModel
+
+@{ 
+    this.ViewData["Title"] = "Dog Owner Dashboard";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<h2 style="padding:20px;">@this.ViewData["Title"]</h2>
 
 <div id="container" class="col-md-9">
     <div>
@@ -8,6 +19,7 @@
 
     <div>
         <h3 style="padding-top:30px"><i class="fas fa-bone"></i> Your Dogs</h3>
+        <h5>Currently you have @Model.DogsCount registered dog/s.</h5>
         <hr />
 
         <table class="table-bordered col-md-12">
@@ -18,22 +30,27 @@
                 <th>Options</th>
             </thead>
             <tbody>
+                @foreach (var dog in Model.DogsData)
+                {
                 <tr>
                     <td class="text-center">
-                        <img height="150px;" src="https://tse2.mm.bing.net/th?id=OIP.Jf0NnGpH2AhNM3BtwZufwwHaJ4&pid=Api&P=0&w=300&h=300" />
+                        <img height="150px;" src="@dog.ImageUrl" />
                     </td>
-                    <td class="text-center">Dog.Name</td>
-                    <td class="text-center">Dog.Breed</td>
+                    <td class="text-center">@dog.Name</td>
+                    <td class="text-center">@dog.BreedName</td>
                     <td style="text-align:center;">
                         <p>
-                            <a href="/Dogs/DogProfile?id=dogId">View Full Profile</a>
+                            <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Full Profile</a>
+                        </p>
+                        <p>
+                            <a class="btn btn-light" asp-controller="OwnerDashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit Dog Data</a>
                         </p>
                         <p>
                             <a href="">Find a Partner</a>
                         </p>
                     </td>
                 </tr>
-
+                }
             </tbody>
         </table>
     </div>

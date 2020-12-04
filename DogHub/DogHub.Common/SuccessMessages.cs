@@ -10,6 +10,10 @@
         public const string RejectJudgeApplication = "You rejected the application request of {0}.";
         public const string SuccessfullyCreatedCompetitionMsg = "You successfully created {0}.";
 
+        //Owner
+
+        public const string UpdatedDogDataMsg = "You successfully updated the information about your dog {0}.";
+
         // Dog
         public const string RegisteredDogMsg = "Thank you for registering your dog in the Dog Hub.";
     }
