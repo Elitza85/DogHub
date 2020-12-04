@@ -7,6 +7,7 @@
     using DogHub.Data.Models;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Dogs;
+    using DogHub.Web.ViewModels.Searches;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
@@ -18,17 +19,20 @@
         private readonly IDogsService dogService;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ISearchesService searchesService;
 
         public DogsController(
             IBreedsListService breedsListService,
             IDogsService dogService,
             IWebHostEnvironment webHostEnvironment,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ISearchesService searchesService)
         {
             this.breedsListService = breedsListService;
             this.dogService = dogService;
             this.webHostEnvironment = webHostEnvironment;
             this.userManager = userManager;
+            this.searchesService = searchesService;
         }
 
         public IActionResult Catalogue(int id = 1)
@@ -40,6 +44,7 @@
 
             var viewModel = this.dogService.DogsData(id, 12);
             viewModel.BreedsItems = this.breedsListService.GetAllAsKVP();
+            viewModel.DogColors = this.searchesService.GetAllColors<ColorNameViewModel>();
             return this.View(viewModel);
         }
 

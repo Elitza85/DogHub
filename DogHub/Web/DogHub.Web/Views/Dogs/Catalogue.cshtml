@@ -26,7 +26,7 @@
         <br />
 
         <div class="componentFilter col-md-6">
-            <p>
+            <form>
                 <i class="fas fa-filter"></i>
                 Filter dogs by breed (please select from the drop-down menu):
                 <div class="form-group">
@@ -34,7 +34,22 @@
                     <select asp-for="BreedId" asp-items="breedItems"></select>
                     <span asp-validation-for="BreedId" class="text-danger"></span>
                 </div>
+                <button class="btn btn-light">Search</button>
+            </form>
+            <form asp-controller="Searches" asp-action="ListByColor" method="get">
+                <i class="fas fa-filter"></i>
+                Filter dogs by color (please select below):
+                <p>
+                    @foreach (var color in Model.DogColors)
+                    {
+                        <input id="color_@color.Id" type="checkbox" name="DogColors" value="@color.Id" />
+                        <label for="color_@color.Id">@color.ColorName</label>
+                    }
+                </p>
+            <p>
+                <button class="btn btn-light">Search</button>
             </p>
+            </form>
 
         </div>
         <hr class="col-md-12" />
