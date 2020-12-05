@@ -27,48 +27,51 @@
                     <partial name="_LoginPartial" />
                     
                     <ul class="navbar-nav flex-grow-1">
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-            </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Competitions" asp-action="CompetitionsList">Competitions</a>
-            </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Competitions" asp-action="CompetitionsList">Competitions</a>
+                        </li>
 
-            <li class="dropdown megamenu vos">
-                <a class="dropdown-toggle">Dogs<i class="ion-ios-arrow-down"></i></a>
-                <ul class="dropdown-menu fullwidth">
-                    <li class="megamenu-content withdesc">
-                        <div class="col-md-3 mg-col">
-                            <ul>
-                                <li><a asp-area="" asp-controller="Dogs" asp-action="Main">Dog Experience</a></li>
-                                <li><a asp-area="" asp-controller="Dogs" asp-action="Catalogue">Catalogue</a></li>
-                                <li><a asp-area="" asp-controller="Dogs" asp-action="Register">Register Dog</a></li>
-                                <li><a asp-area="" asp-controller="Dogs" asp-action="BreedsList">Propose New Breed</a></li>
+                        <li class="dropdown megamenu vos">
+                            <a class="dropdown-toggle">Dogs<i class="ion-ios-arrow-down"></i></a>
+                            <ul class="dropdown-menu fullwidth">
+                                <li class="megamenu-content withdesc">
+                                    <div class="col-md-3 mg-col">
+                                        <ul>
+                                            <li><a asp-area="" asp-controller="Dogs" asp-action="Main">Dog Experience</a></li>
+                                            <li><a asp-area="" asp-controller="Dogs" asp-action="Catalogue">Catalogue</a></li>
+                                            <li><a asp-area="" asp-controller="Dogs" asp-action="Register">Register Dog</a></li>
+                                            <li><a asp-area="" asp-controller="Dogs" asp-action="BreedsList">Propose New Breed</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
                             </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
+                        </li>
 
-            <li class="dropdown megamenu vos">
-                <a class="dropdown-toggle">Judges<i class="ion-ios-arrow-down"></i></a>
-                <ul class="dropdown-menu fullwidth">
-                    <li class="megamenu-content withdesc">
-                        <div class="col-md-3 mg-col">
-                            <ul>
-                                <li><a asp-area="" asp-controller="Judges" asp-action="JudgesList">Judges List</a></li>
-                                <li><a asp-area="" asp-controller="CommonForms" asp-action="ApplyForJudge">Apply For Judge</a></li>
+                        <li class="dropdown megamenu vos">
+                            <a class="dropdown-toggle">Judges<i class="ion-ios-arrow-down"></i></a>
+                            <ul class="dropdown-menu fullwidth">
+                                <li class="megamenu-content withdesc">
+                                    <div class="col-md-3 mg-col">
+                                        <ul>
+                                            <li><a asp-area="" asp-controller="Judges" asp-action="JudgesList">Judges List</a></li>
+                                            <li><a asp-area="" asp-controller="CommonForms" asp-action="ApplyForJudge">Apply For Judge</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
                             </ul>
-                        </div>
-                    </li>
-                </ul>
-            </li>
+                        </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contacts</a>
-            </li>
-        </ul>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Contacts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
