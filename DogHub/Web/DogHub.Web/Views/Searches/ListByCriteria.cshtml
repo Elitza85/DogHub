@@ -1,0 +1,67 @@
+﻿@model DogHub.Web.ViewModels.Searches.ListDataViewModel
+
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Dogs/CatalogueStyles.css" />
+</head>
+<body>
+    @if (Model.DogsByColor != null)
+    {
+        if (Model.DogsByColor.Count() == 0)
+        {
+            <h4>There are no registered dogs of the selected color/s</h4>
+        }
+        else
+        {
+            <h4>The found dogs for the selected colors are:</h4>
+            <div class="component">
+                @foreach (var dog in Model.DogsByColor)
+                {
+                    <div class="card singleDog" style="width: 18rem;">
+                        <img src="@dog.ImageUrl" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Name: @dog.Name</h5>
+                            <p class="card-text">Color: @dog.DogColorColorName</p>
+                            <a href="/Dogs/DogProfile?id=@dog.Id" class="btn btn-light">View Profile</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+    @if (Model.DogsByBreed != null)
+    {
+        if (Model.DogsByBreed.Count() == 0)
+        {
+            <h4>There are no registered dogs of the selected breed</h4>
+        }
+        else
+        {
+            <h4>The found dogs for the @Model.DogsByBreed.First().BreedName breed are:</h4>
+            <div class="component">
+                @foreach (var dog in Model.DogsByBreed)
+                {
+                    <div class="card singleDog" style="width: 18rem;">
+                        <img src="@dog.ImageUrl" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Name: @dog.Name</h5>
+                            <p class="card-text">Gender: @dog.Gender</p>
+                            <a href="/Dogs/DogProfile?id=@dog.Id" class="btn btn-light">View Profile</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+
+    <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+</body>
+</html>
+

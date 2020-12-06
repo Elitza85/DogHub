@@ -26,7 +26,7 @@
         <br />
 
         <div class="componentFilter col-md-6">
-            <form>
+            <form asp-controller="Searches" asp-action="ListByCriteria" method="get">
                 <i class="fas fa-filter"></i>
                 Filter dogs by breed (please select from the drop-down menu):
                 <div class="form-group">
@@ -36,7 +36,7 @@
                 </div>
                 <button class="btn btn-light">Search</button>
             </form>
-            <form asp-controller="Searches" asp-action="ListByColor" method="get">
+            <form asp-controller="Searches" asp-action="ListByCriteria" method="get">
                 <i class="fas fa-filter"></i>
                 Filter dogs by color (please select below):
                 <p>
@@ -87,8 +87,6 @@
                             }
                             @item.Gender
                         </a>
-                        @*<a hidden="hidden" name="EyesColor" value="Model.EyesColor"></a>
-                        <a hidden="hidden" name="DogColor" value="Model.DogColor"></a>*@
                     </span>
 
                     <span style="float: right; padding-right:10px;">
