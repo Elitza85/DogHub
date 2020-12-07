@@ -131,14 +131,15 @@
         private IEnumerable<WinnersViewModel> AllWinners(int id)
         {
             var winners = this.dogCompetitionRepository.All()
-                .Where(x => x.CompetitionId == id).ToList()
-            .Select(x => new WinnersViewModel
-            {
-                Id = x.DogId,
-                Name = this.dogsRepository.All().Where(d => d.Id == x.DogId).Select(n => n.Name).FirstOrDefault(),
-                Gender = this.dogsRepository.All().Where(d => d.Id == x.DogId).Select(g => g.Gender.ToString()).FirstOrDefault(),
-                TotalPoints = this.evalutionFormsRepository.All().Where(d => d.DogId == x.DogId && d.CompetitionId == id).Sum(x => x.TotalPoints), //Select(e => e.EvaluationForms.Sum(y => y.TotalPoints)).FirstOrDefault(),
-            }).ToList();
+                .Where(x => x.CompetitionId == id)
+                .Select(x => x.Dog)
+                .Select(y => new WinnersViewModel
+                {
+                    Id = y.Id,
+                    Name = y.Name,
+                    Gender = y.Gender.ToString(),
+                    TotalPoints = y.EvaluationForms.Where(x => x.DogId == y.Id && x.CompetitionId == id).Sum(s => s.TotalPoints),
+                }).ToList();
 
             return winners;
         }

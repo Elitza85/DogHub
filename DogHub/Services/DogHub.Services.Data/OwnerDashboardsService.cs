@@ -7,6 +7,7 @@
 
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
+    using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
     using DogHub.Services.Mapping;
     using DogHub.Web.ViewModels.Dashboards;
@@ -17,15 +18,18 @@
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
+        private readonly IDeletableEntityRepository<Competition> competitionsRepository;
 
         public OwnerDashboardsService(
             IDeletableEntityRepository<Dog> dogsRepository,
             IDeletableEntityRepository<DogColor> dogColorsRepository,
-            IDeletableEntityRepository<EyesColor> eyesColorRepository)
+            IDeletableEntityRepository<EyesColor> eyesColorRepository,
+            IDeletableEntityRepository<Competition> competitionsRepository)
         {
             this.dogsRepository = dogsRepository;
             this.dogColorsRepository = dogColorsRepository;
             this.eyesColorRepository = eyesColorRepository;
+            this.competitionsRepository = competitionsRepository;
         }
 
         public IEnumerable<T> GetAllDogsOwned<T>(string userId)
@@ -43,6 +47,7 @@
             {
                 DogsCount = this.RegisteredDogsCount(userId),
                 DogsData = this.GetAllDogsOwned<DogDataInCatalogueViewModel>(userId),
+                DogsCompetitionsData = this.DogsInCompetitions(userId),
             };
             return viewModel;
         }
@@ -92,6 +97,27 @@
             var dog = this.dogsRepository.All().Where(x => !x.IsDeleted).FirstOrDefault(x => x.Id == id);
             this.dogsRepository.Delete(dog);
             await this.dogsRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<DogsInCompetitionsViewModel> DogsInCompetitions(string userId)
+        {
+            var dogsInCompetitions = this.competitionsRepository.All()
+                .Where(x => x.CompetitionEnd < DateTime.Now && x.DogsCompetitions.Any(y => y.Dog.UserId == userId))
+                .Select(d => new DogsInCompetitionsViewModel
+                {
+                    CompetitionId = d.Id,
+                    CompetitionImage = "/images/competitions/" + d.CompetitionImage.Id + "." + d.CompetitionImage.Extension,
+                    CompetitionName = d.Name,
+                    AllDogsParticipants = d.DogsCompetitions
+                    .Select(x => x.Dog).Where(x => x.UserId == userId)
+                    .Select(c => new DogDataInCatalogueViewModel
+                    {
+                        Name = c.Name,
+                        TotalPoints = c.EvaluationForms.Where(x => x.CompetitionId == d.Id).Sum(x => x.TotalPoints),
+                    }),
+                }).ToList();
+
+            return dogsInCompetitions;
         }
 
         private async Task<int> ValidateDogEyesColor(EditDogDataInputModel input)

@@ -19,71 +19,87 @@
             <hr />
         </div>
     }
-    <div>
-        <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Subscribe Your Dog to an <a href="/Competitions/CompetitionsList#upcomingEvents">Upcoming Competition</a></h3>
-        <hr />
-    </div>
 
-    <div>
-        <h3 style="padding-top:30px"><i class="fas fa-bone"></i> Your Dogs</h3>
-        <h5>Currently you have @Model.DogsCount registered dog/s.</h5>
-        <hr />
-
-        <table class="table-bordered col-md-12">
-            <thead class="text-center">
-            <th>Dog Image</th>
-            <th>Dog Name</th>
-            <th> Dog Breed</th>
-            <th>Options</th>
-            </thead>
-            <tbody>
-                @foreach (var dog in Model.DogsData)
-                {
-                    <tr>
-                        <td class="text-center">
-                            <img height="150px;" src="@dog.ImageUrl" />
-                        </td>
-                        <td class="text-center">@dog.Name</td>
-                        <td class="text-center">@dog.BreedName</td>
-                        <td style="text-align:center;">
-                            <p>
-                                <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Profile</a>
-                            </p>
-                            <p>
-                                <a class="btn btn-light" asp-controller="Dashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
-                            </p>
-                            <p>
-                                <a href="">Find a Partner</a>
-                            </p>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div>
-        <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Competitions Your Dogs Participated In</h3>
-        <hr />
-        <table class="table-bordered col-md-12">
-            <thead class="text-center">
-            <th>Competition Image</th>
-            <th>Competiton Name</th>
-            <th>Your Dog representatives</th>
-            </thead>
-            <tbody class="text-center">
-            <td>
-                <img style="height:150px;" src="http://www4.pictures.zimbio.com/gi/MP+Their+Dogs+Contest+Westminister+Dog+Year+MaYylruOTkSx.jpg" />
-            </td>
-            <td>
-                Model.Name
-            </td>
-            <td>
-                @*@foreach()*@
-                <p>Model.OwnersDogs</p>
-            </td>
-            </tbody>
-        </table>
-    </div>
+    @if (Model.DogsCount != 0)
+    {
+        <div>
+            <h3 style="padding-top:30px"><i class="fas fa-bone"></i> Your Dogs</h3>
+            <p>
+                <a class="btn btn-light" asp-controller="Dogs" asp-action="Register">Register a New Dog</a>
+            </p>
+            <p>
+                <a class="btn btn-light" href="/Competitions/CompetitionsList#upcomingEvents">Subscribe a Dog To Upcoming Competition</a>
+            </p>
+            <h5>Currently you have @Model.DogsCount registered dog/s.</h5>
+            <hr />
+            @if (Model.DogsCount != 0)
+            {
+                <table class="table-bordered col-md-12">
+                    <thead class="text-center">
+                    <th>Dog Image</th>
+                    <th>Dog Name</th>
+                    <th> Dog Breed</th>
+                    <th>Options</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var dog in Model.DogsData)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    <img height="150px;" src="@dog.ImageUrl" />
+                                </td>
+                                <td class="text-center">@dog.Name</td>
+                                <td class="text-center">@dog.BreedName</td>
+                                <td style="text-align:center;">
+                                    <p>
+                                        <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Profile</a>
+                                    </p>
+                                    <p>
+                                        <a class="btn btn-light" asp-controller="Dashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
+                                    </p>
+                                    <p>
+                                        <a href="">Find a Partner</a>
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+    @if (Model.DogsCompetitionsData.Count() != 0)
+    {
+        <div>
+            <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Competitions Your Dogs Participated In</h3>
+            <hr />
+            <table class="table-bordered col-md-12">
+                <thead class="text-center">
+                <th>Competition Image</th>
+                <th>Competiton Name</th>
+                <th>Your Dog Competitors</th>
+                </thead>
+                <tbody class="text-center">
+                    @foreach (var competition in Model.DogsCompetitionsData)
+                    {
+                        <tr>
+                            <td>
+                                <img style="height:150px;" src="@competition.CompetitionImage" />
+                            </td>
+                            <td>
+                                @competition.CompetitionName
+                            </td>
+                            <td>
+                                @foreach (var dog in competition.AllDogsParticipants)
+                                {
+                                    <p>@dog.Name - won @dog.TotalPoints points</p>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 </div>
 

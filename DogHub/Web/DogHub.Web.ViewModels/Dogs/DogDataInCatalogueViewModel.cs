@@ -26,6 +26,8 @@ namespace DogHub.Web.ViewModels.Dogs
 
         public int DogColorId { get; set; }
 
+        public int TotalPoints { get; set; }
+
         public bool? Sellable { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

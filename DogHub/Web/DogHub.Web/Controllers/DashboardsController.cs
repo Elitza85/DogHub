@@ -7,10 +7,9 @@
     using DogHub.Common;
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels.Dashboards;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize(Roles = GlobalConstants.DogOwnerUserRoleName)]
+    [AuthorizeRoles(GlobalConstants.DogOwnerUserRoleName, GlobalConstants.JudgeRoleName)]
     public class DashboardsController : Controller
     {
         private readonly IOwnerDashboardsService ownerDashboardsService;

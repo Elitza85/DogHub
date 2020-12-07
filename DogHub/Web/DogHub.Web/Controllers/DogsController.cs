@@ -20,19 +20,22 @@
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ISearchesService searchesService;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
         public DogsController(
             IBreedsListService breedsListService,
             IDogsService dogService,
             IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager,
-            ISearchesService searchesService)
+            ISearchesService searchesService,
+            SignInManager<ApplicationUser> signInManager)
         {
             this.breedsListService = breedsListService;
             this.dogService = dogService;
             this.webHostEnvironment = webHostEnvironment;
             this.userManager = userManager;
             this.searchesService = searchesService;
+            this.signInManager = signInManager;
         }
 
         public IActionResult Catalogue(int id = 1)
@@ -84,7 +87,11 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            await this.userManager.AddToRoleAsync(user, GlobalConstants.DogOwnerUserRoleName);
+            if (!this.User.IsInRole(GlobalConstants.DogOwnerUserRoleName))
+            {
+                await this.userManager.AddToRoleAsync(user, GlobalConstants.DogOwnerUserRoleName);
+                await this.signInManager.SignOutAsync();
+            }
 
             this.TempData["Message"] = SuccessMessages.RegisteredDogMsg;
 
