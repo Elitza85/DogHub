@@ -14,5 +14,6 @@
 
         Task UpdateAsync(int id, EditDogDataInputModel input);
 
+        Task DeleteAsync(int id);
     }
 }

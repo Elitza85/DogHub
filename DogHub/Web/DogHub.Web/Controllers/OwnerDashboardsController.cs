@@ -1,15 +1,14 @@
 ﻿namespace FirstViewsTests.Controllers
 {
-    using DogHub.Common;
-    using DogHub.Data.Models;
-    using DogHub.Services.Data;
-    using DogHub.Web.ViewModels.OwnerDashboards;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
+
+    using DogHub.Common;
+    using DogHub.Services.Data;
+    using DogHub.Web.ViewModels.OwnerDashboards;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
 
     [Authorize(Roles = GlobalConstants.DogOwnerUserRoleName)]
     public class OwnerDashboardsController : Controller
@@ -63,6 +62,16 @@
             this.TempData["Message"] = string.Format(SuccessMessages.UpdatedDogDataMsg, input.DogName);
 
             return this.Redirect("/OwnerDashboards/Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteDog(int id)
+        {
+            await this.ownerDashboardsService.DeleteAsync(id);
+
+            this.TempData["Message"] = SuccessMessages.DogDeletedMsg;
+
+            return this.RedirectToAction("Index");
         }
     }
 }

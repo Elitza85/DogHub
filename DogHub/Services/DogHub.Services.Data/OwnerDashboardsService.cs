@@ -1,17 +1,17 @@
-﻿using DogHub.Data.Common.Repositories;
-using DogHub.Data.Models;
-using DogHub.Data.Models.Dogs;
-using DogHub.Services.Mapping;
-using DogHub.Web.ViewModels.Dogs;
-using DogHub.Web.ViewModels.OwnerDashboards;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DogHub.Services.Data
+﻿namespace DogHub.Services.Data
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
+    using DogHub.Data.Models.Dogs;
+    using DogHub.Services.Mapping;
+    using DogHub.Web.ViewModels.Dogs;
+    using DogHub.Web.ViewModels.OwnerDashboards;
+
     public class OwnerDashboardsService : IOwnerDashboardsService
     {
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
@@ -31,7 +31,7 @@ namespace DogHub.Services.Data
         public IEnumerable<T> GetAllDogsOwned<T>(string userId)
         {
             return this.dogsRepository.All()
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId == userId && !x.IsDeleted)
                 .OrderBy(x => x.Name)
                 .To<T>()
                 .ToList();
@@ -84,6 +84,13 @@ namespace DogHub.Services.Data
                 dog.DogVideoUrl = input.DogVideoUrl;
             }
 
+            await this.dogsRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var dog = this.dogsRepository.All().Where(x => !x.IsDeleted).FirstOrDefault(x => x.Id == id);
+            this.dogsRepository.Delete(dog);
             await this.dogsRepository.SaveChangesAsync();
         }
 

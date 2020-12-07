@@ -13,6 +13,7 @@
         //Owner
 
         public const string UpdatedDogDataMsg = "You successfully updated the information about your dog {0}.";
+        public const string DogDeletedMsg = "You successfully deleted your dog.";
 
         // Dog
         public const string RegisteredDogMsg = "Thank you for registering your dog in the Dog Hub.";

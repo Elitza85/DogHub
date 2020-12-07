@@ -1,8 +1,9 @@
 ﻿namespace DogHub.Web.ViewModels.Dogs
 {
-    using DogHub.Web.ViewModels.Searches;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using DogHub.Web.ViewModels.Searches;
 
     public class DogsCatalogueViewModel : PagingViewModel
     {

@@ -1,6 +1,6 @@
 ﻿@model DogHub.Web.ViewModels.OwnerDashboards.OwnerIndexViewModel
 
-@{ 
+@{
     this.ViewData["Title"] = "Dog Owner Dashboard";
 }
 
@@ -11,7 +11,7 @@
 
 <h2 style="padding:20px;">@this.ViewData["Title"]</h2>
 
-<div id="container" class="col-md-9">
+<div id="container" class="col-md-12">
     <div>
         <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Subscribe Your Dog to an <a href="/Competitions/CompetitionsList#upcomingEvents">Upcoming Competition</a></h3>
         <hr />
@@ -24,32 +24,32 @@
 
         <table class="table-bordered col-md-12">
             <thead class="text-center">
-                <th>Dog Image</th>
-                <th>Dog Name</th>
-                <th> Dog Breed</th>
-                <th>Options</th>
+            <th>Dog Image</th>
+            <th>Dog Name</th>
+            <th> Dog Breed</th>
+            <th>Options</th>
             </thead>
             <tbody>
                 @foreach (var dog in Model.DogsData)
                 {
-                <tr>
-                    <td class="text-center">
-                        <img height="150px;" src="@dog.ImageUrl" />
-                    </td>
-                    <td class="text-center">@dog.Name</td>
-                    <td class="text-center">@dog.BreedName</td>
-                    <td style="text-align:center;">
-                        <p>
-                            <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Profile</a>
-                        </p>
-                        <p>
-                            <a class="btn btn-light" asp-controller="OwnerDashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit Dog Data</a>
-                        </p>
-                        <p>
-                            <a href="">Find a Partner</a>
-                        </p>
-                    </td>
-                </tr>
+                    <tr>
+                        <td class="text-center">
+                            <img height="150px;" src="@dog.ImageUrl" />
+                        </td>
+                        <td class="text-center">@dog.Name</td>
+                        <td class="text-center">@dog.BreedName</td>
+                        <td style="text-align:center;">
+                            <p>
+                                <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Profile</a>
+                            </p>
+                            <p>
+                                <a class="btn btn-light" asp-controller="OwnerDashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
+                            </p>
+                            <p>
+                                <a href="">Find a Partner</a>
+                            </p>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -60,14 +60,14 @@
         <hr />
         <table class="table-bordered col-md-12">
             <thead class="text-center">
-                <th>Competition Image</th>
-                <th>Competiton Name</th>
-                <th>Your Dog representatives</th>
+            <th>Competition Image</th>
+            <th>Competiton Name</th>
+            <th>Your Dog representatives</th>
             </thead>
             <tbody class="text-center">
-                <td>
-                    <img style="height:150px;" src="http://www4.pictures.zimbio.com/gi/MP+Their+Dogs+Contest+Westminister+Dog+Year+MaYylruOTkSx.jpg"/>
-                </td>
+            <td>
+                <img style="height:150px;" src="http://www4.pictures.zimbio.com/gi/MP+Their+Dogs+Contest+Westminister+Dog+Year+MaYylruOTkSx.jpg" />
+            </td>
             <td>
                 Model.Name
             </td>
@@ -78,5 +78,5 @@
             </tbody>
         </table>
     </div>
-
 </div>
+
