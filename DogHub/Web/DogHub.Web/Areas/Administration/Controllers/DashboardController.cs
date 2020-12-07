@@ -4,6 +4,7 @@
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Services.Data;
+    using DogHub.Services.Messaging;
     using DogHub.Web.Areas.Administration.Services;
     using DogHub.Web.ViewModels.Administration.Dashboard;
     using DogHub.Web.ViewModels.Competitions;
@@ -13,6 +14,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Text;
 
     public class DashboardController : AdministrationController
     {
@@ -22,6 +24,7 @@
         private readonly IDashboardService dashboardService;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IEmailSender emailSender;
 
         public DashboardController(
             ISettingsService settingsService,
@@ -29,7 +32,8 @@
             IWebHostEnvironment webHostEnvironment,
             IDashboardService dashboardService,
             IDeletableEntityRepository<ApplicationUser> usersRepository,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender)
         {
             this.settingsService = settingsService;
             this.breedsService = breedsService;
@@ -37,6 +41,7 @@
             this.dashboardService = dashboardService;
             this.usersRepository = usersRepository;
             this.userManager = userManager;
+            this.emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -112,6 +117,7 @@
             return this.View(viewModel);
         }
 
+        [HttpPost]
         public async Task<IActionResult> ApproveApplication(string userId)
         {
             var applicantName = await this.dashboardService.ApproveApplication(userId);
@@ -119,12 +125,13 @@
             var user = this.usersRepository.All().First(x => x.Id == userId);
 
             await this.userManager.AddToRoleAsync(user, GlobalConstants.JudgeRoleName);
+            await this.dashboardService.SendEmailApproval(userId);
 
             this.TempData["Message"] = string.Format(SuccessMessages.ApproveJudgeApplication, applicantName);
-            return this.Redirect("Index");
+            return this.Redirect("/Administration/Dashboard");
         }
 
-
+        [HttpPost]
         public async Task<IActionResult> RejectApplication(JudgeAppFormsViewModel input)
         {
             if (!this.ModelState.IsValid)
@@ -133,6 +140,8 @@
             }
 
             var applicantName = await this.dashboardService.RejectApplication(input.UserId, input.EvaluatorNotes);
+
+            await this.dashboardService.SendEmailRejection(input.UserId);
 
             this.TempData["Message"] = string.Format(SuccessMessages.RejectJudgeApplication, applicantName);
             return this.Redirect("Index");

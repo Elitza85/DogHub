@@ -9,9 +9,16 @@
     <div class="alert alert-success">@this.TempData["Message"]</div>
 }
 
-<h2 style="padding:20px;">@this.ViewData["Title"]</h2>
+<h2 style="padding:20px;">Dashboard</h2>
 
 <div id="container" class="col-md-12">
+    @if (this.User.IsInRole("Judge"))
+    {
+        <div>
+            <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Judge Application Forms</h3>
+            <hr />
+        </div>
+    }
     <div>
         <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Subscribe Your Dog to an <a href="/Competitions/CompetitionsList#upcomingEvents">Upcoming Competition</a></h3>
         <hr />

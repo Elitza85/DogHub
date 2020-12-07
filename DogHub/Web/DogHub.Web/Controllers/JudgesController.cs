@@ -1,9 +1,7 @@
 ﻿namespace DogHub.Web.Controllers
 {
     using DogHub.Services.Data;
-    using DogHub.Web.ViewModels.Judges;
     using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
 
     public class JudgesController : Controller
     {

@@ -1,8 +1,7 @@
 ﻿namespace DogHub.Web
 {
-    using System.Linq;
     using System.Reflection;
-    using DogHub.Common;
+
     using DogHub.Data;
     using DogHub.Data.Common;
     using DogHub.Data.Common.Repositories;
@@ -14,11 +13,9 @@
     using DogHub.Services.Messaging;
     using DogHub.Web.Areas.Administration.Services;
     using DogHub.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -69,7 +66,7 @@
             services.AddScoped<IDbQueryRunner, DbQueryRunner>();
 
             // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IEmailSender>(x => new SendGridEmailSender(this.configuration["SendGrid:ApiKey"]));
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IBreedsListService, BreedsListService>();
             services.AddTransient<IDogsService, DogsService>();

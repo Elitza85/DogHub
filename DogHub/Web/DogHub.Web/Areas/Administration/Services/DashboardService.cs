@@ -1,14 +1,18 @@
 ﻿using DogHub.Data.Common.Repositories;
+using DogHub.Data.Models;
 using DogHub.Data.Models.CommonForms;
 using DogHub.Data.Models.Competitions;
 using DogHub.Data.Models.Dogs;
+using DogHub.Services.Messaging;
 using DogHub.Web.ViewModels.Administration.Dashboard;
 using DogHub.Web.ViewModels.Competitions;
 using DogHub.Web.ViewModels.Dogs;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DogHub.Web.Areas.Administration.Services
@@ -21,17 +25,23 @@ namespace DogHub.Web.Areas.Administration.Services
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
         private readonly IDeletableEntityRepository<Breed> breedsRepository;
         private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+        private readonly IEmailSender emailSender;
 
         public DashboardService(
             IDeletableEntityRepository<Organiser> organisersRepository,
             IDeletableEntityRepository<Competition> competitionsRepository,
             IDeletableEntityRepository<Breed> breedsRepository,
-            IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository)
+            IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository,
+            IDeletableEntityRepository<ApplicationUser> usersRepository,
+            IEmailSender emailSender)
         {
             this.organisersRepository = organisersRepository;
             this.competitionsRepository = competitionsRepository;
             this.breedsRepository = breedsRepository;
             this.judgeFormsRepository = judgeFormsRepository;
+            this.usersRepository = usersRepository;
+            this.emailSender = emailSender;
         }
 
         public async Task<string> CreateCompetition(CreateCompetitionInputModel input, string imagePath)
@@ -131,6 +141,23 @@ namespace DogHub.Web.Areas.Administration.Services
             return application.FirstName + " " + application.LastName;
         }
 
+        public async Task<IActionResult> SendEmailApproval(string userId)
+        {
+            var html = new StringBuilder();
+            var userData = this.judgeFormsRepository.All().Where(x => x.UserId == userId).FirstOrDefault();
+            html.AppendLine($"<p>Dear Mr/Mrs {userData.FirstName} {userData.LastName},</p>");
+            html.AppendLine("<p>Congratulations on your judge application form approval!</p>");
+            html.AppendLine("<p>We would like to welcome you in the DogHub judges team.</p>");
+            html.AppendLine("<p>Best Regards,</p>");
+            html.AppendLine("<p>DogHub team</p>");
+
+            var user = this.usersRepository.All().Where(x => x.Id == userId).FirstOrDefault();
+            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", "digifel247@menece.com", "Judge Application Form Approval", html.ToString());
+            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", user.Email, "Judge Application Form Approval", html.ToString());
+
+            return null;
+        }
+
         public async Task<string> RejectApplication(string userId, string notes)
         {
             var application = this.judgeFormsRepository.All()
@@ -142,6 +169,24 @@ namespace DogHub.Web.Areas.Administration.Services
             await this.judgeFormsRepository.SaveChangesAsync();
 
             return application.FirstName + " " + application.LastName;
+        }
+
+        public async Task<IActionResult> SendEmailRejection(string userId)
+        {
+            var html = new StringBuilder();
+            var userData = this.judgeFormsRepository.All().Where(x => x.UserId == userId).FirstOrDefault();
+            html.AppendLine($"<p>Dear Mr/Mrs {userData.FirstName} {userData.LastName},</p>");
+            html.AppendLine("<p>We are sorry to inform you that your judge application form was rejected.</p>");
+            html.AppendLine($"<p>The reason for that is: {userData.EvaluatorNotes}</p>");
+            html.AppendLine("<p>When you accomplish all the requirements, you can apply again.</p>");
+            html.AppendLine("<p>Best Regards,</p>");
+            html.AppendLine("<p>DogHub team</p>");
+
+            var user = this.usersRepository.All().Where(x => x.Id == userId).FirstOrDefault();
+            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", "digifel247@menece.com", "Judge Application Form Rejection", html.ToString());
+            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", user.Email, "Judge Application Form Rejection", html.ToString());
+
+            return null;
         }
 
         private IEnumerable<SingleJudgeAppFormViewModel> GetAllForms()

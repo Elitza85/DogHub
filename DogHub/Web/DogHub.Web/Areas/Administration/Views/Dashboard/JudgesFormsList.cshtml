@@ -79,7 +79,10 @@ else
         </tr>
         <tr>
             <td>
-                <a class="btn btn-light" style="color:green" href="/Administration/Dashboard/ApproveApplication?userId=@applicant.UserId"><i class="fas fa-check"></i> Approve</a>
+                <form method="post" asp-area="Administration" asp-controller="Dashboard" asp-action="ApproveApplication" asp-route-id="@applicant.UserId">
+                    <input hidden="hidden" name="userId" value="@applicant.UserId"/>
+                    <button style="color:green" class="btn btn-light"><i class="fas fa-check"></i>Approve Application</button>
+                </form>
             </td>
         </tr>
         <tr>
@@ -93,10 +96,10 @@ else
                     </div>
 
                     <div>
-                        <input asp-for="UserId" style="display:none;" value="@applicant.UserId"/>
+                        <input asp-for="UserId" hidden="hidden" value="@applicant.UserId"/>
                     </div>
                     <div class="form-group">
-                        <i class="fas fa-times"></i><input type="submit" class="btn btn-light" style="color:red" value="Reject" />
+                        <i class="fas fa-times"></i><input type="submit" class="btn btn-light" style="color:red" value="Reject Application" />
                     </div>
                 </form>
             </td>
