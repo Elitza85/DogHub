@@ -1,4 +1,4 @@
-﻿@model DogHub.Web.ViewModels.OwnerDashboards.EditDogDataInputModel
+﻿@model DogHub.Web.ViewModels.Dashboards.EditDogDataInputModel
 @{
     ViewData["Title"] = "Edit Dog Data";
     var breedItems = this.Model.BreedsItems.Select(x => new SelectListItem(x.Value, x.Key));
@@ -6,7 +6,7 @@
 
 <h2>@ViewData["Title"] for @Model.DogName</h2>
 <p>
-    <form method="post" asp-controller="OwnerDashboards" asp-action="DeleteDog" id="deleteForm" asp-route-id="@Model.Id">
+    <form method="post" asp-controller="Dashboards" asp-action="DeleteDog" id="deleteForm" asp-route-id="@Model.Id">
     </form>
     <button type="submit" class="btn btn-danger" style="background-color:red;" data-toggle="modal" data-target="#deleteModal">Delete Your Dog</button>
 </p>

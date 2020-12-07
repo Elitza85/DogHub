@@ -1,13 +1,10 @@
-﻿using AutoMapper;
-using DogHub.Data.Models;
-using DogHub.Services.Mapping;
-using DogHub.Web.ViewModels.Dogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.OwnerDashboards
+﻿namespace DogHub.Web.ViewModels.Dashboards
 {
+    using AutoMapper;
+    using DogHub.Data.Models;
+    using DogHub.Services.Mapping;
+    using DogHub.Web.ViewModels.Dogs;
+
     public class EditDogDataInputModel : BaseDogInputModel, IMapFrom<Dog>, IHaveCustomMappings
     {
         public int Id { get; set; }

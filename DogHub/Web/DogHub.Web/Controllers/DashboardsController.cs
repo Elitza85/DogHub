@@ -6,17 +6,17 @@
 
     using DogHub.Common;
     using DogHub.Services.Data;
-    using DogHub.Web.ViewModels.OwnerDashboards;
+    using DogHub.Web.ViewModels.Dashboards;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize(Roles = GlobalConstants.DogOwnerUserRoleName)]
-    public class OwnerDashboardsController : Controller
+    public class DashboardsController : Controller
     {
         private readonly IOwnerDashboardsService ownerDashboardsService;
         private readonly IBreedsListService breedsListService;
 
-        public OwnerDashboardsController(
+        public DashboardsController(
             IOwnerDashboardsService ownerDashboardsService,
             IBreedsListService breedsListService)
         {
@@ -61,7 +61,7 @@
 
             this.TempData["Message"] = string.Format(SuccessMessages.UpdatedDogDataMsg, input.DogName);
 
-            return this.Redirect("/OwnerDashboards/Index");
+            return this.Redirect("/Dashboards/Index");
         }
 
         [HttpPost]

@@ -1,6 +1,6 @@
 ﻿namespace DogHub.Web.ViewModels.Administration.Dashboard
 {
-    public class IndexViewModel
+    public class DashboardIndexViewModel
     {
         public int SettingsCount { get; set; }
     }

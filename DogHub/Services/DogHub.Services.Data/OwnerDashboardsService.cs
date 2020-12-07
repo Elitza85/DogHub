@@ -9,8 +9,8 @@
     using DogHub.Data.Models;
     using DogHub.Data.Models.Dogs;
     using DogHub.Services.Mapping;
+    using DogHub.Web.ViewModels.Dashboards;
     using DogHub.Web.ViewModels.Dogs;
-    using DogHub.Web.ViewModels.OwnerDashboards;
 
     public class OwnerDashboardsService : IOwnerDashboardsService
     {
@@ -37,9 +37,9 @@
                 .ToList();
         }
 
-        public OwnerIndexViewModel DogsData(string userId)
+        public DashboardIndexViewModel DogsData(string userId)
         {
-            var viewModel = new OwnerIndexViewModel
+            var viewModel = new DashboardIndexViewModel
             {
                 DogsCount = this.RegisteredDogsCount(userId),
                 DogsData = this.GetAllDogsOwned<DogDataInCatalogueViewModel>(userId),

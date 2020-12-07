@@ -1,14 +1,14 @@
 ﻿namespace DogHub.Services.Data
 {
+    using DogHub.Web.ViewModels.Dashboards;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using DogHub.Web.ViewModels.OwnerDashboards;
 
     public interface IOwnerDashboardsService
     {
         IEnumerable<T> GetAllDogsOwned<T>(string userId);
 
-        OwnerIndexViewModel DogsData(string userId);
+        DashboardIndexViewModel DogsData(string userId);
 
         T GetById<T>(int id);
 

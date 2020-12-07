@@ -1,4 +1,4 @@
-﻿@model DogHub.Web.ViewModels.OwnerDashboards.OwnerIndexViewModel
+﻿@model DogHub.Web.ViewModels.Dashboards.DashboardIndexViewModel
 
 @{
     this.ViewData["Title"] = "Dog Owner Dashboard";
@@ -50,7 +50,7 @@
                                 <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Profile</a>
                             </p>
                             <p>
-                                <a class="btn btn-light" asp-controller="OwnerDashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
+                                <a class="btn btn-light" asp-controller="Dashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
                             </p>
                             <p>
                                 <a href="">Find a Partner</a>

@@ -16,10 +16,10 @@
                 <a class="nav-link text-dark" asp-area="Administration" asp-controller="Dashboard" asp-action="Index" title="Admin">Admin</a>
             </li>
         }
-        if (this.User.IsInRole(GlobalConstants.DogOwnerUserRoleName))
+        if (this.User.IsInRole(GlobalConstants.DogOwnerUserRoleName) || this.User.IsInRole(GlobalConstants.JudgeRoleName))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="OwnerDashboards" asp-action="Index" title="Admin">Dashboard</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Dashboards" asp-action="Index" title="Admin">Dashboard</a>
             </li>
         }
         <li class="nav-item">

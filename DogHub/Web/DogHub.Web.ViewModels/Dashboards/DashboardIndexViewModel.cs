@@ -1,10 +1,10 @@
-﻿namespace DogHub.Web.ViewModels.OwnerDashboards
+﻿namespace DogHub.Web.ViewModels.Dashboards
 {
     using System.Collections.Generic;
 
     using DogHub.Web.ViewModels.Dogs;
 
-    public class OwnerIndexViewModel
+    public class DashboardIndexViewModel
     {
         public IEnumerable<DogDataInCatalogueViewModel> DogsData { get; set; }
 
