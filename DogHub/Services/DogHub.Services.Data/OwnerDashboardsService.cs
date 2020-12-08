@@ -13,6 +13,7 @@
     using DogHub.Services.Mapping;
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dashboards;
+    using DogHub.Web.ViewModels.DogMatches;
     using DogHub.Web.ViewModels.Dogs;
 
     public class OwnerDashboardsService : IOwnerDashboardsService
@@ -144,6 +145,13 @@
                 .ToList();
 
             return result;
+        }
+
+        public IEnumerable<DogPartnershipReguestsViewModel> PartnershipRequestsSent(string userId)
+        {
+            
+
+            return null;
         }
 
         private async Task<int> ValidateDogEyesColor(EditDogDataInputModel input)

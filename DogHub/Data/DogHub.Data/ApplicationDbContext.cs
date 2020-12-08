@@ -52,9 +52,9 @@
 
         public DbSet<JudgeImage> JudgeImages { get; set; }
 
-        public DbSet<MatchRequestSent> MatchRequestsSent { get; set; }
+        public DbSet<MatchRequest> MatchRequests { get; set; }
 
-        public DbSet<MatchRequestReceived> MatchRequestsReceived { get; set; }
+        //public DbSet<MatchRequestReceived> MatchRequestsReceived { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 
@@ -81,6 +81,8 @@
         {
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
+            builder.Entity<Dog>().HasMany(dog => dog.MatchRequests)
+                .WithOne(x => x.ReceiverDog);
 
             this.ConfigureUserIdentityRelations(builder);
 

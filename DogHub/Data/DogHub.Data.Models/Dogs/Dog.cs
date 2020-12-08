@@ -18,8 +18,8 @@
             this.DogsCompetiotions = new HashSet<DogCompetition>();
             this.EvaluationForms = new HashSet<EvaluationForm>();
             this.DogImages = new HashSet<DogImage>();
-            this.MatchRequestsSent = new HashSet<MatchRequestSent>();
-            this.MatchRequestsReceived = new HashSet<MatchRequestReceived>();
+            this.MatchRequests = new HashSet<MatchRequest>();
+            //this.MatchRequestsReceived = new HashSet<MatchRequestReceived>();
         }
 
         [Required]
@@ -68,8 +68,8 @@
 
         public virtual ICollection<DogImage> DogImages { get; set; }
 
-        public virtual ICollection<MatchRequestSent> MatchRequestsSent { get; set; }
+        public virtual ICollection<MatchRequest> MatchRequests { get; set; }
 
-        public virtual ICollection<MatchRequestReceived> MatchRequestsReceived { get; set; }
+        //public virtual ICollection<MatchRequestReceived> MatchRequestsReceived { get; set; }
     }
 }
