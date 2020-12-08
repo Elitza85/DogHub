@@ -14,7 +14,7 @@
     <div class="row">
         <div id="senderDog" class="singleDog">
             <img src="@Model.SenderDog.ImageUrl" />
-            <p>@Model.SenderDog.Name</p>
+            <p style="font-weight: bold;">@Model.SenderDog.Name</p>
             <p>@Model.SenderDog.BreedName</p>
             <p>@Model.SenderDog.Gender</p>
         </div>
@@ -23,7 +23,7 @@
         </div>
         <div id="receiverDog" class="singleDog">
             <img src="@Model.ReceiverDog.ImageUrl" />
-            <p>@Model.ReceiverDog.Name</p>
+            <p style="font-weight: bold;"><a asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@Model.ReceiverDog.Id"><span style="color: blue;">@Model.ReceiverDog.Name</span></a></p>
             <p>@Model.ReceiverDog.BreedName</p>
             <p>@Model.ReceiverDog.Gender</p>
         </div>
@@ -31,11 +31,15 @@
             <i class="fas fa-equals fa-8x" style="padding:20px;"></i>
         </div>
         <div id="babyDogs" class="singleDog">
-            <img src="https://cdn.pixabay.com/photo/2018/08/15/01/02/puppy-3607024_1280.jpg"/>
-            <p>@Model.SenderDog.BreedName Babies</p>
+            <img src="https://cdn.pixabay.com/photo/2018/08/15/01/02/puppy-3607024_1280.jpg" />
+            <p style="font-weight: bold;">@Model.SenderDog.BreedName Babies</p>
             <small>
                 Puppies Image by <a href="https://pixabay.com/users/varjag-3211970/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">varjag</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">Pixabay</a>
             </small>
+        </div>
+        <div style="padding-top:20px;">
+            <a class="btn btn-light" style="color:green"><i class="fas fa-check"></i> Accept Match Proposal</a>
+            <a class="btn btn-light" style="color:red"><i class="fas fa-times"></i> Reject Match Proposal</a>
         </div>
     </div>
 </body>

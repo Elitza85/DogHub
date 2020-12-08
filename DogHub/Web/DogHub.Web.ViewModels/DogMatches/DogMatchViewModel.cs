@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using DogHub.Data.Models;
-using DogHub.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.DogMatches
+﻿namespace DogHub.Web.ViewModels.DogMatches
 {
     public class DogMatchViewModel
     {
