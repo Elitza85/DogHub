@@ -4,14 +4,16 @@ using DogHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DogHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201208140711_AddFKtoMatchRequest")]
+    partial class AddFKtoMatchRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,7 +620,7 @@ namespace DogHub.Data.Migrations
                     b.ToTable("EvaluationForms");
                 });
 
-            modelBuilder.Entity("DogHub.Data.Models.Matches.MatchRequestReceived", b =>
+            modelBuilder.Entity("DogHub.Data.Models.MatchRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -631,45 +633,11 @@ namespace DogHub.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRejected")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsUnderReview")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("SenderDogId")
+                    b.Property<int?>("DogId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("SenderDogId");
-
-                    b.ToTable("MatchRequestsReceived");
-                });
-
-            modelBuilder.Entity("DogHub.Data.Models.Matches.MatchRequestSent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("DogId1")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
@@ -689,13 +657,18 @@ namespace DogHub.Data.Migrations
                     b.Property<int>("ReceiverDogId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SenderDogId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("DogId");
+
+                    b.HasIndex("DogId1");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("ReceiverDogId");
-
-                    b.ToTable("MatchRequestsSent");
+                    b.ToTable("MatchRequest");
                 });
 
             modelBuilder.Entity("DogHub.Data.Models.Setting", b =>
@@ -980,26 +953,15 @@ namespace DogHub.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DogHub.Data.Models.Matches.MatchRequestReceived", b =>
+            modelBuilder.Entity("DogHub.Data.Models.MatchRequest", b =>
                 {
-                    b.HasOne("DogHub.Data.Models.Dog", "SenderDog")
+                    b.HasOne("DogHub.Data.Models.Dog", null)
                         .WithMany("MatchRequestsReceived")
-                        .HasForeignKey("SenderDogId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("DogId");
 
-                    b.Navigation("SenderDog");
-                });
-
-            modelBuilder.Entity("DogHub.Data.Models.Matches.MatchRequestSent", b =>
-                {
-                    b.HasOne("DogHub.Data.Models.Dog", "ReceiverDog")
+                    b.HasOne("DogHub.Data.Models.Dog", null)
                         .WithMany("MatchRequestsSent")
-                        .HasForeignKey("ReceiverDogId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ReceiverDog");
+                        .HasForeignKey("DogId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

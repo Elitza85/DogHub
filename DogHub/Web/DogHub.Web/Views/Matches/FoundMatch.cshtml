@@ -11,36 +11,53 @@
     <link rel="stylesheet" href="~/css/Matches/MatchesStyles.css" />
 </head>
 <body>
-    <div class="row">
-        <div id="senderDog" class="singleDog">
-            <img src="@Model.SenderDog.ImageUrl" />
-            <p style="font-weight: bold;">@Model.SenderDog.Name</p>
-            <p>@Model.SenderDog.BreedName</p>
-            <p>@Model.SenderDog.Gender</p>
+    @if (Model.ReceiverDog == null)
+    {
+        <h3>Sorry there are no appropriate dog matches for your dog.</h3>
+        <h3>You may try again after some period of time when more dogs will be registered in the DogHub.</h3>
+        <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+    }
+    else
+    {
+        <div class="row">
+            <div id="senderDog" class="singleDog">
+                <img src="@Model.SenderDog.ImageUrl" />
+                <p style="font-weight: bold;">@Model.SenderDog.Name</p>
+                <p>@Model.SenderDog.BreedName</p>
+                <p>@Model.SenderDog.Gender</p>
+            </div>
+            <div>
+                <i class="fas fa-plus fa-8x" style="padding:20px;"></i>
+            </div>
+            <div id="receiverDog" class="singleDog">
+                <img src="@Model.ReceiverDog.ImageUrl" />
+                <p style="font-weight: bold;"><a asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@Model.ReceiverDog.Id"><span style="color: blue;">@Model.ReceiverDog.Name</span></a></p>
+                <p>@Model.ReceiverDog.BreedName</p>
+                <p>@Model.ReceiverDog.Gender</p>
+            </div>
+            <div>
+                <i class="fas fa-equals fa-8x" style="padding:20px;"></i>
+            </div>
+            <div id="babyDogs" class="singleDog">
+                <img src="https://cdn.pixabay.com/photo/2018/08/15/01/02/puppy-3607024_1280.jpg" />
+                <p style="font-weight: bold;">@Model.SenderDog.BreedName Babies</p>
+                <small>
+                    Puppies Image by <a href="https://pixabay.com/users/varjag-3211970/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">varjag</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">Pixabay</a>
+                </small>
+            </div>
+            <div style="padding-top:20px;">
+                <form method="post" type="submit" asp-controller="Matches" asp-action="AcceptRandomMatch">
+                    <input hidden="hidden" name="senderDogId" value="@Model.SenderDog.Id" />
+                    <input hidden="hidden" name="receiverDogId" value="@Model.ReceiverDog.Id" />
+                    <p>
+                        <i class="fas fa-check"></i><input type="submit" class="btn btn-light" style="color:green" value="Accept Match Proposal" />
+                    </p>
+                    <p>
+                        <i class="fas fa-times"></i><input type="submit" class="btn btn-light" style="color:red" value="Reject Match Proposal" />
+                    </p>
+                </form>
+            </div>
         </div>
-        <div>
-            <i class="fas fa-plus fa-8x" style="padding:20px;"></i>
-        </div>
-        <div id="receiverDog" class="singleDog">
-            <img src="@Model.ReceiverDog.ImageUrl" />
-            <p style="font-weight: bold;"><a asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@Model.ReceiverDog.Id"><span style="color: blue;">@Model.ReceiverDog.Name</span></a></p>
-            <p>@Model.ReceiverDog.BreedName</p>
-            <p>@Model.ReceiverDog.Gender</p>
-        </div>
-        <div>
-            <i class="fas fa-equals fa-8x" style="padding:20px;"></i>
-        </div>
-        <div id="babyDogs" class="singleDog">
-            <img src="https://cdn.pixabay.com/photo/2018/08/15/01/02/puppy-3607024_1280.jpg" />
-            <p style="font-weight: bold;">@Model.SenderDog.BreedName Babies</p>
-            <small>
-                Puppies Image by <a href="https://pixabay.com/users/varjag-3211970/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">varjag</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">Pixabay</a>
-            </small>
-        </div>
-        <div style="padding-top:20px;">
-            <a class="btn btn-light" style="color:green"><i class="fas fa-check"></i> Accept Match Proposal</a>
-            <a class="btn btn-light" style="color:red"><i class="fas fa-times"></i> Reject Match Proposal</a>
-        </div>
-    </div>
+    }
 </body>
 </html>

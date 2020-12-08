@@ -14,6 +14,7 @@
 
         public const string UpdatedDogDataMsg = "You successfully updated the information about your dog {0}.";
         public const string DogDeletedMsg = "You successfully deleted your dog.";
+        public const string DogPartnershipRequestSentMsg = "You dog partnership request was sent.";
 
         // Dog
         public const string RegisteredDogMsg = "Thank you for registering your dog in the Dog Hub.";

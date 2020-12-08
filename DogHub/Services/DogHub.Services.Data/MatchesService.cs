@@ -2,18 +2,26 @@
 {
     using System;
     using System.Linq;
-
+    using System.Threading.Tasks;
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
+    using DogHub.Data.Models.Matches;
     using DogHub.Web.ViewModels.DogMatches;
 
     public class MatchesService : IMatchesService
     {
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
+        private readonly IDeletableEntityRepository<MatchRequestSent> requestsSentRepository;
+        private readonly IDeletableEntityRepository<MatchRequestReceived> requestsReceivedRepository;
 
-        public MatchesService(IDeletableEntityRepository<Dog> dogsRepository)
+        public MatchesService(
+            IDeletableEntityRepository<Dog> dogsRepository,
+            IDeletableEntityRepository<MatchRequestSent> requestsSentRepository,
+            IDeletableEntityRepository<MatchRequestReceived> requestsReceivedRepository)
         {
             this.dogsRepository = dogsRepository;
+            this.requestsSentRepository = requestsSentRepository;
+            this.requestsReceivedRepository = requestsReceivedRepository;
         }
 
         public BothDogsDataViewModel GetBothDogs(int id)
@@ -67,6 +75,46 @@
                 .FirstOrDefault();
 
             return senderDog;
+        }
+
+        public async Task SendMatchRequest(int senderDogId, int receiverDogId)
+        {
+            var senderDog = this.dogsRepository.All()
+                .Where(x => x.Id == senderDogId).FirstOrDefault();
+
+            var receiverDog = this.dogsRepository.All()
+                .Where(x => x.Id == receiverDogId).FirstOrDefault();
+
+            var sentRequest = new MatchRequestSent
+            {
+                ReceiverDogId = receiverDogId,
+                IsUnderReview = true,
+                IsRejected = false,
+                IsApproved = false,
+            };
+
+            await this.requestsSentRepository.AddAsync(sentRequest);
+            await this.requestsSentRepository.SaveChangesAsync();
+        }
+
+        public async Task ReceiveMatchRequest(int senderDogId, int receiverDogId)
+        {
+            var senderDog = this.dogsRepository.All()
+                .Where(x => x.Id == senderDogId).FirstOrDefault();
+
+            var receiverDog = this.dogsRepository.All()
+                .Where(x => x.Id == receiverDogId).FirstOrDefault();
+
+            var requestReceived = new MatchRequestReceived
+            {
+                SenderDogId = senderDogId,
+                IsUnderReview = true,
+                IsApproved = false,
+                IsRejected = false,
+            };
+
+            await this.requestsReceivedRepository.AddAsync(requestReceived);
+            await this.requestsReceivedRepository.SaveChangesAsync();
         }
     }
 }

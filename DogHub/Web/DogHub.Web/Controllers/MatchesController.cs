@@ -26,5 +26,16 @@ namespace DogHub.Web.Controllers
 
             return this.View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AcceptRandomMatch(int senderDogId, int receiverDogId)
+        {
+            await this.matchesService.SendMatchRequest(senderDogId, receiverDogId);
+            await this.matchesService.ReceiveMatchRequest(senderDogId, receiverDogId);
+
+            this.TempData["Message"] = SuccessMessages.DogPartnershipRequestSentMsg;
+
+            return this.Redirect("/Dashboards/Index");
+        }
     }
 }

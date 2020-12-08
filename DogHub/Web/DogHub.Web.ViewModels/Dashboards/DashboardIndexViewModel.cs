@@ -3,6 +3,7 @@
     using System.Collections.Generic;
 
     using DogHub.Web.ViewModels.Competitions;
+    using DogHub.Web.ViewModels.DogMatches;
     using DogHub.Web.ViewModels.Dogs;
 
     public class DashboardIndexViewModel
@@ -16,5 +17,9 @@
         public IEnumerable<CompetitionDetailsViewModel> RegularVotingData { get; set; }
 
         public IEnumerable<CompetitionDetailsViewModel> JudgeVotingData { get; set; }
+
+        public IEnumerable<DogPartnershipReguestsViewModel> PartnershipRequestsSent { get; set; }
+
+        public IEnumerable<DogPartnershipReguestsViewModel> PartnershipRequestsReceived { get; set; }
     }
 }

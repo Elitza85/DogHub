@@ -12,6 +12,7 @@
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
     using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Data.Models.Matches;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
@@ -50,6 +51,10 @@
         public DbSet<JudgeApplicationForm> JudgeApplicationForms { get; set; }
 
         public DbSet<JudgeImage> JudgeImages { get; set; }
+
+        public DbSet<MatchRequestSent> MatchRequestsSent { get; set; }
+
+        public DbSet<MatchRequestReceived> MatchRequestsReceived { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 

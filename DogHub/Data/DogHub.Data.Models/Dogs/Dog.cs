@@ -9,6 +9,7 @@
     using DogHub.Data.Models.Dogs;
     using DogHub.Data.Models.Enums;
     using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Data.Models.Matches;
 
     public class Dog : BaseDeletableModel<int>
     {
@@ -17,6 +18,8 @@
             this.DogsCompetiotions = new HashSet<DogCompetition>();
             this.EvaluationForms = new HashSet<EvaluationForm>();
             this.DogImages = new HashSet<DogImage>();
+            this.MatchRequestsSent = new HashSet<MatchRequestSent>();
+            this.MatchRequestsReceived = new HashSet<MatchRequestReceived>();
         }
 
         [Required]
@@ -64,5 +67,9 @@
         public virtual ICollection<EvaluationForm> EvaluationForms { get; set; }
 
         public virtual ICollection<DogImage> DogImages { get; set; }
+
+        public virtual ICollection<MatchRequestSent> MatchRequestsSent { get; set; }
+
+        public virtual ICollection<MatchRequestReceived> MatchRequestsReceived { get; set; }
     }
 }
