@@ -7,9 +7,11 @@
 
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
+    using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
     using DogHub.Services.Mapping;
+    using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dashboards;
     using DogHub.Web.ViewModels.Dogs;
 
@@ -19,17 +21,23 @@
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
+        private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeAppFormsRepository;
+        private readonly IJudgesService judgesService;
 
         public OwnerDashboardsService(
             IDeletableEntityRepository<Dog> dogsRepository,
             IDeletableEntityRepository<DogColor> dogColorsRepository,
             IDeletableEntityRepository<EyesColor> eyesColorRepository,
-            IDeletableEntityRepository<Competition> competitionsRepository)
+            IDeletableEntityRepository<Competition> competitionsRepository,
+            IDeletableEntityRepository<JudgeApplicationForm> judgeAppFormsRepository,
+            IJudgesService judgesService)
         {
             this.dogsRepository = dogsRepository;
             this.dogColorsRepository = dogColorsRepository;
             this.eyesColorRepository = eyesColorRepository;
             this.competitionsRepository = competitionsRepository;
+            this.judgeAppFormsRepository = judgeAppFormsRepository;
+            this.judgesService = judgesService;
         }
 
         public IEnumerable<T> GetAllDogsOwned<T>(string userId)
@@ -48,6 +56,8 @@
                 DogsCount = this.RegisteredDogsCount(userId),
                 DogsData = this.GetAllDogsOwned<DogDataInCatalogueViewModel>(userId),
                 DogsCompetitionsData = this.DogsInCompetitions(userId),
+                RegularVotingData = this.VoteInCompetitionDetails(userId),
+                JudgeVotingData = this.judgesService.VoteInCompetitionsAsJudge(userId),
             };
             return viewModel;
         }
@@ -118,6 +128,22 @@
                 }).ToList();
 
             return dogsInCompetitions;
+        }
+
+        public IEnumerable<CompetitionDetailsViewModel> VoteInCompetitionDetails(string userId)
+        {
+            var result = this.competitionsRepository.All()
+                .Where(x => x.EvaluationForms.Any(y => y.UserId == userId))
+                .Select(y => new CompetitionDetailsViewModel
+                {
+                    Name = y.Name,
+                    StartDate = y.CompetitionStart,
+                    EndDate = y.CompetitionEnd,
+                    ParticipantsCount = y.DogsCompetitions.Count(),
+                })
+                .ToList();
+
+            return result;
         }
 
         private async Task<int> ValidateDogEyesColor(EditDogDataInputModel input)

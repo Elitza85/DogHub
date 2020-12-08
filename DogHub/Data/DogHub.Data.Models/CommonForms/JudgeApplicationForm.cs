@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Data.Models.CommonForms
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
     using DogHub.Data.Common.Models;
@@ -37,6 +38,8 @@
         public string SelfDescription { get; set; }
 
         public bool IsApproved { get; set; }
+
+        public DateTime ApprovalDate { get; set; }
 
         public bool IsUnderReview { get; set; }
 

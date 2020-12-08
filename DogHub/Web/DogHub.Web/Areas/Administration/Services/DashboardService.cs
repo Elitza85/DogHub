@@ -135,6 +135,7 @@ namespace DogHub.Web.Areas.Administration.Services
                 .Where(x => x.UserId == userId).FirstOrDefault();
             application.IsApproved = true;
             application.IsUnderReview = false;
+            application.ApprovalDate = DateTime.Now;
 
             await this.judgeFormsRepository.SaveChangesAsync();
 

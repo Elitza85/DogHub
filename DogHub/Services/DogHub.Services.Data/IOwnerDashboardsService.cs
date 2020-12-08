@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Services.Data
 {
+    using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dashboards;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -17,5 +18,7 @@
         Task DeleteAsync(int id);
 
         IEnumerable<DogsInCompetitionsViewModel> DogsInCompetitions(string userId);
+
+        IEnumerable<CompetitionDetailsViewModel> VoteInCompetitionDetails(string userId);
     }
 }

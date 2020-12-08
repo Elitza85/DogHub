@@ -1,7 +1,9 @@
 ﻿namespace DogHub.Web.ViewModels.Dashboards
 {
-    using DogHub.Web.ViewModels.Dogs;
     using System.Collections.Generic;
+
+    using DogHub.Web.ViewModels.Competitions;
+    using DogHub.Web.ViewModels.Dogs;
 
     public class DashboardIndexViewModel
     {
@@ -10,5 +12,9 @@
         public int DogsCount { get; set; }
 
         public IEnumerable<DogsInCompetitionsViewModel> DogsCompetitionsData { get; set; }
+
+        public IEnumerable<CompetitionDetailsViewModel> RegularVotingData { get; set; }
+
+        public IEnumerable<CompetitionDetailsViewModel> JudgeVotingData { get; set; }
     }
 }
