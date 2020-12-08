@@ -1,10 +1,8 @@
 ﻿namespace DogHub.Data.Models.Matches
 {
-    using System.ComponentModel.DataAnnotations.Schema;
-
     using DogHub.Data.Common.Models;
 
-    public class MatchRequest : BaseDeletableModel<int>
+    public class MatchRequestSent : BaseDeletableModel<int>
     {
         public int SenderDogId { get; set; }
 

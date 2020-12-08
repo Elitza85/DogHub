@@ -1,14 +1,12 @@
 ﻿namespace DogHub.Data.Models.Matches
 {
-    using System.ComponentModel.DataAnnotations.Schema;
-
     using DogHub.Data.Common.Models;
 
     public class MatchRequestReceived : BaseDeletableModel<int>
     {
-        public int DogId { get; set; }
+        public int ReceiverDogId { get; set; }
 
-        public virtual Dog Dog { get; set; }
+        public virtual Dog ReceiverDog { get; set; }
 
         public int SenderDogId { get; set; }
 

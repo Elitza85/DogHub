@@ -31,6 +31,7 @@ namespace DogHub.Web.Controllers
         public async Task<IActionResult> AcceptRandomMatch(int senderDogId, int receiverDogId)
         {
             await this.matchesService.SendMatchRequest(senderDogId, receiverDogId);
+            await this.matchesService.ReceiveMatchRequest(senderDogId, receiverDogId);
 
             this.TempData["Message"] = SuccessMessages.DogPartnershipRequestSentMsg;
 

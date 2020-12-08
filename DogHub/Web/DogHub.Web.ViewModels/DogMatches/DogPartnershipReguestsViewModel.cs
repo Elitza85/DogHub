@@ -2,9 +2,13 @@
 {
     public class DogPartnershipReguestsViewModel
     {
-        public int OtherDogId { get; set; }
+        public int SenderDogId { get; set; }
 
-        public string OtherDogName { get; set; }
+        public string SenderDogName { get; set; }
+
+        public int ReceiverDogId { get; set; }
+
+        public string ReceiverDogName { get; set; }
 
         public bool IsUnderReview { get; set; }
 

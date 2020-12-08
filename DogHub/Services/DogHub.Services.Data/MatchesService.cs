@@ -12,14 +12,17 @@
     public class MatchesService : IMatchesService
     {
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
-        private readonly IDeletableEntityRepository<MatchRequest> requestsRepository;
+        private readonly IDeletableEntityRepository<MatchRequestSent> sentRequestsRepository;
+        private readonly IDeletableEntityRepository<MatchRequestReceived> receivedRequestsRepository;
 
         public MatchesService(
             IDeletableEntityRepository<Dog> dogsRepository,
-            IDeletableEntityRepository<MatchRequest> requestsRepository)
+            IDeletableEntityRepository<MatchRequestSent> sentRequestsRepository,
+            IDeletableEntityRepository<MatchRequestReceived> receivedRequestsRepository)
         {
             this.dogsRepository = dogsRepository;
-            this.requestsRepository = requestsRepository;
+            this.sentRequestsRepository = sentRequestsRepository;
+            this.receivedRequestsRepository = receivedRequestsRepository;
         }
 
         public BothDogsDataViewModel GetBothDogs(int id)
@@ -83,7 +86,7 @@
             var receiverDog = this.dogsRepository.All()
                 .Where(x => x.Id == receiverDogId).FirstOrDefault();
 
-            var sentRequest = new MatchRequest
+            var sentRequest = new MatchRequestSent
             {
                 SenderDogId = senderDogId,
                 ReceiverDogId = receiverDogId,
@@ -92,8 +95,29 @@
                 IsApproved = false,
             };
 
-            await this.requestsRepository.AddAsync(sentRequest);
-            await this.requestsRepository.SaveChangesAsync();
+            await this.sentRequestsRepository.AddAsync(sentRequest);
+            await this.sentRequestsRepository.SaveChangesAsync();
+        }
+
+        public async Task ReceiveMatchRequest(int senderDogId, int receiverDogId)
+        {
+            var senderDog = this.dogsRepository.All()
+                .Where(x => x.Id == senderDogId).FirstOrDefault();
+
+            var receiverDog = this.dogsRepository.All()
+                .Where(x => x.Id == receiverDogId).FirstOrDefault();
+
+            var receivedRequest = new MatchRequestReceived
+            {
+                SenderDogId = senderDogId,
+                ReceiverDogId = receiverDogId,
+                IsUnderReview = true,
+                IsRejected = false,
+                IsApproved = false,
+            };
+
+            await this.receivedRequestsRepository.AddAsync(receivedRequest);
+            await this.receivedRequestsRepository.SaveChangesAsync();
         }
     }
 }
