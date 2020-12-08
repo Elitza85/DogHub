@@ -39,11 +39,11 @@
             else
             {
                 List<DogDataInCatalogueViewModel> dogs = new List<DogDataInCatalogueViewModel>();
-                var result = this.dogsRepository.All().Where(x => !x.IsDeleted).AsQueryable();
+                var result = this.dogsRepository.All().AsQueryable();
                 var tempResult = this.dogsRepository.All().AsQueryable();
                 foreach (var colorId in colorIds)
                 {
-                    if (this.dogsRepository.All().Where(x => !x.IsDeleted).Any(y => y.DogColorId == colorId))
+                    if (this.dogsRepository.All().Any(y => y.DogColorId == colorId))
                     {
                         tempResult = result.Where(y => y.DogColorId == colorId);
                         var listDogs = tempResult.Select(x => new DogDataInCatalogueViewModel
@@ -70,7 +70,7 @@
             }
             else
             {
-                var query = this.dogsRepository.All().Where(x => !x.IsDeleted).AsQueryable();
+                var query = this.dogsRepository.All().AsQueryable();
                 query = query.Where(x => x.BreedId == breedId);
 
                 return query.To<T>().ToList();

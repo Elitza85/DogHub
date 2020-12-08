@@ -84,7 +84,6 @@
         public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
         {
             return this.dogsRepository.All()
-                .Where(x => !x.IsDeleted)
                 .OrderByDescending(x => x.Id)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
@@ -170,7 +169,7 @@
 
         public int GetCount()
         {
-            return this.dogsRepository.All().Where(x => !x.IsDeleted).Count();
+            return this.dogsRepository.All().Count();
         }
 
         public bool IsVideoFromYouTube(string videoString)

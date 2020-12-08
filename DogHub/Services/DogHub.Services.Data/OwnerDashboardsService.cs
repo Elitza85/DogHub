@@ -43,7 +43,7 @@
         public IEnumerable<T> GetAllDogsOwned<T>(string userId)
         {
             return this.dogsRepository.All()
-                .Where(x => x.UserId == userId && !x.IsDeleted)
+                .Where(x => x.UserId == userId)
                 .OrderBy(x => x.Name)
                 .To<T>()
                 .ToList();
@@ -104,7 +104,7 @@
 
         public async Task DeleteAsync(int id)
         {
-            var dog = this.dogsRepository.All().Where(x => !x.IsDeleted).FirstOrDefault(x => x.Id == id);
+            var dog = this.dogsRepository.All().FirstOrDefault(x => x.Id == id);
             this.dogsRepository.Delete(dog);
             await this.dogsRepository.SaveChangesAsync();
         }
