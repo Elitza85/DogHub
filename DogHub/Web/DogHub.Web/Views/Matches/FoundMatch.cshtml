@@ -1,0 +1,42 @@
+﻿@model DogHub.Web.ViewModels.DogMatches.BothDogsDataViewModel
+
+@{
+    this.ViewData["Title"] = "Dog Match";
+}
+
+<h2>@this.ViewData["Title"]</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Matches/MatchesStyles.css" />
+</head>
+<body>
+    <div class="row">
+        <div id="senderDog" class="singleDog">
+            <img src="@Model.SenderDog.ImageUrl" />
+            <p>@Model.SenderDog.Name</p>
+            <p>@Model.SenderDog.BreedName</p>
+            <p>@Model.SenderDog.Gender</p>
+        </div>
+        <div>
+            <i class="fas fa-plus fa-8x" style="padding:20px;"></i>
+        </div>
+        <div id="receiverDog" class="singleDog">
+            <img src="@Model.ReceiverDog.ImageUrl" />
+            <p>@Model.ReceiverDog.Name</p>
+            <p>@Model.ReceiverDog.BreedName</p>
+            <p>@Model.ReceiverDog.Gender</p>
+        </div>
+        <div>
+            <i class="fas fa-equals fa-8x" style="padding:20px;"></i>
+        </div>
+        <div id="babyDogs" class="singleDog">
+            <img src="https://cdn.pixabay.com/photo/2018/08/15/01/02/puppy-3607024_1280.jpg"/>
+            <p>@Model.SenderDog.BreedName Babies</p>
+            <small>
+                Puppies Image by <a href="https://pixabay.com/users/varjag-3211970/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">varjag</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=3607024">Pixabay</a>
+            </small>
+        </div>
+    </div>
+</body>
+</html>

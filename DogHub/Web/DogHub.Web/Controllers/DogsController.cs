@@ -52,7 +52,6 @@
         }
 
         [Authorize]
-
         public IActionResult Register()
         {
             var viewModel = new RegisterDogInputModel();
@@ -106,6 +105,7 @@
         public IActionResult DogProfile(int id)
         {
             var viewModel = this.dogService.DogProfile(id);
+
             return this.View(viewModel);
         }
 

@@ -79,6 +79,7 @@
             services.AddTransient<IViewComponentsService, ViewComponentsService>();
             services.AddTransient<IOwnerDashboardsService, OwnerDashboardsService>();
             services.AddTransient<ISearchesService, SearchesService>();
+            services.AddTransient<IMatchesService, MatchesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

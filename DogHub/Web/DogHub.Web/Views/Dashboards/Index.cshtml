@@ -130,7 +130,8 @@
                                         <a class="btn btn-light" asp-controller="Dashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
                                     </p>
                                     <p>
-                                        <a href="">Find a Partner</a>
+                                        <input hidden="hidden" @dog.Id/>
+                                        <a class="btn btn-light" asp-controller="Matches" asp-action="FoundMatch" asp-route-id="@dog.Id">Find a Partner</a>
                                     </p>
                                 </td>
                             </tr>
