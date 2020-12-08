@@ -5,119 +5,127 @@
     this.ViewData["Title"] = "Dog Profile";
 }
 
-<h2 style="padding:20px;">Full Dog Profile</h2>
-<button class="btn btn-light" onclick="window.print()">Print Dog Profile</button>
-<div class="border col-md-9">
-    <table>
-        <tr>
-            <td style="width:450px;">
-                <img src="@Model.DogImage" />
-            </td>
-            <td>
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Name:
-                    </span>
-                    @Model.Name
-                </p>
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Breed:
-                    </span>
-                    @Model.Breed
-                </p>
-
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Colour:
-                    </span>
-                    @Model.Color
-                </p>
-
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Gender:
-                    </span>
-                    @Model.Gender
-                </p>
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Age:
-                    </span>
-                    @if (Model.Age == null)
-                    {
-                        <span>
-                            @ErrorMessages.DogAgeNotAvailableMsg
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/Dogs/DogProfileStyles.css" />
+</head>
+<body>
+    <h2 style="padding:20px;">Full Dog Profile</h2>
+    <button class="btn btn-light" onclick="window.print()">Print Dog Profile</button>
+    <div class="border col-md-9">
+        <table>
+            <tr>
+                <td style="width:450px;">
+                    <img src="@Model.DogImage" />
+                </td>
+                <td>
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Name:
                         </span>
-
-                    }
-                    @Model.Age
-                </p>
-
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Weight:
-                    </span>
-                    @Model.Weight
-                </p>
-
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Eyes Color:
-                    </span>
-                    @Model.EyesColor
-                </p>
-
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Dog is Sellable:
-                    </span>
-                    @Model.IsSellable
-                </p>
-
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Dog is Spayed or Neutered:
-                    </span>
-                    @Model.IsSpayedOrNeutred
-                </p>
-
-                <p>
-                    <i class="fas fa-paw"></i>
-                    <span class="font-weight-bold">
-                        Description:
-                    </span>
-                    @if (Model.Description == null)
-                    {
-                        <span>
-                            @ErrorMessages.DogDescriptionNotAvailableMsg
+                        @Model.Name
+                    </p>
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Breed:
                         </span>
-                    }
-                    @Model.Description
-                </p>
-            </td>
-        </tr>
-    </table>
-    <p>
-        <i class="fas fa-paw"></i>
-        <strong>@Model.Name</strong> participated in @Model.CompetitionsCount competition/s.
-    </p>
-    <p>
-        <i class="fas fa-paw"></i>
-        Enjoy the dog video:
-    </p>
-    <iframe width="450" height="315" src="@Model.DogVideoUrl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+                        @Model.Breed
+                    </p>
 
-<div style="padding-top:20px; padding-left:180px;">
-    <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
-</div>
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Colour:
+                        </span>
+                        @Model.Color
+                    </p>
+
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Gender:
+                        </span>
+                        @Model.Gender
+                    </p>
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Age:
+                        </span>
+                        @if (Model.Age == null)
+                        {
+                            <span>
+                                @ErrorMessages.DogAgeNotAvailableMsg
+                            </span>
+
+                        }
+                        @Model.Age
+                    </p>
+
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Weight:
+                        </span>
+                        @Model.Weight
+                    </p>
+
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Eyes Color:
+                        </span>
+                        @Model.EyesColor
+                    </p>
+
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Dog is Sellable:
+                        </span>
+                        @Model.IsSellable
+                    </p>
+
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Dog is Spayed or Neutered:
+                        </span>
+                        @Model.IsSpayedOrNeutred
+                    </p>
+
+                    <p>
+                        <i class="fas fa-paw"></i>
+                        <span class="font-weight-bold">
+                            Description:
+                        </span>
+                        @if (Model.Description == null)
+                        {
+                            <span>
+                                @ErrorMessages.DogDescriptionNotAvailableMsg
+                            </span>
+                        }
+                        @Model.Description
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>
+            <i class="fas fa-paw"></i>
+            <strong>@Model.Name</strong> participated in @Model.CompetitionsCount competition/s.
+        </p>
+        <p>
+            <i class="fas fa-paw"></i>
+            Enjoy the dog video:
+        </p>
+        <iframe width="450" height="315" src="@Model.DogVideoUrl" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+    <div style="padding-top:20px; padding-left:180px;">
+        <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+    </div>
+    </body>
+</html>
