@@ -1,4 +1,5 @@
 ﻿@model DogHub.Web.ViewModels.CommonForms.VoteFormInputModel
+@using DogHub.Common
 
 @{
     this.ViewData["Title"] = "Vote For A Dog";
@@ -187,7 +188,7 @@
         <input type="submit" id="submitBtn" class="btn btn-light" value="Send Your Vote" />
         <b id="successfullyVoted" style="display:none; text-align:center;">
         Thank you for voting!
-            @if (this.User.IsInRole("Judge"))
+            @if (this.User.IsInRole(GlobalConstants.JudgeRoleName))
             {
                 <p>As you are a judge voter your voting points will be doubled in the system!</p>
             }
