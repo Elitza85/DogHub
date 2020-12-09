@@ -94,55 +94,154 @@
 
     @if (Model.DogsCount != 0)
     {
-<div>
-    <h3 style="padding-top:30px"><i class="fas fa-bone"></i> Your Dogs</h3>
-    <hr />
-    <p>
-        <a class="btn btn-light" asp-controller="Dogs" asp-action="Register">Register a New Dog</a>
-    </p>
-    <p>
-        <a class="btn btn-light" href="/Competitions/CompetitionsList#upcomingEvents">Subscribe a Dog To an Upcoming Competition</a>
-    </p>
-    <h4><i class="far fa-hand-point-right"></i> Dog Partnership Requests</h4>
-    <h5><i class="fas fa-share-square fa-flip-horizontal"></i> Partnership Requests Sent:</h5>
-    <h5><i class="fas fa-share-square"></i> Partnership Requests Received:</h5>
-    <h4><i class="far fa-hand-point-right"></i> Currently you have @Model.DogsCount registered dog/s:</h4>
-    @if (Model.DogsCount != 0)
-    {
-        <table class="table-bordered col-md-12">
-            <thead class="text-center">
-            <th>Dog Image</th>
-            <th>Dog Name</th>
-            <th> Dog Breed</th>
-            <th>Options</th>
-            </thead>
-            <tbody>
-                @foreach (var dog in Model.DogsData)
-                {
-                    <tr>
-                        <td class="text-center">
-                            <img height="150px;" src="@dog.ImageUrl" />
-                        </td>
-                        <td class="text-center">@dog.Name</td>
-                        <td class="text-center">@dog.BreedName</td>
-                        <td style="text-align:center;">
-                            <p>
-                                <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Profile</a>
-                            </p>
-                            <p>
-                                <a class="btn btn-light" asp-controller="Dashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
-                            </p>
-                            <p>
-                                <input hidden="hidden" @dog.Id />
-                                <a class="btn btn-light" asp-controller="Matches" asp-action="FoundMatch" asp-route-id="@dog.Id">Find a Partner</a>
-                            </p>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-</div>
+        <div>
+            <h3 style="padding-top:30px"><i class="fas fa-bone"></i> Your Dogs</h3>
+            <hr />
+            <p>
+                <h4><i class="far fa-hand-point-right"></i><a class="btn btn-light" asp-controller="Dogs" asp-action="Register">Register a New Dog</a></h4>
+            </p>
+            <p>
+                <h4><i class="far fa-hand-point-right"></i><a class="btn btn-light" href="/Competitions/CompetitionsList#upcomingEvents">Subscribe a Dog To an Upcoming Competition</a></h4>
+            </p>
+            <h4><i class="far fa-hand-point-right"></i> Dog Partnership Requests</h4>
+            <h5 style="padding-left:20px;"><i class="fas fa-share-square fa-flip-horizontal"></i> Partnership Requests Sent:</h5>
+            @if (Model.PartnershipRequestsSent.Count() == 0)
+            {
+                <p>There are no partnership requests sent by you for your dog.</p>
+            }
+            else
+            {
+                <table class="table-bordered">
+                    <thead>
+                    <th>Your Dog</th>
+                    <th>Request Sent To</th>
+                    <th>Request Status</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model.PartnershipRequestsSent)
+                        {
+                        <tr>
+                            <td>@request.SenderDogName</td>
+                            <td>@request.ReceiverDogName</td>
+                            @if (request.IsUnderReview)
+                            {
+                                <td><i class="far fa-pause-circle" style="color:blue"></i> Under Review</td>
+                            }
+                            else if (request.IsRejected)
+                            {
+                                <td>
+                                    <i class="fas fa-times" style="color:red;"></i> Rejected
+                                </td>
+                            }
+                            else if (request.IsApproved)
+                            {
+                                <td>
+                                    <i class="fas fa-check" style="color:green;"></i> Accepted
+                                    <p>
+                                        <a class="btn btn-light" href="mailto:@request.OtherDogOwnerEmail">Contact Owner</a>
+                                    </p>
+                                </td>
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            <h5 style="padding-left:20px;"><i class="fas fa-share-square"></i> Partnership Requests Received:</h5>
+            @if (Model.PartnershipRequestsReceived.Count() == 0)
+            {
+                <p>There are no partnership requests received for your dog.</p>
+            }
+            else
+            {
+                <table class="table-bordered">
+                    <thead>
+                    <th>Your Dog</th>
+                    <th>Request Received By</th>
+                    <th>Status</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model.PartnershipRequestsReceived)
+                        {
+                        <tr>
+                            <td>@request.ReceiverDogName</td>
+                            <td>@request.SenderDogName</td>
+                            @if (request.IsUnderReview)
+                            {
+                                <td id="optionsBtns">
+                                    <div>
+                                        <form method="post" type="submit" asp-controller="Matches" asp-action="ApproveRequest">
+                                            <p>
+                                                <input hidden="hidden" name="receiverDogId" value="@request.ReceiverDogId" />
+                                                <i class="fas fa-check"></i><input type="submit" class="btn btn-light" id="acceptBtn" style="color:green" value="Accept" />
+                                            </p>
+                                        </form>
+                                        <form method="post" type="submit" asp-controller="Matches" asp-action="RejectRequest">
+                                            <input hidden="hidden" name="receiverDogId" value="@request.ReceiverDogId" />
+                                            <p>
+                                                <i class="fas fa-times"></i><input type="submit" class="btn btn-light" id="rejectBtn" style="color:red" value="Reject" />
+                                            </p>
+                                        </form>
+                                    </div>
+                                </td>
+                            }
+                            else if (request.IsRejected)
+                            {
+                                <td id="rejectedArea">
+                                    <i class="fas fa-times" style="color:red;"></i> Rejected
+                                </td>
+                            }
+                            else if (request.IsApproved)
+                            {
+                                <td id="approvedArea">
+                                    <i class="fas fa-check" style="color:green;"></i> Accepted
+                                    <p>
+                                        <a class="btn btn-light" href="mailto:@request.OtherDogOwnerEmail">Contact Owner</a>
+                                    </p>
+                                </td>
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            <h4><i class="far fa-hand-point-right"></i> Currently you have @Model.DogsCount registered dog/s</h4>
+            @if (Model.DogsCount != 0)
+            {
+                <table class="table-bordered col-md-12">
+                    <thead class="text-center">
+                    <th>Dog Image</th>
+                    <th>Dog Name</th>
+                    <th> Dog Breed</th>
+                    <th>Options</th>
+                    </thead>
+                    <tbody>
+                        @foreach (var dog in Model.DogsData)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    <img height="150px;" src="@dog.ImageUrl" />
+                                </td>
+                                <td class="text-center">@dog.Name</td>
+                                <td class="text-center">@dog.BreedName</td>
+                                <td style="text-align:center;">
+                                    <p>
+                                        <a class="btn btn-light" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@dog.Id">View Profile</a>
+                                    </p>
+                                    <p>
+                                        <a class="btn btn-light" asp-controller="Dashboards" asp-action="EditDog" asp-route-id="@dog.Id">Edit or Delete Dog</a>
+                                    </p>
+                                    <p>
+                                        <input hidden="hidden" @dog.Id />
+                                        <a class="btn btn-light" asp-controller="Matches" asp-action="FoundMatch" asp-route-id="@dog.Id">Find a Partner</a>
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
     }
     @if (Model.DogsCompetitionsData.Count() != 0)
     {
@@ -179,3 +278,17 @@
     }
 </div>
 
+@section Scripts{
+    <script>
+        var btnsSection = document.querySelector("#optionsBtns");
+        var acceptBtn = document.querySelector("#acceptBtn");
+        var rejectBtn = document.querySelector("#rejectBtn");
+        var approvedArea = document.querySelector("#approvedArea");
+
+        acceptBtn.addEventListener("click", () => {
+            btnsSection.style.display == "none";
+            approvedArea.style.display = "block";
+        })
+
+    </script>
+}

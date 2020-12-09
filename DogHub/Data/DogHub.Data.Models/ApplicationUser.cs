@@ -7,6 +7,7 @@ namespace DogHub.Data.Models
     using DogHub.Data.Common.Models;
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Data.Models.Matches;
     using Microsoft.AspNetCore.Identity;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
@@ -19,6 +20,8 @@ namespace DogHub.Data.Models
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.EvalutionForms = new HashSet<EvaluationForm>();
             this.Dogs = new HashSet<Dog>();
+            this.MatchRequestsSent = new HashSet<MatchRequestSent>();
+            this.MatchRequestsReceived = new HashSet<MatchRequestReceived>();
         }
 
         public int Age { get; set; }
@@ -44,5 +47,9 @@ namespace DogHub.Data.Models
         public virtual ICollection<EvaluationForm> EvalutionForms { get; set; }
 
         public virtual ICollection<Dog> Dogs { get; set; }
+
+        public virtual ICollection<MatchRequestSent> MatchRequestsSent { get; set; }
+
+        public virtual ICollection<MatchRequestReceived> MatchRequestsReceived { get; set; }
     }
 }

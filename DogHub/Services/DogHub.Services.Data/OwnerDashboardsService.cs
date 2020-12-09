@@ -10,6 +10,7 @@
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
+    using DogHub.Data.Models.Matches;
     using DogHub.Services.Mapping;
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dashboards;
@@ -24,6 +25,8 @@
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
         private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeAppFormsRepository;
         private readonly IJudgesService judgesService;
+        private readonly IDeletableEntityRepository<MatchRequestSent> sentRequestsRepository;
+        private readonly IDeletableEntityRepository<MatchRequestReceived> receivedRequestsRepository;
 
         public OwnerDashboardsService(
             IDeletableEntityRepository<Dog> dogsRepository,
@@ -31,7 +34,9 @@
             IDeletableEntityRepository<EyesColor> eyesColorRepository,
             IDeletableEntityRepository<Competition> competitionsRepository,
             IDeletableEntityRepository<JudgeApplicationForm> judgeAppFormsRepository,
-            IJudgesService judgesService)
+            IJudgesService judgesService,
+            IDeletableEntityRepository<MatchRequestSent> sentRequestsRepository,
+            IDeletableEntityRepository<MatchRequestReceived> receivedRequestsRepository)
         {
             this.dogsRepository = dogsRepository;
             this.dogColorsRepository = dogColorsRepository;
@@ -39,6 +44,8 @@
             this.competitionsRepository = competitionsRepository;
             this.judgeAppFormsRepository = judgeAppFormsRepository;
             this.judgesService = judgesService;
+            this.sentRequestsRepository = sentRequestsRepository;
+            this.receivedRequestsRepository = receivedRequestsRepository;
         }
 
         public IEnumerable<T> GetAllDogsOwned<T>(string userId)
@@ -50,7 +57,7 @@
                 .ToList();
         }
 
-        public DashboardIndexViewModel DogsData(string userId)
+        public DashboardIndexViewModel DashboardData(string userId)
         {
             var viewModel = new DashboardIndexViewModel
             {
@@ -59,6 +66,8 @@
                 DogsCompetitionsData = this.DogsInCompetitions(userId),
                 RegularVotingData = this.VoteInCompetitionDetails(userId),
                 JudgeVotingData = this.judgesService.VoteInCompetitionsAsJudge(userId),
+                PartnershipRequestsSent = this.GetPartnershipRequestsSent(userId),
+                PartnershipRequestsReceived = this.GetPartnershipRequestsReceived(userId),
             };
             return viewModel;
         }
@@ -147,11 +156,39 @@
             return result;
         }
 
-        public IEnumerable<DogPartnershipReguestsViewModel> PartnershipRequestsSent(string userId)
+        public IEnumerable<DogPartnershipReguestsViewModel> GetPartnershipRequestsSent(string userId)
         {
-            
+            var result = this.sentRequestsRepository.All()
+                .Where(x => x.UserId == userId)
+                .Select(x => new DogPartnershipReguestsViewModel
+                {
+                    SenderDogName = x.SenderDog.Name,
+                    ReceiverDogName = x.ReceiverDog.Name,
+                    OtherDogOwnerEmail = x.ReceiverDog.User.Email,
+                    IsApproved = x.IsApproved,
+                    IsUnderReview = x.IsUnderReview,
+                    IsRejected = x.IsRejected,
+                }).ToList();
 
-            return null;
+            return result;
+        }
+
+        public IEnumerable<DogPartnershipReguestsViewModel> GetPartnershipRequestsReceived(string userId)
+        {
+            var result = this.receivedRequestsRepository.All()
+                .Where(x => x.UserId == userId)
+                .Select(x => new DogPartnershipReguestsViewModel
+                {
+                    ReceiverDogName = x.ReceiverDog.Name,
+                    ReceiverDogId = x.ReceiverDogId,
+                    SenderDogName = x.SenderDog.Name,
+                    OtherDogOwnerEmail = x.SenderDog.User.Email,
+                    IsApproved = x.IsApproved,
+                    IsUnderReview = x.IsUnderReview,
+                    IsRejected = x.IsRejected,
+                }).ToList();
+
+            return result;
         }
 
         private async Task<int> ValidateDogEyesColor(EditDogDataInputModel input)

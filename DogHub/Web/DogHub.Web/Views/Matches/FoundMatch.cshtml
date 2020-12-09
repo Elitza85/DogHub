@@ -31,7 +31,7 @@
             </div>
             <div id="receiverDog" class="singleDog">
                 <img src="@Model.ReceiverDog.ImageUrl" />
-                <p style="font-weight: bold;"><a asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@Model.ReceiverDog.Id"><span style="color: blue;">@Model.ReceiverDog.Name</span></a></p>
+                <p style="font-weight: bold;"><a target="_blank" asp-controller="Dogs" asp-action="DogProfile" asp-route-id="@Model.ReceiverDog.Id"><span style="color: blue;">@Model.ReceiverDog.Name</span></a></p>
                 <p>@Model.ReceiverDog.BreedName</p>
                 <p>@Model.ReceiverDog.Gender</p>
             </div>
@@ -52,6 +52,10 @@
                     <p>
                         <i class="fas fa-check"></i><input type="submit" class="btn btn-light" style="color:green" value="Accept Match Proposal" />
                     </p>
+                </form>
+                <form method="post" type="submit" asp-controller="Matches" asp-action="RejectRandomMatch">
+                    <input hidden="hidden" name="senderDogId" value="@Model.SenderDog.Id" />
+                    <input hidden="hidden" name="receiverDogId" value="@Model.ReceiverDog.Id" />
                     <p>
                         <i class="fas fa-times"></i><input type="submit" class="btn btn-light" style="color:red" value="Reject Match Proposal" />
                     </p>

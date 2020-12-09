@@ -4,6 +4,10 @@
 
     public class MatchRequestReceived : BaseDeletableModel<int>
     {
+        public string UserId { get; set; }
+
+        public virtual ApplicationUser User { get; set; }
+
         public int ReceiverDogId { get; set; }
 
         public virtual Dog ReceiverDog { get; set; }

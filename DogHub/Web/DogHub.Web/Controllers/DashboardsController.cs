@@ -26,7 +26,7 @@
         public IActionResult Index()
         {
             var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var viewModel = this.ownerDashboardsService.DogsData(userId);
+            var viewModel = this.ownerDashboardsService.DashboardData(userId);
             return this.View(viewModel);
         }
 

@@ -12,8 +12,12 @@
 
         BothDogsDataViewModel GetBothDogs(int id);
 
-        Task SendMatchRequest(int senderDogId, int receiverDogId);
+        Task SendMatchRequest(int senderDogId, int receiverDogId, string userId);
 
         Task ReceiveMatchRequest(int senderDogId, int receiverDogId);
+
+        Task ApproveRequest(int receiverDogId);
+
+        Task RejectRequest(int receiverDogId);
     }
 }

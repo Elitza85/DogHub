@@ -2,6 +2,7 @@
 {
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dashboards;
+    using DogHub.Web.ViewModels.DogMatches;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@
     {
         IEnumerable<T> GetAllDogsOwned<T>(string userId);
 
-        DashboardIndexViewModel DogsData(string userId);
+        DashboardIndexViewModel DashboardData(string userId);
 
         T GetById<T>(int id);
 
@@ -20,5 +21,9 @@
         IEnumerable<DogsInCompetitionsViewModel> DogsInCompetitions(string userId);
 
         IEnumerable<CompetitionDetailsViewModel> VoteInCompetitionDetails(string userId);
+
+        IEnumerable<DogPartnershipReguestsViewModel> GetPartnershipRequestsSent(string userId);
+
+        IEnumerable<DogPartnershipReguestsViewModel> GetPartnershipRequestsReceived(string userId);
     }
 }

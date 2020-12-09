@@ -78,7 +78,7 @@
             return senderDog;
         }
 
-        public async Task SendMatchRequest(int senderDogId, int receiverDogId)
+        public async Task SendMatchRequest(int senderDogId, int receiverDogId, string userId)
         {
             var senderDog = this.dogsRepository.All()
                 .Where(x => x.Id == senderDogId).FirstOrDefault();
@@ -88,6 +88,7 @@
 
             var sentRequest = new MatchRequestSent
             {
+                UserId = userId,
                 SenderDogId = senderDogId,
                 ReceiverDogId = receiverDogId,
                 IsUnderReview = true,
@@ -107,8 +108,11 @@
             var receiverDog = this.dogsRepository.All()
                 .Where(x => x.Id == receiverDogId).FirstOrDefault();
 
+
+
             var receivedRequest = new MatchRequestReceived
             {
+                UserId = receiverDog.UserId,
                 SenderDogId = senderDogId,
                 ReceiverDogId = receiverDogId,
                 IsUnderReview = true,
@@ -117,6 +121,42 @@
             };
 
             await this.receivedRequestsRepository.AddAsync(receivedRequest);
+            await this.receivedRequestsRepository.SaveChangesAsync();
+        }
+
+        public async Task ApproveRequest(int receiverDogId)
+        {
+            var sendRequest = this.sentRequestsRepository.All()
+                .Where(x => x.ReceiverDogId == receiverDogId)
+                .FirstOrDefault();
+            sendRequest.IsApproved = true;
+            sendRequest.IsUnderReview = false;
+
+            var receiveRequest = this.receivedRequestsRepository.All()
+                .Where(x => x.ReceiverDogId == receiverDogId)
+                .FirstOrDefault();
+            receiveRequest.IsApproved = true;
+            receiveRequest.IsUnderReview = false;
+
+            await this.sentRequestsRepository.SaveChangesAsync();
+            await this.receivedRequestsRepository.SaveChangesAsync();
+        }
+
+        public async Task RejectRequest(int receiverDogId)
+        {
+            var sendRequest = this.sentRequestsRepository.All()
+                .Where(x => x.ReceiverDogId == receiverDogId)
+                .FirstOrDefault();
+            sendRequest.IsRejected = true;
+            sendRequest.IsUnderReview = false;
+
+            var receiveRequest = this.receivedRequestsRepository.All()
+                .Where(x => x.ReceiverDogId == receiverDogId)
+                .FirstOrDefault();
+            receiveRequest.IsRejected = true;
+            receiveRequest.IsUnderReview = false;
+
+            await this.sentRequestsRepository.SaveChangesAsync();
             await this.receivedRequestsRepository.SaveChangesAsync();
         }
     }
