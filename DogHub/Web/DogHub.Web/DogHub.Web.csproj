@@ -9,6 +9,13 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\css\Users\**" />
+    <Content Remove="wwwroot\css\Users\**" />
+    <EmbeddedResource Remove="wwwroot\css\Users\**" />
+    <None Remove="wwwroot\css\Users\**" />
+  </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
@@ -49,6 +56,5 @@
 
   <ItemGroup>
     <Folder Include="Views\Users\" />
-    <Folder Include="wwwroot\css\Users\" />
   </ItemGroup>
 </Project>
