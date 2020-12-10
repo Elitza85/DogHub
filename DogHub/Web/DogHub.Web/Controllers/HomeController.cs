@@ -1,10 +1,9 @@
 ﻿namespace DogHub.Web.Controllers
 {
-    using System;
     using System.Diagnostics;
+
     using DogHub.Services.Data;
     using DogHub.Web.ViewModels;
-    using DogHub.Web.ViewModels.CurrentShows;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController

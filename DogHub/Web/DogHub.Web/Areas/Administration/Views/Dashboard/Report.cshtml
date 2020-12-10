@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link rel="stylesheet" href="~/css/AdminDashboards/AdminDashboardStyles.css" />
+</head>
+<body>
+    <button id="getBtn">Get Report</button>
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+            Chart showing stacked horizontal bars. This type of visualization is
+            great for comparing data that accumulates up to a sum.
+        </p>
+    </figure>
+</body>
+</html>
+
+@section Scripts{ 
+<script>
+    $('#getBtn').click(function () {
+        var breedName = [];
+        var totalDogsOfBreed = [];
+        var totalFemalesOfBreed = [];
+        var totalMalesOfBreed = [];
+        $.ajax({
+            method: "POST",
+            url: "/api/GetReport",
+            data: {},
+            contentType: "application/json",
+            dataType: "json",
+            success: function (result) {
+                $.each(result, function (key, item) {
+                    breedName.push(item.breedName);
+                    totalDogsOfBreed.push(item.totalDogsOfBreed);
+                    totalFemalesOfBreed.push(item.totalFemalesOfBreed);
+                    totalMalesOfBreed.push(item.totalMalesOfBreed);
+                });
+                loadChart(breedName, totalDogsOfBreed, totalFemalesOfBreed, totalMalesOfBreed);
+            }
+        })
+    })
+
+    function loadChart(breedName, totalDogs, females, males) {
+        Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Stacked bar chart'
+            },
+            xAxis: {
+                categories: breedName,
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total fruit consumption'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [{
+                name: 'Total',
+                data: totalDogs,
+            }, {
+                    name: 'Females Dogs',
+                    data: females,
+            }, {
+                name: 'Male Dogs',
+                data: males,
+            }]
+        });
+    }
+</script>
+}

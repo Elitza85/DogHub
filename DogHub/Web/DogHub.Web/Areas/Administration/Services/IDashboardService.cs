@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Web.Areas.Administration.Services
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using DogHub.Web.ViewModels.Administration.Dashboard;
@@ -26,5 +27,9 @@
         Task<string> RejectApplication(string userId, string notes);
 
         Task<IActionResult> SendEmailRejection(string userId);
+
+        IEnumerable<BreedsData> AllBreedsForReport();
+
+        ReportViewModel GetReportData();
     }
 }

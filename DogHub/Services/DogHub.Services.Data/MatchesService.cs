@@ -108,8 +108,6 @@
             var receiverDog = this.dogsRepository.All()
                 .Where(x => x.Id == receiverDogId).FirstOrDefault();
 
-
-
             var receivedRequest = new MatchRequestReceived
             {
                 UserId = receiverDog.UserId,

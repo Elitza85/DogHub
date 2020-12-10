@@ -42,7 +42,7 @@
 
         public DbSet<DogColor> DogColors { get; set; }
 
-        public DbSet<DogImage> DogImages{ get; set; }
+        public DbSet<DogImage> DogImages { get; set; }
 
         public DbSet<EyesColor> EyesColors { get; set; }
 

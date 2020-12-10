@@ -52,6 +52,7 @@
         }
 
         [Authorize]
+        [AuthorizeRoles(GlobalConstants.DogOwnerUserRoleName, GlobalConstants.JudgeRoleName)]
         public IActionResult Register()
         {
             var viewModel = new RegisterDogInputModel();

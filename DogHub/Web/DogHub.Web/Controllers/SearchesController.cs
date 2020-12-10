@@ -1,14 +1,10 @@
-﻿using DogHub.Services.Data;
-using DogHub.Web.ViewModels.Dogs;
-using DogHub.Web.ViewModels.Searches;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogHub.Web.Controllers
+﻿namespace DogHub.Web.Controllers
 {
+    using DogHub.Services.Data;
+    using DogHub.Web.ViewModels.Dogs;
+    using DogHub.Web.ViewModels.Searches;
+    using Microsoft.AspNetCore.Mvc;
+
     public class SearchesController : Controller
     {
         private readonly ISearchesService searchesService;

@@ -1,11 +1,9 @@
 ﻿namespace DogHub.Web.ViewModels.CommonForms
 {
-    using AutoMapper;
-    using DogHub.Common;
-    using DogHub.Data.Models.CommonForms;
-    using DogHub.Services.Mapping;
-    using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
+
+    using DogHub.Common;
+    using Microsoft.AspNetCore.Http;
 
     public class JudgeApplicationInputModel
     {
@@ -37,10 +35,12 @@
         public int YearsOfExperience { get; set; }
 
         [Display(Name = "Number of Raised Litters ")]
+
         // should be 5 or above
         public int RaisedLitters { get; set; }
 
         [Display(Name = "Number of Dog Champions Owned or Bred")]
+
         // number of dog-champions that the judge applicant owned or bred is 4 or above
         public int NumberOfChampionsOwned { get; set; }
 

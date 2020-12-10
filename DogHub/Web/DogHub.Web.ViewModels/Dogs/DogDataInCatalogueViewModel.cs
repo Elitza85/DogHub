@@ -1,13 +1,11 @@
-﻿using AutoMapper;
-using DogHub.Data.Models;
-using DogHub.Services.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.Dogs
+﻿namespace DogHub.Web.ViewModels.Dogs
 {
+    using System.Linq;
+
+    using AutoMapper;
+    using DogHub.Data.Models;
+    using DogHub.Services.Mapping;
+
     public class DogDataInCatalogueViewModel : IMapFrom<Dog>, IHaveCustomMappings
     {
         public int Id { get; set; }

@@ -1,8 +1,9 @@
 ﻿namespace FirstViewsTests.Controllers
 {
+    using System;
+
     using DogHub.Services.Data;
     using Microsoft.AspNetCore.Mvc;
-    using System;
 
     public class CurrentShowsController : Controller
     {

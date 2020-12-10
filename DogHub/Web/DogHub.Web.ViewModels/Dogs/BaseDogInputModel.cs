@@ -1,12 +1,12 @@
-﻿using DogHub.Common;
-using DogHub.Data.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.Dogs
+﻿namespace DogHub.Web.ViewModels.Dogs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    using DogHub.Common;
+    using DogHub.Data.Models.Enums;
+
     public abstract class BaseDogInputModel
     {
         public string UserId { get; set; }

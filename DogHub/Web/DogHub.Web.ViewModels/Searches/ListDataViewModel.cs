@@ -1,10 +1,9 @@
-﻿using DogHub.Web.ViewModels.Dogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.Searches
+﻿namespace DogHub.Web.ViewModels.Searches
 {
+    using System.Collections.Generic;
+
+    using DogHub.Web.ViewModels.Dogs;
+
     public class ListDataViewModel
     {
         public IEnumerable<DogDataInCatalogueViewModel> DogsByColor { get; set; }

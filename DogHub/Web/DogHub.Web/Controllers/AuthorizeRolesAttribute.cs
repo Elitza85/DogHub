@@ -4,9 +4,10 @@
 
     public class AuthorizeRolesAttribute : AuthorizeAttribute
     {
-        public AuthorizeRolesAttribute(params string[] roles) : base()
+        public AuthorizeRolesAttribute(params string[] roles)
+            : base()
         {
-            Roles = string.Join(",", roles);
+            this.Roles = string.Join(",", roles);
         }
     }
 }

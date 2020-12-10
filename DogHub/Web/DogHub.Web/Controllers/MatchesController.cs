@@ -1,16 +1,13 @@
-﻿using DogHub.Common;
-using DogHub.Services.Data;
-using DogHub.Web.ViewModels.DogMatches;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace DogHub.Web.Controllers
+﻿namespace DogHub.Web.Controllers
 {
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using DogHub.Common;
+    using DogHub.Services.Data;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize(Roles = GlobalConstants.DogOwnerUserRoleName)]
     public class MatchesController : Controller
     {
@@ -40,8 +37,7 @@ namespace DogHub.Web.Controllers
             return this.Redirect("/Dashboards/Index");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> RejectRandomMatch()
+        public IActionResult RejectRandomMatch()
         {
             this.TempData["Message"] = SuccessMessages.RejectRandomMatchProposalMsg;
 

@@ -1,13 +1,8 @@
-﻿using DogHub.Services.Data;
-using DogHub.Web.ViewModels.ViewComponents;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DogHub.Web.ViewComponents
+﻿namespace DogHub.Web.ViewComponents
 {
+    using DogHub.Services.Data;
+    using Microsoft.AspNetCore.Mvc;
+
     public class LastRegisteredDogsViewComponent : ViewComponent
     {
         private readonly IViewComponentsService viewComponentsService;

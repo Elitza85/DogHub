@@ -1,5 +1,9 @@
 ﻿namespace DogHub.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using DogHub.Common;
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
@@ -11,10 +15,6 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using System.Text;
 
     public class DashboardController : AdministrationController
     {
@@ -80,7 +80,6 @@
                 return this.View(input);
             }
 
-
             return this.Redirect("Index");
         }
 
@@ -145,6 +144,12 @@
 
             this.TempData["Message"] = string.Format(SuccessMessages.RejectJudgeApplication, applicantName);
             return this.Redirect("Index");
+        }
+
+        public IActionResult Reports()
+        {
+            var viewModel = this.dashboardService.GetReportData();
+            return this.View(viewModel);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿namespace DogHub.Web.ViewModels.Competitions
 {
-    using Microsoft.AspNetCore.Http;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
 
     public class CompetitionDetailsViewModel

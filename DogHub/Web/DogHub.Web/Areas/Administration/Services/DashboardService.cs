@@ -1,22 +1,23 @@
-﻿using DogHub.Data.Common.Repositories;
-using DogHub.Data.Models;
-using DogHub.Data.Models.CommonForms;
-using DogHub.Data.Models.Competitions;
-using DogHub.Data.Models.Dogs;
-using DogHub.Services.Messaging;
-using DogHub.Web.ViewModels.Administration.Dashboard;
-using DogHub.Web.ViewModels.Competitions;
-using DogHub.Web.ViewModels.Dogs;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DogHub.Web.Areas.Administration.Services
+﻿namespace DogHub.Web.Areas.Administration.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
+    using DogHub.Data.Models.CommonForms;
+    using DogHub.Data.Models.Competitions;
+    using DogHub.Data.Models.Dogs;
+    using DogHub.Services.Messaging;
+    using DogHub.Web.ViewModels.Administration.Dashboard;
+    using DogHub.Web.ViewModels.Competitions;
+    using DogHub.Web.ViewModels.Dogs;
+    using Microsoft.AspNetCore.Mvc;
+
     public class DashboardService : IDashboardService
     {
         private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
@@ -26,6 +27,7 @@ namespace DogHub.Web.Areas.Administration.Services
         private readonly IDeletableEntityRepository<Breed> breedsRepository;
         private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
+        private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IEmailSender emailSender;
 
         public DashboardService(
@@ -34,6 +36,7 @@ namespace DogHub.Web.Areas.Administration.Services
             IDeletableEntityRepository<Breed> breedsRepository,
             IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository,
             IDeletableEntityRepository<ApplicationUser> usersRepository,
+            IDeletableEntityRepository<Dog> dogsRepository,
             IEmailSender emailSender)
         {
             this.organisersRepository = organisersRepository;
@@ -41,6 +44,7 @@ namespace DogHub.Web.Areas.Administration.Services
             this.breedsRepository = breedsRepository;
             this.judgeFormsRepository = judgeFormsRepository;
             this.usersRepository = usersRepository;
+            this.dogsRepository = dogsRepository;
             this.emailSender = emailSender;
         }
 
@@ -190,6 +194,65 @@ namespace DogHub.Web.Areas.Administration.Services
             return null;
         }
 
+        public IEnumerable<BreedsData> AllBreedsForReport()
+        {
+            var breeds = this.breedsRepository.All()
+                .Where(x => x.IsApproved)
+               .Select(x => new BreedsData
+               {
+                   BreedId = x.Id,
+                   BreedName = x.Name,
+                   TotalDogsOfBreed = x.BreedDogs.Count(),
+               })
+               .OrderByDescending(x => x.TotalDogsOfBreed)
+               .ToList();
+
+            var dogs = this.dogsRepository.All().ToList();
+            foreach (var breedData in breeds)
+            {
+                int countMales = 0;
+                int countFemales = 0;
+                var breedId = breedData.BreedId;
+                foreach (var dog in dogs)
+                {
+                    if (dog.BreedId == breedId && dog.Gender.ToString() == "Female")
+                    {
+                        countFemales++;
+                    }
+                    else if (dog.BreedId == breedId && dog.Gender.ToString() == "Male")
+                    {
+                        countMales++;
+                    }
+                }
+
+                breeds.Where(b => b.BreedId == breedId).First().FemaleDogsOfBreed = countFemales;
+                breeds.Where(b => b.BreedId == breedId).First().MaleDogsOfBreed = countMales;
+            }
+
+            return breeds;
+        }
+
+        public ReportViewModel GetReportData()
+        {
+            var viewModel = new ReportViewModel();
+            viewModel.GetBreedsData = this.AllBreedsForReport();
+
+            return viewModel;
+        }
+
+        private IEnumerable<BreedNames> GelAllBreeds()
+        {
+            return this.breedsRepository.All()
+                .Where(x => x.IsUnderReview == true)
+                .Select(x => new BreedNames
+                {
+                    BreedId = x.Id,
+                    BreedName = x.Name,
+                })
+                .OrderBy(x => x.BreedName)
+                .ToList();
+        }
+
         private IEnumerable<SingleJudgeAppFormViewModel> GetAllForms()
         {
             return this.judgeFormsRepository.All()
@@ -205,19 +268,6 @@ namespace DogHub.Web.Areas.Administration.Services
                     RaisedLitters = f.RaisedLitters,
                     JudgeInstituteCertificateUrl = f.JudgeInstituteCertificateUrl,
                 }).ToList();
-        }
-
-        private IEnumerable<BreedNames> GelAllBreeds()
-        {
-            return this.breedsRepository.All()
-                .Where(x => x.IsUnderReview == true)
-                .Select(x => new BreedNames
-                {
-                    BreedId = x.Id,
-                    BreedName = x.Name,
-                })
-                .OrderBy(x => x.BreedName)
-                .ToList();
         }
     }
 }

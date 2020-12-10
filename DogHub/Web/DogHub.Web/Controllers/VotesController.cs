@@ -1,8 +1,7 @@
 ﻿namespace DogHub.Web.Controllers
 {
-    using System.Security.Claims;
-    using System.Linq;
     using System.Threading.Tasks;
+
     using DogHub.Common;
     using DogHub.Data.Models;
     using DogHub.Services.Data;
@@ -44,6 +43,7 @@
             {
                 input.IsUserJudge = false;
             }
+
             await this.commonFormsService.VoteForDog(input, user);
 
             return this.NoContent();

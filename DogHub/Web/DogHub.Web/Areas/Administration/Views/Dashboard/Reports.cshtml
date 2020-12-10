@@ -1,0 +1,77 @@
+﻿@model DogHub.Web.ViewModels.Administration.Dashboard.ReportViewModel
+
+@{
+    this.ViewData["Title"] = "Report Data";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <link rel="stylesheet" href="~/css/AdminDashboards/AdminDashboardStyles.css" />
+</head>
+<body>
+    <a class="btn btn-light btn-outline-dark" style="float:right" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+            Information about the total count of registered dogs in each breed, including male and female proportions per breed.
+        </p>
+
+        <table id="datatable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Females</th>
+                    <th>Males</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var breed in Model.GetBreedsData)
+                {
+                    <tr>
+                        <th>
+                            @breed.BreedName (Total Dogs: @breed.TotalDogsOfBreed)
+                        </th>
+                        <td>@breed.FemaleDogsOfBreed</td>
+                        <td>@breed.MaleDogsOfBreed</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </figure>
+    <a class="btn btn-light btn-outline-dark" href="javascript:history.go(-1)" title="Return to the previous page">Back</a>
+</body>
+</html>
+
+@section Scripts{
+    <script>
+        Highcharts.chart('container', {
+            data: {
+                table: 'datatable'
+            },
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Dogs Data Per Breed'
+            },
+            yAxis: {
+                allowDecimals: false,
+                title: {
+                    text: 'Count'
+                }
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + 'Registered ' + this.series.name + ' Of The Breed: ' + '</b>' +
+                        this.point.y;
+                }
+            }
+        });
+    </script>
+}
