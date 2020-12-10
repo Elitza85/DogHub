@@ -34,7 +34,7 @@
         public BreedsListViewModel BreedsListData()
         {
             var breedsPage = new BreedsListViewModel();
-            breedsPage.AllBreeds = this.GelAllBreeds();
+            breedsPage.AllBreeds = this.GetAllBreeds();
             return breedsPage;
         }
 
@@ -56,7 +56,7 @@
             }
         }
 
-        private IEnumerable<BreedNames> GelAllBreeds()
+        private IEnumerable<BreedNames> GetAllBreeds()
         {
             return this.breedsRepository.All()
                 .Where(x => x.IsApproved == true)
