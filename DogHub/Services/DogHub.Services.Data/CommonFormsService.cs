@@ -20,20 +20,17 @@
         private readonly IDeletableEntityRepository<EvaluationForm> evaluationFormsRepository;
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
-        private readonly IDeletableEntityRepository<EvaluationForm> evaluationForms;
 
         public CommonFormsService(
             IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository,
             IDeletableEntityRepository<EvaluationForm> evaluationFormsRepository,
             IDeletableEntityRepository<Dog> dogsRepository,
-            IDeletableEntityRepository<Competition> competitionsRepository,
-            IDeletableEntityRepository<EvaluationForm> evaluationForms)
+            IDeletableEntityRepository<Competition> competitionsRepository)
         {
             this.judgeFormsRepository = judgeFormsRepository;
             this.evaluationFormsRepository = evaluationFormsRepository;
             this.dogsRepository = dogsRepository;
             this.competitionsRepository = competitionsRepository;
-            this.evaluationForms = evaluationForms;
         }
 
         public async Task ApplyForJudge(JudgeApplicationInputModel input, string imagePath)
@@ -103,7 +100,7 @@
 
         public bool CheckIfUserHasVoted(string userId, int dogId, int competitionId)
         {
-            var userHasVoted = this.evaluationForms.All()
+            var userHasVoted = this.evaluationFormsRepository.All()
                 .Where(x => x.DogId == dogId && x.CompetitionId == competitionId)
                 .ToList()
                 .Any(y => y.UserId == userId);
