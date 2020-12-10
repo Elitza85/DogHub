@@ -29,11 +29,10 @@
                 IsRejected = false,
                 IsUnderReview = true,
             };
-
             await service.ProposeBreed(input);
             await service.ProposeBreed(input);
 
-            Assert.Equal(input.BreedName, list.First().Name);
+            Assert.Equal("American Bully", list.First().Name);
             Assert.Equal(1, list.Count);
         }
 
@@ -119,7 +118,5 @@
             Assert.Equal("2", data.First().Key);
             Assert.Equal("American Bully", data.First().Value);
         }
-
-
     }
 }
