@@ -52,7 +52,7 @@
             return result ?? false;
         }
 
-        public IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId, int id)
+        public IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId)
         {
             var result = this.dogsRepository.All()
             .Where(c => c.UserId == userId)

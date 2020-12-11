@@ -9,7 +9,7 @@
 
     public interface ICompetitionsHelpService
     {
-        IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId, int id);
+        IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId);
 
         string GetDogBreed(int dogId);
 

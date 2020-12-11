@@ -123,7 +123,7 @@
                     CompetitionBreed = c.Breed.Name,
                 }).FirstOrDefault();
 
-            result.PossibleDogApplicants = this.competitionsHelpService.GetPossibleDogApplicants(userId, id);
+            result.PossibleDogApplicants = this.competitionsHelpService.GetPossibleDogApplicants(userId);
 
             foreach (var dogViewModel in result.PossibleDogApplicants)
             {
