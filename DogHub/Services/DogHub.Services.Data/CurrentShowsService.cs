@@ -1,7 +1,6 @@
 ﻿namespace DogHub.Services.Data
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using DogHub.Data.Common.Repositories;
