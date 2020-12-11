@@ -15,18 +15,15 @@
     {
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
-        private readonly IDeletableEntityRepository<EvaluationForm> evalutionFormsRepository;
         private readonly IRepository<DogCompetition> dogCompetitionRepository;
 
         public CompetitionsHelpService(
             IDeletableEntityRepository<Dog> dogsRepository,
             IDeletableEntityRepository<Competition> competitionsRepository,
-            IDeletableEntityRepository<EvaluationForm> evalutionFormsRepository,
             IRepository<DogCompetition> dogCompetitionRepository)
         {
             this.dogsRepository = dogsRepository;
             this.competitionsRepository = competitionsRepository;
-            this.evalutionFormsRepository = evalutionFormsRepository;
             this.dogCompetitionRepository = dogCompetitionRepository;
         }
 
@@ -58,7 +55,7 @@
         public IEnumerable<PossibleDogApplicantsViewModel> GetPossibleDogApplicants(string userId, int id)
         {
             var result = this.dogsRepository.All()
-            .Where(c => c.UserId == userId && !c.IsDeleted)
+            .Where(c => c.UserId == userId)
                     .Select(p => new PossibleDogApplicantsViewModel
                     {
                         DogId = p.Id,
