@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -10,7 +9,6 @@
     using DogHub.Data.Models;
     using DogHub.Data.Models.Competitions;
     using DogHub.Web.ViewModels.Competitions;
-    using DogHub.Web.ViewModels.Dogs;
 
     public class CompetitionsService : ICompetitionsService
     {
@@ -163,7 +161,9 @@
 
             await this.dogsCompetitionsRepository.AddAsync(new DogCompetition
             {
+                DogId = dogId,
                 Dog = dog,
+                CompetitionId = competitionId,
                 Competition = competition,
             });
             await this.dogsCompetitionsRepository.SaveChangesAsync();
@@ -175,7 +175,7 @@
                 .Where(x => x.DogId == dogId && x.CompetitionId == competitionId)
                 .FirstOrDefault();
             this.dogsCompetitionsRepository.Delete(record);
-            await this.competitionsRepository.SaveChangesAsync();
+            await this.dogsCompetitionsRepository.SaveChangesAsync();
         }
     }
 }
