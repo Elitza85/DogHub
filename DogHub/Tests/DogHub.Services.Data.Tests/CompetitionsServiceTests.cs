@@ -1308,69 +1308,71 @@
             Assert.Equal("Test", dogsCompetitionsList.Select(x => x.Competition.Name).First());
         }
 
-        //[Fact]
-        //public async Task RomoveDogFromCompetitionWorksCorrectly()
-        //{
-        //    var competitionsList = new List<Competition>();
-        //    var competitionsMockRepo = new Mock<IDeletableEntityRepository<Competition>>();
-        //    competitionsMockRepo.Setup(x => x.All()).Returns(competitionsList.AsQueryable());
-        //    competitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<Competition>())).Callback(
-        //        (Competition competition) => competitionsList.Add(competition));
+        [Fact]
+        public async Task RemoveDogFromCompetitionWorksCorrectly()
+        {
+            var competitionsList = new List<Competition>();
+            var competitionsMockRepo = new Mock<IDeletableEntityRepository<Competition>>();
+            competitionsMockRepo.Setup(x => x.All()).Returns(competitionsList.AsQueryable());
+            competitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<Competition>())).Callback(
+                (Competition competition) => competitionsList.Add(competition));
 
-        //    var dogsList = new List<Dog>();
-        //    var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
-        //    dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
-        //    dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
-        //        (Dog dog) => dogsList.Add(dog));
+            var dogsList = new List<Dog>();
+            var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
+            dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
+                (Dog dog) => dogsList.Add(dog));
 
-        //    var dogsCompetitionsList = new List<DogCompetition>();
-        //    var dogCompetitionsMockRepo = new Mock<IRepository<DogCompetition>>();
-        //    dogCompetitionsMockRepo.Setup(x => x.All()).Returns(dogsCompetitionsList.AsQueryable());
-        //    dogCompetitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<DogCompetition>())).Callback(
-        //        (DogCompetition dogCompetition) => dogsCompetitionsList.Add(dogCompetition));
+            var dogsCompetitionsList = new List<DogCompetition>();
+            var dogCompetitionsMockRepo = new Mock<IRepository<DogCompetition>>();
+            dogCompetitionsMockRepo.Setup(x => x.All()).Returns(dogsCompetitionsList.AsQueryable());
+            dogCompetitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<DogCompetition>())).Callback(
+                (DogCompetition dogCompetition) => dogsCompetitionsList.Add(dogCompetition));
+            dogCompetitionsMockRepo.Setup(x => x.Delete(It.IsAny<DogCompetition>())).Callback(
+                (DogCompetition dogCompetition) => dogsCompetitionsList.Remove(dogCompetition));
 
-        //    var helpService = new CompetitionsHelpService(
-        //        dogsMockRepo.Object,
-        //        competitionsMockRepo.Object,
-        //        dogCompetitionsMockRepo.Object);
+            var helpService = new CompetitionsHelpService(
+                dogsMockRepo.Object,
+                competitionsMockRepo.Object,
+                dogCompetitionsMockRepo.Object);
 
-        //    var service = new CompetitionsService(
-        //        competitionsMockRepo.Object,
-        //        dogCompetitionsMockRepo.Object,
-        //        helpService);
+            var service = new CompetitionsService(
+                competitionsMockRepo.Object,
+                dogCompetitionsMockRepo.Object,
+                helpService);
 
-        //    var breed = new Breed
-        //    {
-        //        Id = 1,
-        //        Name = "Bulldog",
-        //    };
+            var breed = new Breed
+            {
+                Id = 1,
+                Name = "Bulldog",
+            };
 
-        //    var competition = new Competition
-        //    {
-        //        Id = 1,
-        //        Name = "Test",
-        //        BreedId = 1,
-        //        Breed = breed,
-        //    };
-        //    competitionsList.Add(competition);
+            var competition = new Competition
+            {
+                Id = 1,
+                Name = "Test",
+                BreedId = 1,
+                Breed = breed,
+            };
+            competitionsList.Add(competition);
 
-        //    var firstDog = new Dog
-        //    {
-        //        Id = 1,
-        //        UserId = "firstUser",
-        //        Name = "Test1",
-        //        BreedId = 1,
-        //        Breed = breed,
-        //        IsSpayedOrNeutered = false,
-        //        Gender = DogHub.Data.Models.Enums.DogGenderEnum.Male,
-        //    };
-        //    dogsList.Add(firstDog);
+            var firstDog = new Dog
+            {
+                Id = 1,
+                UserId = "firstUser",
+                Name = "Test1",
+                BreedId = 1,
+                Breed = breed,
+                IsSpayedOrNeutered = false,
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Male,
+            };
+            dogsList.Add(firstDog);
 
-        //    await service.SuccessfullyAddDogToCompetitionAsync(1, 1);
-        //    await service.RemoveDogFromUpcomingCompetition(1, 1);
+            await service.SuccessfullyAddDogToCompetitionAsync(1, 1);
+            await service.RemoveDogFromUpcomingCompetition(1, 1);
 
-        //    Assert.Equal(0, dogsCompetitionsList.Count());
-        //}
+            Assert.Equal(0, dogsCompetitionsList.Count());
+        }
 
         private static Mock<IRepository<DogCompetition>> DogsCompetitionsMock()
         {
