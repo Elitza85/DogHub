@@ -44,7 +44,8 @@
                 .Where(x => x.Id != senderDog.Id
                 && x.UserId != senderDog.UserId
                 && x.Gender != senderDog.Gender
-                && x.BreedId == senderDog.BreedId)
+                && x.BreedId == senderDog.BreedId
+                && x.IsSpayedOrNeutered == false)
                 .OrderBy(x => Guid.NewGuid())
                 .Select(d => new DogMatchViewModel
                 {
