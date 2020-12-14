@@ -24,10 +24,10 @@
             this.competitionsRepository = competitionsRepository;
         }
 
-        public IEnumerable<SingleJudgeViewModel> JudgeDetails<T>()
+        public IEnumerable<T> JudgeDetails<T>()
         {
             var result = this.judgeAppFormsRepository.All()
-                .To<SingleJudgeViewModel>()
+                .To<T>()
                 .ToList();
             return result;
         }

@@ -6,7 +6,7 @@
 
     public interface IJudgesService
     {
-        IEnumerable<SingleJudgeViewModel> JudgeDetails<T>();
+        IEnumerable<T> JudgeDetails<T>();
 
         public JudgesListViewModel JudgesList();
 
