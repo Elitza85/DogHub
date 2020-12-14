@@ -63,13 +63,13 @@
 
         // public IEnumerable<DogDataInCatalogueViewModel> GetAllDogs(int page, int itemsPerPage = 12)
         // {
-        //    return this.dogsRepository.All()
+        //    var result = this.dogsRepository.All()
         //        .OrderByDescending(x => x.Id)
         //        .Skip((page - 1) * itemsPerPage)
         //        .Take(itemsPerPage)
         //        .Select(x => new DogDataInCatalogueViewModel
         //        {
-        //            Breed = x.Breed.BreedName,
+        //            BreedName = x.Breed.Name,
         //            Gender = x.Gender.ToString(),
         //            Name = x.Name,
         //            ImageUrl =
@@ -77,17 +77,20 @@
         //            x.DogImages.FirstOrDefault().RemoteImageUrl :
         //            "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." +
         //            x.DogImages.FirstOrDefault().Extension,
-        //            IsSellable = x.Sellable,
+        //            Sellable = x.Sellable,
         //        }).ToList();
+        //    return result;
         // }
         public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
         {
-            return this.dogsRepository.All()
+            var result = this.dogsRepository.All()
                 .OrderByDescending(x => x.Id)
                 .Skip((page - 1) * itemsPerPage)
                 .Take(itemsPerPage)
                 .To<T>()
                 .ToList();
+
+            return result;
         }
 
         public DogsCatalogueViewModel DogsData(int id, int itemsPerPage = 12)

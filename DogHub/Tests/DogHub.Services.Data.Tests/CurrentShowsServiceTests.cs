@@ -1,19 +1,17 @@
-﻿using DogHub.Data.Common.Repositories;
-using DogHub.Data.Models;
-using DogHub.Data.Models.Competitions;
-using DogHub.Data.Models.Dogs;
-using DogHub.Data.Models.EvaluationForms;
-using DogHub.Web.ViewModels.CurrentShows;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace DogHub.Services.Data.Tests
+﻿namespace DogHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
+    using DogHub.Data.Models.Competitions;
+    using DogHub.Data.Models.Dogs;
+    using DogHub.Data.Models.EvaluationForms;
+    using Moq;
+    using Xunit;
+
     public class CurrentShowsServiceTests
     {
         [Fact]

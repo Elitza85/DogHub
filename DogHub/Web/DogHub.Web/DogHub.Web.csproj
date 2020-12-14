@@ -11,9 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Users\**" />
     <Compile Remove="wwwroot\css\Users\**" />
+    <Content Remove="Views\Users\**" />
     <Content Remove="wwwroot\css\Users\**" />
+    <EmbeddedResource Remove="Views\Users\**" />
     <EmbeddedResource Remove="wwwroot\css\Users\**" />
+    <None Remove="Views\Users\**" />
     <None Remove="wwwroot\css\Users\**" />
   </ItemGroup>
   <ItemGroup>
@@ -52,9 +56,5 @@
     <ProjectReference Include="..\..\Services\DogHub.Services\DogHub.Services.csproj" />
     <ProjectReference Include="..\DogHub.Web.Infrastructure\DogHub.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\DogHub.Web.ViewModels\DogHub.Web.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Users\" />
   </ItemGroup>
 </Project>
