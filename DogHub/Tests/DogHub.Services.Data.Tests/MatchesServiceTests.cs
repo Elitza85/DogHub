@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.Dogs;
