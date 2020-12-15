@@ -28,5 +28,10 @@
         {
             return this.View();
         }
+
+        public IActionResult NotNecessaryToSearchPartner()
+        {
+            return this.View();
+        }
     }
 }

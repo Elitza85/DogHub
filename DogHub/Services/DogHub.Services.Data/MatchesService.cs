@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using DogHub.Common;
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.Matches;
@@ -73,9 +73,7 @@
                     ImageUrl = "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension,
                     BreedName = x.Breed.Name,
                     Gender = x.Gender.ToString(),
-                })
-                .FirstOrDefault();
-
+                }).FirstOrDefault();
             return senderDog;
         }
 

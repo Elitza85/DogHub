@@ -1,18 +1,16 @@
-﻿using DogHub.Data.Common.Repositories;
-using DogHub.Data.Models.CommonForms;
-using DogHub.Data.Models.Competitions;
-using DogHub.Data.Models.EvaluationForms;
-using DogHub.Web.ViewModels.Judges;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace DogHub.Services.Data.Tests
+﻿namespace DogHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models.CommonForms;
+    using DogHub.Data.Models.Competitions;
+    using DogHub.Data.Models.EvaluationForms;
+    using Moq;
+    using Xunit;
+
     public class JudgesServiceTests
     {
         //[Fact]
@@ -189,7 +187,7 @@ namespace DogHub.Services.Data.Tests
             Assert.Equal("Test", data.First().Name);
         }
 
-            private static Mock<IDeletableEntityRepository<Competition>> CompetitionsMock()
+        private static Mock<IDeletableEntityRepository<Competition>> CompetitionsMock()
         {
             var competitionsList = new List<Competition>();
             var competitionsMockRepo = new Mock<IDeletableEntityRepository<Competition>>();

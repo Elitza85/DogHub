@@ -1,10 +1,14 @@
 ﻿namespace DogHub.Web.Controllers
 {
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using DogHub.Common;
+    using DogHub.Data.Common.Repositories;
+    using DogHub.Data.Models;
     using DogHub.Services.Data;
+    using DogHub.Web.ViewModels.DogMatches;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -12,14 +16,25 @@
     public class MatchesController : Controller
     {
         private readonly IMatchesService matchesService;
+        private readonly IDeletableEntityRepository<Dog> dogsRepository;
 
-        public MatchesController(IMatchesService matchesService)
+        public MatchesController(
+            IMatchesService matchesService,
+            IDeletableEntityRepository<Dog> dogsRepository)
         {
             this.matchesService = matchesService;
+            this.dogsRepository = dogsRepository;
         }
 
         public IActionResult FoundMatch(int id)
         {
+            var dogIsSpayed = this.dogsRepository.All()
+                .Where(x => x.Id == id).Select(x => x.IsSpayedOrNeutered).FirstOrDefault();
+            if (dogIsSpayed == true)
+            {
+                return this.Redirect("/Errors/NotNecessaryToSearchPartner");
+            }
+
             var viewModel = this.matchesService.GetBothDogs(id);
 
             return this.View(viewModel);
