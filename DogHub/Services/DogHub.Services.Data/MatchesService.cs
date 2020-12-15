@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using DogHub.Common;
+
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.Matches;
@@ -79,12 +79,6 @@
 
         public async Task SendMatchRequest(int senderDogId, int receiverDogId, string userId)
         {
-            var senderDog = this.dogsRepository.All()
-                .Where(x => x.Id == senderDogId).FirstOrDefault();
-
-            var receiverDog = this.dogsRepository.All()
-                .Where(x => x.Id == receiverDogId).FirstOrDefault();
-
             var sentRequest = new MatchRequestSent
             {
                 UserId = userId,
@@ -101,9 +95,6 @@
 
         public async Task ReceiveMatchRequest(int senderDogId, int receiverDogId)
         {
-            var senderDog = this.dogsRepository.All()
-                .Where(x => x.Id == senderDogId).FirstOrDefault();
-
             var receiverDog = this.dogsRepository.All()
                 .Where(x => x.Id == receiverDogId).FirstOrDefault();
 
@@ -123,17 +114,17 @@
 
         public async Task ApproveRequest(int receiverDogId)
         {
-            var sendRequest = this.sentRequestsRepository.All()
+            var sentRequest = this.sentRequestsRepository.All()
                 .Where(x => x.ReceiverDogId == receiverDogId)
                 .FirstOrDefault();
-            sendRequest.IsApproved = true;
-            sendRequest.IsUnderReview = false;
+            sentRequest.IsApproved = true;
+            sentRequest.IsUnderReview = false;
 
-            var receiveRequest = this.receivedRequestsRepository.All()
+            var receivedRequest = this.receivedRequestsRepository.All()
                 .Where(x => x.ReceiverDogId == receiverDogId)
                 .FirstOrDefault();
-            receiveRequest.IsApproved = true;
-            receiveRequest.IsUnderReview = false;
+            receivedRequest.IsApproved = true;
+            receivedRequest.IsUnderReview = false;
 
             await this.sentRequestsRepository.SaveChangesAsync();
             await this.receivedRequestsRepository.SaveChangesAsync();
