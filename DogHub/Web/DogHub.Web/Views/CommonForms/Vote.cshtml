@@ -190,7 +190,7 @@
         Thank you for voting!
             @if (this.User.IsInRole(GlobalConstants.JudgeRoleName))
             {
-                <p>As you are a judge voter your voting points will be doubled in the system!</p>
+                <p>As you are a judge voter your voting points will be doubled!</p>
             }
         </b>
         <a type="submit" style="display:none;" id="backBtn" class="btn btn-dark" asp-controller="Competitions" asp-action="Details" asp-route-id="@Model.CompetitionId">Back To Competition</a>
