@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -11,69 +12,110 @@
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.EvaluationForms;
     using DogHub.Web.ViewModels.CommonForms;
+    using Microsoft.AspNetCore.Http;
     using Moq;
     using Xunit;
 
     public class CommonFormsServiceTests
     {
-        //[Fact]
-        //public async Task ApplyForJudgeWithCorrectInputDataAddsApplicationToList()
-        //{
-        //    var judgeAppFormsList = new List<JudgeApplicationForm>();
-        //    var judgeFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
-        //    judgeFormsMockRepo.Setup(x => x.All()).Returns(judgeAppFormsList.AsQueryable());
-        //    judgeFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
-        //        (JudgeApplicationForm judgeAppForm) => judgeAppFormsList.Add(judgeAppForm));
+        [Fact]
+        public async Task ApplyForJudgeWithCorrectInputDataAddsApplicationToList()
+        {
+            var judgeAppFormsList = new List<JudgeApplicationForm>();
+            var judgeFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
+            judgeFormsMockRepo.Setup(x => x.All()).Returns(judgeAppFormsList.AsQueryable());
+            judgeFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
+                (JudgeApplicationForm judgeAppForm) => judgeAppFormsList.Add(judgeAppForm));
 
-        //    Mock<IDeletableEntityRepository<EvaluationForm>> evaluationFormsMockRepo = EvaluationFormsMock();
-        //    Mock<IDeletableEntityRepository<Dog>> dogsMockRepo = DogsMock();
-        //    Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            Mock<IDeletableEntityRepository<EvaluationForm>> evaluationFormsMockRepo = EvaluationFormsMock();
+            Mock<IDeletableEntityRepository<Dog>> dogsMockRepo = DogsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
 
-        //    var service = new CommonFormsService(
-        //        judgeFormsMockRepo.Object,
-        //        evaluationFormsMockRepo.Object,
-        //        dogsMockRepo.Object,
-        //        competitionsMockRepo.Object);
+            var service = new CommonFormsService(
+                judgeFormsMockRepo.Object,
+                evaluationFormsMockRepo.Object,
+                dogsMockRepo.Object,
+                competitionsMockRepo.Object);
 
-        //    var judgeAppForm = new JudgeApplicationForm
-        //    {
-        //        FirstName = "Greta",
-        //        LastName = "Fraun",
-        //        YearsOfExperience = 6,
-        //        RaisedLitters = 5,
-        //        NumberOfChampionsOwned = 7,
-        //        AttendedJudgeInstituteCourse = true,
-        //        HasBeenJudgeAssistant = true,
-        //        IsApproved = false,
-        //        IsRejected = false,
-        //        IsUnderReview = true,
-        //        JudgeInstituteCertificateUrl = "some url",
-        //        SelfDescription = "Description",
-        //        UserId = "userId",
-        //        JudgeImage = new JudgeImage { Extension = "jpg" },
-        //    };
-        //    judgeAppFormsList.Add(judgeAppForm);
+            // Arrange mock image file
+            var fileMock = new Mock<IFormFile>();
+            var fileName = "image.jpg";
+            var ms = new MemoryStream();
+            var writer = new StreamWriter(ms);
+            ms.Position = 0;
+            fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
+            fileMock.Setup(_ => _.FileName).Returns(fileName);
+            fileMock.Setup(_ => _.Length).Returns(ms.Length);
+            var imageFile = fileMock.Object;
 
-        //    var input = new JudgeApplicationInputModel
-        //    {
-        //        FirstName = "Greta",
-        //        LastName = "Fraun",
-        //        YearsOfExperience = 6,
-        //        RaisedLitters = 5,
-        //        NumberOfChampionsOwned = 7,
-        //        AttendedJudgeInstituteCourse = true,
-        //        HasBeenJudgeAssistant = true,
-        //        JudgeInstituteCertificateUrl = "some url",
-        //        SelfDescription = "Description",
-        //        UserId = "userId",
-        //        //JudgeImage = new JudgeImage { Extension = "jpg" },
-        //    };
+            var input = new JudgeApplicationInputModel
+            {
+                FirstName = "Greta",
+                LastName = "Fraun",
+                YearsOfExperience = 6,
+                RaisedLitters = 5,
+                NumberOfChampionsOwned = 7,
+                AttendedJudgeInstituteCourse = true,
+                HasBeenJudgeAssistant = true,
+                JudgeInstituteCertificateUrl = "some url",
+                SelfDescription = "Description",
+                UserId = "userId",
+                JudgeImage = imageFile,
+            };
 
-        //    await service.ApplyForJudge(input, "imagePath");
+            await service.ApplyForJudge(input, "imagePath");
 
-        //    Assert.Equal(1, judgeAppFormsList.Count());
-        //    Assert.Equal("Greta", judgeAppFormsList.First().FirstName);
-        //}
+            Assert.Equal(1, judgeAppFormsList.Count());
+            Assert.Equal("Greta", judgeAppFormsList.First().FirstName);
+        }
+
+        [Fact]
+        public void ApplyForJudgeWithInvalidImageFileThrowsError()
+        {
+            var judgeAppFormsList = new List<JudgeApplicationForm>();
+            var judgeFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
+            judgeFormsMockRepo.Setup(x => x.All()).Returns(judgeAppFormsList.AsQueryable());
+            judgeFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
+                (JudgeApplicationForm judgeAppForm) => judgeAppFormsList.Add(judgeAppForm));
+
+            Mock<IDeletableEntityRepository<EvaluationForm>> evaluationFormsMockRepo = EvaluationFormsMock();
+            Mock<IDeletableEntityRepository<Dog>> dogsMockRepo = DogsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+
+            var service = new CommonFormsService(
+                judgeFormsMockRepo.Object,
+                evaluationFormsMockRepo.Object,
+                dogsMockRepo.Object,
+                competitionsMockRepo.Object);
+
+            // Arrange mock image file
+            var fileMock = new Mock<IFormFile>();
+            var fileName = "image.doc";
+            var ms = new MemoryStream();
+            var writer = new StreamWriter(ms);
+            ms.Position = 0;
+            fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
+            fileMock.Setup(_ => _.FileName).Returns(fileName);
+            fileMock.Setup(_ => _.Length).Returns(ms.Length);
+            var imageFile = fileMock.Object;
+
+            var input = new JudgeApplicationInputModel
+            {
+                FirstName = "Greta",
+                LastName = "Fraun",
+                YearsOfExperience = 6,
+                RaisedLitters = 5,
+                NumberOfChampionsOwned = 7,
+                AttendedJudgeInstituteCourse = true,
+                HasBeenJudgeAssistant = true,
+                JudgeInstituteCertificateUrl = "some url",
+                SelfDescription = "Description",
+                UserId = "userId",
+                JudgeImage = imageFile,
+            };
+
+            Assert.Equal("Invalid image extenstion doc", service.ApplyForJudge(input, "imagePath").Exception.InnerException.Message);
+        }
 
         [Fact]
         public void UserThatHasAlreadyAppliedForJudgeReturnsTrue()
