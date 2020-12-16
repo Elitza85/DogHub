@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    
+
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.Competitions;
@@ -859,7 +859,7 @@
                 (Dog dog) => dogsList.Add(dog));
 
             Mock<IRepository<DogCompetition>> dogCompetitionsMockRepo = DogsCompetitionsMock();
-            
+
             var helpService = new CompetitionsHelpService(
                 dogsMockRepo.Object,
                 competitionsMockRepo.Object,
@@ -1141,7 +1141,7 @@
                 (Dog dog) => dogsList.Add(dog));
 
             Mock<IRepository<DogCompetition>> dogCompetitionsMockRepo = DogsCompetitionsMock();
-            
+
             var helpService = new CompetitionsHelpService(
                 dogsMockRepo.Object,
                 competitionsMockRepo.Object,
@@ -1393,16 +1393,6 @@
             dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
                 (Dog dog) => dogsList.Add(dog));
             return dogsMockRepo;
-        }
-
-        private static Mock<IDeletableEntityRepository<Competition>> CompetitionsMock()
-        {
-            var competitionsList = new List<Competition>();
-            var competitionsMockRepo = new Mock<IDeletableEntityRepository<Competition>>();
-            competitionsMockRepo.Setup(x => x.All()).Returns(competitionsList.AsQueryable());
-            competitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<Competition>())).Callback(
-                (Competition competition) => competitionsList.Add(competition));
-            return competitionsMockRepo;
         }
     }
 }

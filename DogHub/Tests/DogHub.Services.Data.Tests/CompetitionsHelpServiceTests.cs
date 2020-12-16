@@ -87,7 +87,7 @@
         }
 
         [Fact]
-        public void GivenDogIdReturnsTrueIfDogIsSPayedOrNeutered()
+        public void GivenDogIdReturnsTrueIfDogIsSpayedOrNeutered()
         {
             var dogsList = new List<Dog>();
             var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();

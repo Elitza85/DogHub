@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Services.Data.Tests
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
 
     using DogHub.Data.Common.Repositories;
@@ -9,11 +10,241 @@
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
     using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Web.ViewModels.Dogs;
+    using Microsoft.AspNetCore.Http;
     using Moq;
     using Xunit;
 
     public class DogsServiceTests
     {
+        [Fact]
+        public void RegisteringDogWithCorrectDataAddsDog()
+        {
+            var dogsList = new List<Dog>();
+            var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
+            dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
+                (Dog dog) => dogsList.Add(dog));
+
+            Mock<IDeletableEntityRepository<DogColor>> dogColorsMockRepo = DogColorsMock();
+            Mock<IDeletableEntityRepository<EyesColor>> eyesColorMockRepo = EyesColorsMock();
+            Mock<IDeletableEntityRepository<JudgeApplicationForm>> judgeAppFormsMockRepo = JugeAppFormsMock();
+            Mock<IDeletableEntityRepository<EvaluationForm>> evaluationFormsMockRepo = EvaluationFormsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            var relatedService = new CommonFormsService(
+                judgeAppFormsMockRepo.Object,
+                evaluationFormsMockRepo.Object,
+                dogsMockRepo.Object,
+                competitionsMockRepo.Object);
+
+            var service = new DogsService(
+                dogsMockRepo.Object,
+                dogColorsMockRepo.Object,
+                eyesColorMockRepo.Object,
+                relatedService);
+
+            // Arrange mock image file
+            var fileMock = new Mock<IFormFile>();
+            var fileName = "image.jpg";
+            var ms = new MemoryStream();
+            var writer = new StreamWriter(ms);
+            ms.Position = 0;
+            fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
+            fileMock.Setup(_ => _.FileName).Returns(fileName);
+            fileMock.Setup(_ => _.Length).Returns(ms.Length);
+            var imageFile = fileMock.Object;
+            List<IFormFile> images = new List<IFormFile>();
+            images.Add(imageFile);
+            images.Add(imageFile);
+
+            var dogColor = new DogColor
+            {
+                Id = 1,
+                ColorName = "Black",
+            };
+            var eyesColor = new EyesColor
+            {
+                Id = 1,
+                EyesColorName = "Brown",
+            };
+            var breed = new Breed
+            {
+                Id = 1,
+                Name = "Poodle",
+            };
+
+            var input = new RegisterDogInputModel
+            {
+                DogName = "Test1",
+                Description = "TestDescription",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
+                Sellable = true,
+                IsSpayedOrNeutered = false,
+                UserId = "user",
+                Weight = 25,
+                BreedId = 1,
+                DogColor = dogColor.ColorName,
+                EyesColor = eyesColor.EyesColorName,
+                DogVideoUrl = "https://www.youtube.com/watch?v=XChw5CkhSkg",
+                DogImages = images,
+            };
+
+            service.Register(input, "path").GetAwaiter().GetResult();
+            Assert.Equal(1, dogsList.Count());
+            Assert.Equal("Black", dogsList.First().DogColor.ColorName);
+            Assert.Equal("Brown", dogsList.First().EyesColor.EyesColorName);
+        }
+
+        [Fact]
+        public void RegisteringDogWithInvalidImageThrowsError()
+        {
+            var dogsList = new List<Dog>();
+            var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
+            dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
+                (Dog dog) => dogsList.Add(dog));
+
+            Mock<IDeletableEntityRepository<DogColor>> dogColorsMockRepo = DogColorsMock();
+            Mock<IDeletableEntityRepository<EyesColor>> eyesColorMockRepo = EyesColorsMock();
+            Mock<IDeletableEntityRepository<JudgeApplicationForm>> judgeAppFormsMockRepo = JugeAppFormsMock();
+            Mock<IDeletableEntityRepository<EvaluationForm>> evaluationFormsMockRepo = EvaluationFormsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            var relatedService = new CommonFormsService(
+                judgeAppFormsMockRepo.Object,
+                evaluationFormsMockRepo.Object,
+                dogsMockRepo.Object,
+                competitionsMockRepo.Object);
+
+            var service = new DogsService(
+                dogsMockRepo.Object,
+                dogColorsMockRepo.Object,
+                eyesColorMockRepo.Object,
+                relatedService);
+
+            // Arrange mock image file
+            var fileMock = new Mock<IFormFile>();
+            var fileName = "image.doc";
+            var ms = new MemoryStream();
+            var writer = new StreamWriter(ms);
+            ms.Position = 0;
+            fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
+            fileMock.Setup(_ => _.FileName).Returns(fileName);
+            fileMock.Setup(_ => _.Length).Returns(ms.Length);
+            var imageFile = fileMock.Object;
+            List<IFormFile> images = new List<IFormFile>();
+            images.Add(imageFile);
+            images.Add(imageFile);
+
+            var dogColor = new DogColor
+            {
+                Id = 1,
+                ColorName = "Black",
+            };
+            var eyesColor = new EyesColor
+            {
+                Id = 1,
+                EyesColorName = "Brown",
+            };
+            var breed = new Breed
+            {
+                Id = 1,
+                Name = "Poodle",
+            };
+
+            var input = new RegisterDogInputModel
+            {
+                DogName = "Test1",
+                Description = "TestDescription",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
+                Sellable = true,
+                IsSpayedOrNeutered = false,
+                UserId = "user",
+                Weight = 25,
+                BreedId = 1,
+                DogColor = dogColor.ColorName,
+                EyesColor = eyesColor.EyesColorName,
+                DogVideoUrl = "https://www.youtube.com/watch?v=XChw5CkhSkg",
+                DogImages = images,
+            };
+
+            Assert.Equal("Invalid image extenstion doc", service.Register(input, "path").Exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void RegisteringDogWithInvalidVideoLinkThrowsError()
+        {
+            var dogsList = new List<Dog>();
+            var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
+            dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
+                (Dog dog) => dogsList.Add(dog));
+
+            Mock<IDeletableEntityRepository<DogColor>> dogColorsMockRepo = DogColorsMock();
+            Mock<IDeletableEntityRepository<EyesColor>> eyesColorMockRepo = EyesColorsMock();
+            Mock<IDeletableEntityRepository<JudgeApplicationForm>> judgeAppFormsMockRepo = JugeAppFormsMock();
+            Mock<IDeletableEntityRepository<EvaluationForm>> evaluationFormsMockRepo = EvaluationFormsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            var relatedService = new CommonFormsService(
+                judgeAppFormsMockRepo.Object,
+                evaluationFormsMockRepo.Object,
+                dogsMockRepo.Object,
+                competitionsMockRepo.Object);
+
+            var service = new DogsService(
+                dogsMockRepo.Object,
+                dogColorsMockRepo.Object,
+                eyesColorMockRepo.Object,
+                relatedService);
+
+            // Arrange mock image file
+            var fileMock = new Mock<IFormFile>();
+            var fileName = "image.jpg";
+            var ms = new MemoryStream();
+            var writer = new StreamWriter(ms);
+            ms.Position = 0;
+            fileMock.Setup(_ => _.OpenReadStream()).Returns(ms);
+            fileMock.Setup(_ => _.FileName).Returns(fileName);
+            fileMock.Setup(_ => _.Length).Returns(ms.Length);
+            var imageFile = fileMock.Object;
+            List<IFormFile> images = new List<IFormFile>();
+            images.Add(imageFile);
+            images.Add(imageFile);
+
+            var dogColor = new DogColor
+            {
+                Id = 1,
+                ColorName = "Black",
+            };
+            var eyesColor = new EyesColor
+            {
+                Id = 1,
+                EyesColorName = "Brown",
+            };
+            var breed = new Breed
+            {
+                Id = 1,
+                Name = "Poodle",
+            };
+
+            var input = new RegisterDogInputModel
+            {
+                DogName = "Test1",
+                Description = "TestDescription",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
+                Sellable = true,
+                IsSpayedOrNeutered = false,
+                UserId = "user",
+                Weight = 25,
+                BreedId = 1,
+                DogColor = dogColor.ColorName,
+                EyesColor = eyesColor.EyesColorName,
+                DogVideoUrl = "https://www.youtu.com/watch?v=XChw5CkhSkg",
+                DogImages = images,
+            };
+
+            Assert.Equal("The video should be from YouTube.", service.Register(input, "path").Exception.InnerException.Message);
+        }
+
         [Fact]
         public void GivenDogIdReturnsDogProfileViewModelWithUpdatedVideoUrl()
         {
