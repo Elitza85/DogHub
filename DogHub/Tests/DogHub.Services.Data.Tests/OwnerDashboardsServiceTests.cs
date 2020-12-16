@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
 
     using DogHub.Data.Common.Repositories;
@@ -12,186 +13,259 @@
     using DogHub.Data.Models.Dogs;
     using DogHub.Data.Models.EvaluationForms;
     using DogHub.Data.Models.Matches;
+    using DogHub.Services.Mapping;
     using DogHub.Web.ViewModels.Dashboards;
     using DogHub.Web.ViewModels.Dogs;
     using Moq;
     using Xunit;
 
-    public class OwnerDashboardsServiceTests
+    public class OwnerDashboardsServiceTests : BaseServiceTest
     {
-        //[Fact]
-        //public void GivenUserIdReturnsAllDogsOwnedByUser()
-        //{
-        //    var dogsList = new List<Dog>();
-        //    var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
-        //    dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
-        //    dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
-        //        (Dog dog) => dogsList.Add(dog));
+        [Fact]
+        public void GivenUserIdReturnsAllDogsOwnedByUser()
+        {
+            AutoMapperConfig.RegisterMappings(Assembly.Load("DogHub.Services.Data.Tests"));
 
-        //    Mock<IDeletableEntityRepository<MatchRequestReceived>> receivedRequestsMockRepo = MatchRequestsReceivedMock();
-        //    Mock<IDeletableEntityRepository<MatchRequestSent>> sentRequestsMockRepo = MatchRequestsSentMock();
-        //    Mock<IDeletableEntityRepository<JudgeApplicationForm>> appFormsMockRepo = JudgeAppFormsMock();
-        //    Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
-        //    Mock<IDeletableEntityRepository<EyesColor>> eyesColorsMockRepo = EyesColorsMock();
-        //    Mock<IDeletableEntityRepository<DogColor>> dogsColorMockRepo = DogColorsMock();
+            var dogsList = new List<Dog>();
+            var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
+            dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
+                (Dog dog) => dogsList.Add(dog));
 
-        //    var judgeSrvice = new JudgesService(
-        //        appFormsMockRepo.Object,
-        //        competitionsMockRepo.Object);
+            Mock<IDeletableEntityRepository<MatchRequestReceived>> receivedRequestsMockRepo = MatchRequestsReceivedMock();
+            Mock<IDeletableEntityRepository<MatchRequestSent>> sentRequestsMockRepo = MatchRequestsSentMock();
+            Mock<IDeletableEntityRepository<JudgeApplicationForm>> appFormsMockRepo = JudgeAppFormsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            Mock<IDeletableEntityRepository<EyesColor>> eyesColorsMockRepo = EyesColorsMock();
+            Mock<IDeletableEntityRepository<DogColor>> dogsColorMockRepo = DogColorsMock();
 
-        //    var service = new OwnerDashboardsService(
-        //        dogsMockRepo.Object,
-        //        dogsColorMockRepo.Object,
-        //        eyesColorsMockRepo.Object,
-        //        competitionsMockRepo.Object,
-        //        appFormsMockRepo.Object,
-        //        judgeSrvice,
-        //        sentRequestsMockRepo.Object,
-        //        receivedRequestsMockRepo.Object);
+            var judgeSrvice = new JudgesService(
+                appFormsMockRepo.Object,
+                competitionsMockRepo.Object);
 
-        //    var image = new DogImage
-        //    {
-        //        Id = "imageId",
-        //        Extension = "jpg",
-        //    };
-        //    var breed = new Breed
-        //    {
-        //        Id = 1,
-        //        Name = "Poodle",
-        //    };
-        //    var color = new DogColor
-        //    {
-        //        Id = 1,
-        //        ColorName = "Black",
-        //    };
+            var service = new OwnerDashboardsService(
+                dogsMockRepo.Object,
+                dogsColorMockRepo.Object,
+                eyesColorsMockRepo.Object,
+                competitionsMockRepo.Object,
+                appFormsMockRepo.Object,
+                judgeSrvice,
+                sentRequestsMockRepo.Object,
+                receivedRequestsMockRepo.Object);
 
-        //    var firstDog = new Dog
-        //    {
-        //        UserId = "firstUser",
-        //        Id = 1,
-        //        Name = "Test1",
-        //        Gender = DogHub.Data.Models.Enums.DogGenderEnum.Male,
-        //        BreedId = 1,
-        //        Breed = breed,
-        //        DogColorId = 1,
-        //        DogColor = color,
-        //        Sellable = true,
-        //    };
-        //    firstDog.DogImages.Add(image);
-        //    dogsList.Add(firstDog);
+            var image = new DogImage
+            {
+                Id = "imageId",
+                Extension = "jpg",
+            };
+            var breed = new Breed
+            {
+                Id = 1,
+                Name = "Poodle",
+            };
+            var color = new DogColor
+            {
+                Id = 1,
+                ColorName = "Black",
+            };
 
-        //    var secondDog = new Dog
-        //    {
-        //        UserId = "secondUser",
-        //        Id = 2,
-        //        Name = "Test2",
-        //        Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
-        //        BreedId = 1,
-        //        Breed = breed,
-        //        DogColorId = 1,
-        //        DogColor = color,
-        //        Sellable = false,
-        //    };
-        //    secondDog.DogImages.Add(image);
-        //    dogsList.Add(secondDog);
+            var firstDog = new Dog
+            {
+                UserId = "firstUser",
+                Id = 1,
+                Name = "Test1",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Male,
+                BreedId = 1,
+                Breed = breed,
+                DogColorId = 1,
+                DogColor = color,
+                Sellable = true,
+            };
+            firstDog.DogImages.Add(image);
+            dogsList.Add(firstDog);
 
-        //    var data = service.GetAllDogsOwned<DogDataInCatalogueViewModel>("firstUser").ToList();
+            var secondDog = new Dog
+            {
+                UserId = "secondUser",
+                Id = 2,
+                Name = "Test2",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
+                BreedId = 1,
+                Breed = breed,
+                DogColorId = 1,
+                DogColor = color,
+                Sellable = false,
+            };
+            secondDog.DogImages.Add(image);
+            dogsList.Add(secondDog);
 
-        //    Assert.Equal(1, data.Count());
-        //    Assert.Equal(1, data.Select(x => x.Id).First());
-        //}
+            var data = service.GetAllDogsOwned<DogDataInCatalogueViewModel>("secondUser").ToList();
 
-        //[Fact]
-        //public void GivenDogIdReturnsThatDog()
-        //{
-        //    var dogsList = new List<Dog>();
-        //    var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
-        //    dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
-        //    dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
-        //        (Dog dog) => dogsList.Add(dog));
+            Assert.Equal(1, data.Count());
+            Assert.Equal("Test2", data.First().Name);
+        }
 
-        //    Mock<IDeletableEntityRepository<MatchRequestReceived>> receivedRequestsMockRepo = MatchRequestsReceivedMock();
-        //    Mock<IDeletableEntityRepository<MatchRequestSent>> sentRequestsMockRepo = MatchRequestsSentMock();
-        //    Mock<IDeletableEntityRepository<JudgeApplicationForm>> appFormsMockRepo = JudgeAppFormsMock();
-        //    Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
-        //    Mock<IDeletableEntityRepository<EyesColor>> eyesColorsMockRepo = EyesColorsMock();
-        //    Mock<IDeletableEntityRepository<DogColor>> dogsColorMockRepo = DogColorsMock();
+        [Fact]
+        public void GivenUserIdReturnsNullIfUserHasNoDogs()
+        {
+            AutoMapperConfig.RegisterMappings(Assembly.Load("DogHub.Services.Data.Tests"));
 
-        //    var judgeSrvice = new JudgesService(
-        //        appFormsMockRepo.Object,
-        //        competitionsMockRepo.Object);
+            var dogsList = new List<Dog>();
+            var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
+            dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
+                (Dog dog) => dogsList.Add(dog));
 
-        //    var service = new OwnerDashboardsService(
-        //        dogsMockRepo.Object,
-        //        dogsColorMockRepo.Object,
-        //        eyesColorsMockRepo.Object,
-        //        competitionsMockRepo.Object,
-        //        appFormsMockRepo.Object,
-        //        judgeSrvice,
-        //        sentRequestsMockRepo.Object,
-        //        receivedRequestsMockRepo.Object);
+            Mock<IDeletableEntityRepository<MatchRequestReceived>> receivedRequestsMockRepo = MatchRequestsReceivedMock();
+            Mock<IDeletableEntityRepository<MatchRequestSent>> sentRequestsMockRepo = MatchRequestsSentMock();
+            Mock<IDeletableEntityRepository<JudgeApplicationForm>> appFormsMockRepo = JudgeAppFormsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            Mock<IDeletableEntityRepository<EyesColor>> eyesColorsMockRepo = EyesColorsMock();
+            Mock<IDeletableEntityRepository<DogColor>> dogsColorMockRepo = DogColorsMock();
 
-        //    var image = new DogImage
-        //    {
-        //        Id = "imageId",
-        //        Extension = "jpg",
-        //    };
-        //    var breed = new Breed
-        //    {
-        //        Id = 1,
-        //        Name = "Poodle",
-        //    };
-        //    var color = new DogColor
-        //    {
-        //        Id = 1,
-        //        ColorName = "Black",
-        //    };
-        //    var eyesColor = new EyesColor
-        //    {
-        //        Id = 1,
-        //        EyesColorName = "Brown",
-        //    };
+            var judgeSrvice = new JudgesService(
+                appFormsMockRepo.Object,
+                competitionsMockRepo.Object);
 
-        //    var firstDog = new Dog
-        //    {
-        //        UserId = "firstUser",
-        //        Id = 1,
-        //        Name = "Test1",
-        //        Gender = DogHub.Data.Models.Enums.DogGenderEnum.Male,
-        //        BreedId = 1,
-        //        Breed = breed,
-        //        DogColorId = 1,
-        //        DogColor = color,
-        //        Sellable = true,
-        //        EyesColorId = 1,
-        //        EyesColor = eyesColor,
-        //        DogVideoUrl = "videoUrl",
-        //    };
-        //    firstDog.DogImages.Add(image);
-        //    dogsList.Add(firstDog);
+            var service = new OwnerDashboardsService(
+                dogsMockRepo.Object,
+                dogsColorMockRepo.Object,
+                eyesColorsMockRepo.Object,
+                competitionsMockRepo.Object,
+                appFormsMockRepo.Object,
+                judgeSrvice,
+                sentRequestsMockRepo.Object,
+                receivedRequestsMockRepo.Object);
 
-        //    var secondDog = new Dog
-        //    {
-        //        UserId = "secondUser",
-        //        Id = 2,
-        //        Name = "Test2",
-        //        Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
-        //        BreedId = 1,
-        //        Breed = breed,
-        //        DogColorId = 1,
-        //        DogColor = color,
-        //        Sellable = false,
-        //        EyesColorId = 1,
-        //        EyesColor = eyesColor,
-        //        DogVideoUrl = "videoUrl",
-        //    };
-        //    secondDog.DogImages.Add(image);
-        //    dogsList.Add(secondDog);
+            var image = new DogImage
+            {
+                Id = "imageId",
+                Extension = "jpg",
+            };
+            var breed = new Breed
+            {
+                Id = 1,
+                Name = "Poodle",
+            };
+            var color = new DogColor
+            {
+                Id = 1,
+                ColorName = "Black",
+            };
 
-        //    var data = service.GetById<EditDogDataInputModel>(2);
+            var firstDog = new Dog
+            {
+                UserId = "firstUser",
+                Id = 1,
+                Name = "Test1",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Male,
+                BreedId = 1,
+                Breed = breed,
+                DogColorId = 1,
+                DogColor = color,
+                Sellable = true,
+            };
+            firstDog.DogImages.Add(image);
+            dogsList.Add(firstDog);
 
-        //    Assert.Equal(2, data.Id);
-        //}
+            var secondDog = new Dog
+            {
+                UserId = "secondUser",
+                Id = 2,
+                Name = "Test2",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
+                BreedId = 1,
+                Breed = breed,
+                DogColorId = 1,
+                DogColor = color,
+                Sellable = false,
+            };
+            secondDog.DogImages.Add(image);
+            dogsList.Add(secondDog);
+
+            var data = service.GetAllDogsOwned<DogDataInCatalogueViewModel>("thirdUser").ToList();
+
+            Assert.Equal(0, data.Count());
+        }
+
+        [Fact]
+        public void GivenDogIdReturnsThatDog()
+        {
+            AutoMapperConfig.RegisterMappings(Assembly.Load("DogHub.Services.Data.Tests"));
+
+            var dogsList = new List<Dog>();
+            var dogsMockRepo = new Mock<IDeletableEntityRepository<Dog>>();
+            dogsMockRepo.Setup(x => x.All()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AllAsNoTracking()).Returns(dogsList.AsQueryable());
+            dogsMockRepo.Setup(x => x.AddAsync(It.IsAny<Dog>())).Callback(
+                (Dog dog) => dogsList.Add(dog));
+
+            Mock<IDeletableEntityRepository<MatchRequestReceived>> receivedRequestsMockRepo = MatchRequestsReceivedMock();
+            Mock<IDeletableEntityRepository<MatchRequestSent>> sentRequestsMockRepo = MatchRequestsSentMock();
+            Mock<IDeletableEntityRepository<JudgeApplicationForm>> appFormsMockRepo = JudgeAppFormsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            Mock<IDeletableEntityRepository<EyesColor>> eyesColorsMockRepo = EyesColorsMock();
+            Mock<IDeletableEntityRepository<DogColor>> dogsColorMockRepo = DogColorsMock();
+
+            var judgeSrvice = new JudgesService(
+                appFormsMockRepo.Object,
+                competitionsMockRepo.Object);
+
+            var service = new OwnerDashboardsService(
+                dogsMockRepo.Object,
+                dogsColorMockRepo.Object,
+                eyesColorsMockRepo.Object,
+                competitionsMockRepo.Object,
+                appFormsMockRepo.Object,
+                judgeSrvice,
+                sentRequestsMockRepo.Object,
+                receivedRequestsMockRepo.Object);
+
+            var color = new DogColor
+            {
+                Id = 1,
+                ColorName = "Black",
+            };
+            var eyesColor = new EyesColor
+            {
+                Id = 1,
+                EyesColorName = "Brown",
+            };
+
+            var firstDog = new Dog
+            {
+                UserId = "firstUser",
+                Id = 1,
+                Name = "Test1",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Male,
+                DogColorId = 1,
+                DogColor = color,
+                Sellable = true,
+                EyesColorId = 1,
+                EyesColor = eyesColor,
+                DogVideoUrl = "https://www.youtube.com/watch?v=gpyB54lSpYg",
+            };
+            dogsList.Add(firstDog);
+
+            var secondDog = new Dog
+            {
+                UserId = "secondUser",
+                Id = 2,
+                Name = "Test2",
+                Gender = DogHub.Data.Models.Enums.DogGenderEnum.Female,
+                DogColorId = 1,
+                DogColor = color,
+                Sellable = false,
+                EyesColorId = 1,
+                EyesColor = eyesColor,
+                DogVideoUrl = "https://www.youtube.com/watch?v=gpyB54lSpYg",
+            };
+            dogsList.Add(secondDog);
+
+            var data = service.GetById<EditDogDataInputModel>(2);
+
+            Assert.Equal(2, data.Id);
+        }
 
         [Fact]
         public async Task UpdatingDogNameInDatabaseWorksCorrectly()
