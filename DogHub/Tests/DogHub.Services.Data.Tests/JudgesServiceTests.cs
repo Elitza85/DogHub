@@ -3,127 +3,135 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
+    using System.Reflection;
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Services.Mapping;
+    using DogHub.Web.ViewModels.Judges;
     using Moq;
     using Xunit;
 
-    public class JudgesServiceTests
+    public class JudgesServiceTests : BaseServiceTest
     {
-        //[Fact]
-        //public void AllJudgesWithDetailsReturnedInList()
-        //{
-        //    var appFormsList = new List<JudgeApplicationForm>();
-        //    var appFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
-        //    appFormsMockRepo.Setup(x => x.All()).Returns(appFormsList.AsQueryable());
-        //    appFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
-        //        (JudgeApplicationForm appFrom) => appFormsList.Add(appFrom));
+        [Fact]
+        public void AllJudgesWithDetailsReturnedInList()
+        {
+            AutoMapperConfig.RegisterMappings(Assembly.Load("DogHub.Services.Data.Tests"));
 
-        //    Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+            var appFormsList = new List<JudgeApplicationForm>();
+            var appFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
+            appFormsMockRepo.Setup(x => x.All()).Returns(appFormsList.AsQueryable());
+            appFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
+                (JudgeApplicationForm appFrom) => appFormsList.Add(appFrom));
 
-        //    var service = new JudgesService(
-        //        appFormsMockRepo.Object,
-        //        competitionsMockRepo.Object);
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
 
-        //    var image = new JudgeImage
-        //    {
-        //        Id = "image",
-        //        Extension = "jpg",
-        //    };
-        //    var firstJudgeForm = new JudgeApplicationForm
-        //    {
-        //        FirstName = "Test11",
-        //        LastName = "Test12",
-        //        NumberOfChampionsOwned = 5,
-        //        RaisedLitters = 5,
-        //        YearsOfExperience = 7,
-        //        JudgeImage = image,
-        //        SelfDescription = "Description1",
-        //        IsApproved = true,
-        //    };
-        //    var secondJudgeForm = new JudgeApplicationForm
-        //    {
-        //        FirstName = "Test21",
-        //        LastName = "Test22",
-        //        NumberOfChampionsOwned = 6,
-        //        RaisedLitters = 6,
-        //        YearsOfExperience = 10,
-        //        JudgeImage = image,
-        //        SelfDescription = "Description2",
-        //        IsApproved = true,
-        //    };
-        //    appFormsList.Add(firstJudgeForm);
-        //    appFormsList.Add(secondJudgeForm);
+            var service = new JudgesService(
+                appFormsMockRepo.Object,
+                competitionsMockRepo.Object);
 
-        //    var data = service.JudgeDetails<SingleJudgeViewModel>();
+            var image = new JudgeImage
+            {
+                Id = "image",
+                Extension = "jpg",
+            };
+            var firstJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test11",
+                LastName = "Test12",
+                NumberOfChampionsOwned = 5,
+                RaisedLitters = 5,
+                YearsOfExperience = 7,
+                JudgeImage = image,
+                SelfDescription = "Description1",
+                IsApproved = true,
+            };
+            var secondJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test21",
+                LastName = "Test22",
+                NumberOfChampionsOwned = 6,
+                RaisedLitters = 6,
+                YearsOfExperience = 10,
+                JudgeImage = image,
+                SelfDescription = "Description2",
+                IsApproved = true,
+            };
+            appFormsList.Add(firstJudgeForm);
+            appFormsList.Add(secondJudgeForm);
 
-        //    Assert.Equal(2, data.Count());
-        //}
+            var data = service.JudgeDetails<SingleJudgeViewModel>();
 
-        //[Fact]
-        //public void OnlyApprovedJudgesListed()
-        //{
-        //    var appFormsList = new List<JudgeApplicationForm>();
-        //    var appFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
-        //    appFormsMockRepo.Setup(x => x.All()).Returns(appFormsList.AsQueryable());
-        //    appFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
-        //        (JudgeApplicationForm appFrom) => appFormsList.Add(appFrom));
+            Assert.Equal(2, data.Count());
+            Assert.Equal("Test11", data.First().FirstName);
+        }
 
-        //    Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+        [Fact]
+        public void OnlyApprovedJudgesListed()
+        {
+            AutoMapperConfig.RegisterMappings(Assembly.Load("DogHub.Services.Data.Tests"));
 
-        //    var service = new JudgesService(
-        //        appFormsMockRepo.Object,
-        //        competitionsMockRepo.Object);
+            var appFormsList = new List<JudgeApplicationForm>();
+            var appFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
+            appFormsMockRepo.Setup(x => x.All()).Returns(appFormsList.AsQueryable());
+            appFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
+                (JudgeApplicationForm appFrom) => appFormsList.Add(appFrom));
 
-        //    var image = new JudgeImage
-        //    {
-        //        Id = "image",
-        //        Extension = "jpg",
-        //    };
-        //    var firstJudgeForm = new JudgeApplicationForm
-        //    {
-        //        FirstName = "Test11",
-        //        LastName = "Test12",
-        //        NumberOfChampionsOwned = 5,
-        //        RaisedLitters = 5,
-        //        YearsOfExperience = 7,
-        //        JudgeImage = image,
-        //        SelfDescription = "Description1",
-        //        IsApproved = false,
-        //    };
-        //    var secondJudgeForm = new JudgeApplicationForm
-        //    {
-        //        FirstName = "Test21",
-        //        LastName = "Test22",
-        //        NumberOfChampionsOwned = 6,
-        //        RaisedLitters = 6,
-        //        YearsOfExperience = 10,
-        //        JudgeImage = image,
-        //        SelfDescription = "Description2",
-        //        IsApproved = true,
-        //    };
-        //    var thirdJudgeForm = new JudgeApplicationForm
-        //    {
-        //        FirstName = "Test31",
-        //        LastName = "Test32",
-        //        NumberOfChampionsOwned = 7,
-        //        RaisedLitters = 7,
-        //        YearsOfExperience = 9,
-        //        JudgeImage = image,
-        //        SelfDescription = "Description3",
-        //        IsApproved = true,
-        //    };
-        //    appFormsList.Add(firstJudgeForm);
-        //    appFormsList.Add(secondJudgeForm);
-        //    appFormsList.Add(thirdJudgeForm);
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
 
-        //    var data = service.JudgesList();
+            var service = new JudgesService(
+                appFormsMockRepo.Object,
+                competitionsMockRepo.Object);
 
-        //    Assert.Equal(2, data.JudgesList.Count());
-        //}
+            var image = new JudgeImage
+            {
+                Id = "image",
+                Extension = "jpg",
+            };
+            var firstJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test11",
+                LastName = "Test12",
+                NumberOfChampionsOwned = 5,
+                RaisedLitters = 5,
+                YearsOfExperience = 7,
+                JudgeImage = image,
+                SelfDescription = "Description1",
+                IsApproved = false,
+            };
+            var secondJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test21",
+                LastName = "Test22",
+                NumberOfChampionsOwned = 6,
+                RaisedLitters = 6,
+                YearsOfExperience = 10,
+                JudgeImage = image,
+                SelfDescription = "Description2",
+                IsApproved = true,
+            };
+            var thirdJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test31",
+                LastName = "Test32",
+                NumberOfChampionsOwned = 7,
+                RaisedLitters = 7,
+                YearsOfExperience = 9,
+                JudgeImage = image,
+                SelfDescription = "Description3",
+                IsApproved = true,
+            };
+            appFormsList.Add(firstJudgeForm);
+            appFormsList.Add(secondJudgeForm);
+            appFormsList.Add(thirdJudgeForm);
+
+            var data = service.JudgesList();
+
+            Assert.Equal(2, data.JudgesList.Count());
+            Assert.Equal("Test21", data.JudgesList.First().FirstName);
+        }
 
         [Fact]
         public void CompetitionsWhereUserVotedAsJudgeAreReturned()
@@ -185,6 +193,67 @@
 
             Assert.Equal(1, data.Count());
             Assert.Equal("Test", data.First().Name);
+        }
+
+        [Fact]
+        public void NoCompetitionsWhereVoterVotedAsJudgeReturnsNull()
+        {
+            var appFormsList = new List<JudgeApplicationForm>();
+            var appFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
+            appFormsMockRepo.Setup(x => x.All()).Returns(appFormsList.AsQueryable());
+            appFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
+                (JudgeApplicationForm appFrom) => appFormsList.Add(appFrom));
+
+            var competitionsList = new List<Competition>();
+            var competitionsMockRepo = new Mock<IDeletableEntityRepository<Competition>>();
+            competitionsMockRepo.Setup(x => x.All()).Returns(competitionsList.AsQueryable());
+            competitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<Competition>())).Callback(
+                (Competition competition) => competitionsList.Add(competition));
+
+            var service = new JudgesService(
+                appFormsMockRepo.Object,
+                competitionsMockRepo.Object);
+
+            var image = new JudgeImage
+            {
+                Id = "image",
+                Extension = "jpg",
+            };
+            var firstJudgeForm = new JudgeApplicationForm
+            {
+                UserId = "firstUser",
+                IsApproved = true,
+                ApprovalDate = DateTime.UtcNow,
+            };
+            appFormsList.Add(firstJudgeForm);
+            var firstCompetition = new Competition
+            {
+                Id = 1,
+                Name = "Test",
+                CompetitionStart = DateTime.Now,
+                CompetitionEnd = DateTime.Now.AddDays(1),
+            };
+            var secondCompetition = new Competition
+            {
+                Id = 2,
+                Name = "Test2",
+                CompetitionStart = DateTime.Now.AddHours(4),
+                CompetitionEnd = DateTime.Now.AddDays(4),
+            };
+
+            var evaluationForm = new EvaluationForm
+            {
+                UserId = "firstUser",
+            };
+            firstCompetition.EvaluationForms.Add(evaluationForm);
+            secondCompetition.EvaluationForms.Add(evaluationForm);
+
+            competitionsList.Add(firstCompetition);
+            competitionsList.Add(secondCompetition);
+
+            var data = service.VoteInCompetitionsAsJudge("firstUser");
+
+            Assert.Equal(0, data.Count());
         }
 
         private static Mock<IDeletableEntityRepository<Competition>> CompetitionsMock()
