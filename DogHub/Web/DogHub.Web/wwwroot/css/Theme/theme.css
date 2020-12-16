@@ -3857,7 +3857,7 @@ nav.navbar.nav-small {
 	.dropdown-menu {
 		max-height: 0;
 		padding: 0;
-		overflow: hidden;
+		overflow: visible;
 		position: static;
 		display: block;
 		float: none;
@@ -3872,7 +3872,7 @@ nav.navbar.nav-small {
 	}
 	.navbar-nav>.open>.dropdown-menu, .navbar-nav>.open>.dropdown-menu>.open>.dropdown-menu {
 		max-height: 2000px;
-		overflow: visible;
+		overflow:visible;
 		position: static;
 		float: none;
 		margin-top: 0px;
@@ -3881,7 +3881,7 @@ nav.navbar.nav-small {
 	.navbar-nav>.open>.dropdown-menu>.dropdown-menu>li {
 		margin-bottom: 5px;
 		margin-left: -2px;
-		opacity: 0;
+		display:inline-block;
 	}
 	.navbar-nav>.open>.dropdown-menu li {
 		margin-bottom: 0;
