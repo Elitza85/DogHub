@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DogHub.Data\DogHub.Data.csproj" />
     <ProjectReference Include="..\..\Services\DogHub.Services.Data\DogHub.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Web\DogHub.Web\DogHub.Web.csproj" />
   </ItemGroup>
 
 </Project>
