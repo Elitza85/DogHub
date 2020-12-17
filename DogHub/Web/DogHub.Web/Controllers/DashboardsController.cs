@@ -1,4 +1,4 @@
-﻿namespace FirstViewsTests.Controllers
+﻿namespace DogHub.Web.Controllers
 {
     using System;
     using System.Security.Claims;
@@ -9,7 +9,6 @@
     using DogHub.Web.ViewModels.Dashboards;
     using Microsoft.AspNetCore.Mvc;
 
-    [AuthorizeRoles(GlobalConstants.DogOwnerUserRoleName, GlobalConstants.JudgeRoleName)]
     public class DashboardsController : Controller
     {
         private readonly IOwnerDashboardsService ownerDashboardsService;

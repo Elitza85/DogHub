@@ -1,4 +1,4 @@
-﻿namespace FirstViewsTests.Controllers
+﻿namespace DogHub.Web.Controllers
 {
     using System;
     using System.Threading.Tasks;

@@ -60,17 +60,17 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> ApproveRequest(int receiverDogId)
+        public async Task<IActionResult> ApproveRequest(int receiverDogId, int senderDogId)
         {
-            await this.matchesService.ApproveRequest(receiverDogId);
+            await this.matchesService.ApproveRequest(receiverDogId, senderDogId);
 
             return this.Redirect("/Dashboards/Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> RejectRequest(int receiverDogId)
+        public async Task<IActionResult> RejectRequest(int receiverDogId, int senderDogId)
         {
-            await this.matchesService.RejectRequest(receiverDogId);
+            await this.matchesService.RejectRequest(receiverDogId, senderDogId);
 
             return this.Redirect("/Dashboards/Index");
         }

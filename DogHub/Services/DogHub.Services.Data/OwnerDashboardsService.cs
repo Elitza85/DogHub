@@ -162,6 +162,8 @@
                 .Where(x => x.UserId == userId)
                 .Select(x => new DogPartnershipReguestsViewModel
                 {
+                    SenderDogId = x.SenderDogId,
+                    ReceiverDogId = x.ReceiverDogId,
                     SenderDogName = x.SenderDog.Name,
                     ReceiverDogName = x.ReceiverDog.Name,
                     OtherDogOwnerEmail = x.ReceiverDog.User.Email,
@@ -182,6 +184,7 @@
                     ReceiverDogName = x.ReceiverDog.Name,
                     ReceiverDogId = x.ReceiverDogId,
                     SenderDogName = x.SenderDog.Name,
+                    SenderDogId = x.SenderDogId,
                     OtherDogOwnerEmail = x.SenderDog.User.Email,
                     IsApproved = x.IsApproved,
                     IsUnderReview = x.IsUnderReview,

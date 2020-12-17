@@ -173,11 +173,13 @@
                                         <form method="post" type="submit" asp-controller="Matches" asp-action="ApproveRequest">
                                             <p>
                                                 <input hidden="hidden" name="receiverDogId" value="@request.ReceiverDogId" />
+                                                <input hidden="hidden" name="senderDogId" value="@request.SenderDogId" />
                                                 <i class="fas fa-check"></i><input type="submit" class="btn btn-light" id="acceptBtn" style="color:green" value="Accept" />
                                             </p>
                                         </form>
                                         <form method="post" type="submit" asp-controller="Matches" asp-action="RejectRequest">
                                             <input hidden="hidden" name="receiverDogId" value="@request.ReceiverDogId" />
+                                            <input hidden="hidden" name="senderDogId" value="@request.SenderDogId" />
                                             <p>
                                                 <i class="fas fa-times"></i><input type="submit" class="btn btn-light" id="rejectBtn" style="color:red" value="Reject" />
                                             </p>

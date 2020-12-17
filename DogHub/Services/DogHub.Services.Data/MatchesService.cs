@@ -40,25 +40,58 @@
             var senderDog = this.dogsRepository.All()
                 .Where(x => x.Id == id).FirstOrDefault();
 
-            var receiverDog = this.dogsRepository.All()
-                .Where(x => x.Id != senderDog.Id
-                && x.UserId != senderDog.UserId
-                && x.Gender != senderDog.Gender
-                && x.BreedId == senderDog.BreedId
-                && x.IsSpayedOrNeutered == false)
-                .OrderBy(x => Guid.NewGuid())
-                .Select(d => new DogMatchViewModel
-                {
-                    Id = d.Id,
-                    UserId = d.UserId,
-                    Name = d.Name,
-                    BreedName = d.Breed.Name,
-                    ImageUrl = "/images/dogs/" + d.DogImages.FirstOrDefault().Id + "." + d.DogImages.FirstOrDefault().Extension,
-                    Gender = d.Gender.ToString(),
-                })
-                .FirstOrDefault();
+            int counter = 5;
+            bool foundDogMatch = false;
+            var proposedDog = new DogMatchViewModel();
 
-            return receiverDog;
+            while (counter > 0)
+            {
+                counter--;
+                proposedDog = this.dogsRepository.All()
+                    .Where(x => x.Id != senderDog.Id
+                    && x.UserId != senderDog.UserId
+                    && x.Gender != senderDog.Gender
+                    && x.BreedId == senderDog.BreedId
+                    && x.IsSpayedOrNeutered == false)
+                    .OrderBy(x => Guid.NewGuid())
+                    .Select(d => new DogMatchViewModel
+                    {
+                        Id = d.Id,
+                        UserId = d.UserId,
+                        Name = d.Name,
+                        BreedName = d.Breed.Name,
+                        ImageUrl = "/images/dogs/" + d.DogImages.FirstOrDefault().Id + "." + d.DogImages.FirstOrDefault().Extension,
+                        Gender = d.Gender.ToString(),
+                    })
+                    .FirstOrDefault();
+
+                if (proposedDog == null)
+                {
+                    break;
+                }
+
+                if (this.sentRequestsRepository.All()
+                    .Any(x => x.ReceiverDogId == proposedDog.Id && x.SenderDogId == senderDog.Id)
+                    || this.receivedRequestsRepository.All()
+                    .Any(x => x.SenderDogId == proposedDog.Id && x.ReceiverDogId == senderDog.Id))
+                {
+                    continue;
+                }
+                else
+                {
+                    foundDogMatch = true;
+                    break;
+                }
+            }
+
+            if (foundDogMatch)
+            {
+                return proposedDog;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public DogMatchViewModel GetSenderDog(int id)
@@ -112,16 +145,18 @@
             await this.receivedRequestsRepository.SaveChangesAsync();
         }
 
-        public async Task ApproveRequest(int receiverDogId)
+        public async Task ApproveRequest(int receiverDogId, int senderDogId)
         {
             var sentRequest = this.sentRequestsRepository.All()
-                .Where(x => x.ReceiverDogId == receiverDogId)
+                .Where(x => x.ReceiverDogId == receiverDogId
+                && x.SenderDogId == senderDogId)
                 .FirstOrDefault();
             sentRequest.IsApproved = true;
             sentRequest.IsUnderReview = false;
 
             var receivedRequest = this.receivedRequestsRepository.All()
-                .Where(x => x.ReceiverDogId == receiverDogId)
+                .Where(x => x.ReceiverDogId == receiverDogId
+                && x.SenderDogId == senderDogId)
                 .FirstOrDefault();
             receivedRequest.IsApproved = true;
             receivedRequest.IsUnderReview = false;
@@ -130,10 +165,11 @@
             await this.receivedRequestsRepository.SaveChangesAsync();
         }
 
-        public async Task RejectRequest(int receiverDogId)
+        public async Task RejectRequest(int receiverDogId, int senderDogId)
         {
             var sendRequest = this.sentRequestsRepository.All()
-                .Where(x => x.ReceiverDogId == receiverDogId)
+                .Where(x => x.ReceiverDogId == receiverDogId
+                && x.SenderDogId == senderDogId)
                 .FirstOrDefault();
             sendRequest.IsRejected = true;
             sendRequest.IsUnderReview = false;

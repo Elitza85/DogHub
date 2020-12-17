@@ -16,8 +16,8 @@
 
         Task ReceiveMatchRequest(int senderDogId, int receiverDogId);
 
-        Task ApproveRequest(int receiverDogId);
+        Task ApproveRequest(int receiverDogId, int senderDogId);
 
-        Task RejectRequest(int receiverDogId);
+        Task RejectRequest(int receiverDogId, int senderDogId);
     }
 }
