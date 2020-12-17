@@ -523,7 +523,7 @@
             };
             receivedRequestsList.Add(receivedRequest);
 
-            await service.ApproveRequest(2);
+            await service.ApproveRequest(2, 1);
 
             Assert.False(sentRequestsList.Select(x => x.IsUnderReview).First());
             Assert.True(sentRequestsList.Select(x => x.IsApproved).First());
@@ -575,7 +575,7 @@
             };
             receivedRequestsList.Add(receivedRequest);
 
-            await service.RejectRequest(2);
+            await service.RejectRequest(2, 1);
 
             Assert.False(sentRequestsList.Select(x => x.IsUnderReview).First());
             Assert.True(sentRequestsList.Select(x => x.IsRejected).First());
