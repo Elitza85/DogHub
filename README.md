@@ -50,7 +50,7 @@ The project contains the following elements:
   <b>Logged- in user</b> is allowed to:
   <li>Vote in competitions in progress</li>
   <li>Register own dog/s</li>
-  <li>Apply for judge</li>
+  <li>Apply for a judge</li>
   Logged- in user in an <b>Owner</b> role (becomes an owner at the moment of first dog registration) is allowed to:
   <li>Edit or delete own dog/s</li>
   <li>Vote in competitions in progress</li>
@@ -60,8 +60,22 @@ The project contains the following elements:
   Logged- in user in <b>Judge</b> role (becomes judge at the moment of judge application form approval) is allowed to:
   <li>Vote in competitions in progress where his points given to a dog will be doubled</li>
   Logged- in user can be in an <b>Owner</b> and in a <b>Judge</b> role at the same time
-  Logged- in user in an <b>Admin</b> role is allowed to:
+  </br>Logged- in user in an <b>Admin</b> role is allowed to:
   <li>Approve or reject newly proposed dog breeds</li>
   <li>Approve or reject judge application forms</li>
   <li>Create dog competitions</li>
   <li>Generate a dog breeds report</li>
+<hr></hr>
+<h2>Features</h2>
+<b>Dogs</b>
+<li>Register a dog</li>
+<li>View dogs catalogue</li>
+<li>View/print a dog profile</li>
+<li>Search dogs by breed or by colour</li>
+<b>Competitions</b>
+<li>A current competition- timer to vote in competition appears (dog owner cannot vote for his own dog, single user can vote only one time for a single dog in the current competition, judge voting points given to a dog are doubled)</li>
+<li>Upcoming competitions- owner can add or remove own dog/s to/from an upcoming competition. To be eligible to participate in a competition the dog should be of the competition required breed and should not be spayed or neutered</li>
+<li>Past competitions- contain information about the male and female winners and their points won in the competition</li>
+<b>Judges</b>
+<li>Judge list- full info about judge revealed</li>
+<li>Apply for a judge through filling an application form</li>
