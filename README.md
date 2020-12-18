@@ -46,8 +46,8 @@ The project contains the following elements:
 <hr></hr>
 <h2>Users, Roles, Permissions</h2>
 <ul>
-  <li>Guest (unregistered/not logged in user) is allowed to:</li>
-  <p>Reviews general information in the application</p>
+  <li>a guest (unregistered/not logged- in user) is allowed to:</li>
+  <p>View general information in the application</p>
   <li>Logged in user is allowed to:</li>
   <p>Vote in competitions in progress</p>
   <p>Register own dog/s</p>
