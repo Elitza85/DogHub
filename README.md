@@ -46,24 +46,24 @@ The project contains the following elements:
 <hr></hr>
 <h2>Users, Roles, Permissions</h2>
 <ol>
-  <li>a guest (unregistered/not logged- in user) is allowed to:</li>
-  <p>View general information in the application</p>
+  <li>A guest (unregistered/not logged- in user) is allowed to:</li>
+  <p>- View general information in the application</p>
   <li>Logged- in user is allowed to:</li>
-  <p>Vote in competitions in progress</p>
-  <p>Register own dog/s</p>
-  <p>Apply for judge</p>
+  <p>- Vote in competitions in progress</p>
+  <p>- Register own dog/s</p>
+  <p>- Apply for judge</p>
   <li>Logged- in user in an OWNER role (becomes an owner at the moment of first dog registration) is allowed to:</li>
-  <p>Edit or delete own dog/s</p>
-  <p>Vote in competitions in progress</p>
-  <p>Add own dogs in upcoming competitions</p>
-  <p>Find a partner for his own dog/s</p>
-  <p>Apply for a judge</p>
+  <p>- Edit or delete own dog/s</p>
+  <p>- Vote in competitions in progress</p>
+  <p>- Add own dogs in upcoming competitions</p>
+  <p>- Find a partner for his own dog/s</p>
+  <p>- Apply for a judge</p>
   <li>Logged- in user in JUDGE role (becomes judge at the moment of judge application form approval) is allowed to:</li>
-  <p>Vote in competitions in progress where his points given to a dog will be doubled</p>
+  <p>- Vote in competitions in progress where his points given to a dog will be doubled</p>
   <li>Logged- in user can be in an OWNER and in a JUDGE role at the same time</li>
   <li>Logged- in user in an ADMIN role is allowed to:</li>
-  <p>Approve or reject newly proposed dog breeds</p>
-  <p>Approve or reject judge application forms</p>
-  <p>Create dog competitions</p>
-  <p>Generate a dog breeds report</p>
+  <p>- Approve or reject newly proposed dog breeds</p>
+  <p>- Approve or reject judge application forms</p>
+  <p>- Create dog competitions</p>
+  <p>- Generate a dog breeds report</p>
 </ol>
