@@ -32,4 +32,4 @@ Microsoft SQL Server and Entity Framework Core were used to create and store the
 <li>JudgeImages</li>
 <li>EvaluationForms</li>
 </ul>
-<h3><a href="https://drive.google.com/file/d/1BKEiSf_JLy4JfYMsZF5GLQSb9CYItBC-/view?usp=sharing">Review full DogHub datababase diagram</a></h3>
+<h3><a href="">Review full DogHub datababase diagram</a></h3>
