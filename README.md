@@ -6,7 +6,6 @@ Asp.Net 5.0 Project
 <ul>
 <li>The new world requires a new way of doing the old stuff. This encompasses also the conducting of dog competitions. The DogHub Experience Platform gives the opportunity to dog owners to register their dogs in a dog catalogue, so that they have a wide presence in the world of dog mania.</li>
 <li>Every registered dog has the opportunity to participate in a dog competition, as long as it covers the competition requirements. Every dog competitor will be judged by regular voters and by eligible judges during a competition that is in progress.</li>
-<li>The dog owner has the option to find a dog partner for his own dog.</li>
 </ul>
 <hr></hr>
 <h2>Database</h2>
