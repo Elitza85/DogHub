@@ -98,3 +98,5 @@ The following technologies were used for building the application:
 <li>Theme- Wunderkind by TemplatesHub</li>
 <li>SendGrid API</li>
 <li>HighCharts</li>
+<hr></hr>
+*This web application has been created for educational purposes
