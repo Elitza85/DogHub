@@ -79,3 +79,22 @@ The project contains the following elements:
 <b>Judges</b>
 <li>Judge list- full info about judge revealed</li>
 <li>Apply for a judge through filling an application form</li>
+<hr></hr>
+<h2>Technologies Used</h2>
+<h4>
+The following technologies were used for building the application:
+</h4>
+<li>C#</li>
+<li>Asp.Net 5.0</li>
+<li>Entity Framework Core 5.0</li>
+<li>MS SQL Server</li>
+<li>Bootstrap 4</li>
+<li>JavaScript</li>
+<li>AJAX</li>
+<li>HTML5</li>
+<li>CSS</li>
+<li>MS Visual Studio 2019</li>
+<li>MS SQL Server Management Studio 2017</li>
+<li>Theme- Wunderkind by TemplatesHub</li>
+<li>SendGrid API</li>
+<li>HighCharts</li>
