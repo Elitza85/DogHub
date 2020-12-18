@@ -32,4 +32,16 @@ Microsoft SQL Server and Entity Framework Core were used to create and store the
 <li>JudgeImages</li>
 <li>EvaluationForms</li>
 </ul>
-<h3><a href="">Review full DogHub datababase diagram</a></h3>
+<hr></hr>
+<h2>Backend</h2>
+<h4>
+The project contains the following elements:
+</h4>
+<ul>
+  <li>1 area: Administration</li>
+  <li>10+ service methods</li>
+  <li>10+ controllers</li>
+  <li>20+ views</li>
+</ul>
+<hr></hr>
+<h2>Users, Roles, Features</h2>
