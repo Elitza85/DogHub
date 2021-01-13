@@ -1,5 +1,6 @@
 ﻿namespace DogHub.Web.ViewModels.Dashboards
 {
+    using System;
     using System.Collections.Generic;
 
     using DogHub.Web.ViewModels.Competitions;
@@ -16,7 +17,7 @@
 
         public IEnumerable<CompetitionDetailsViewModel> RegularVotingData { get; set; }
 
-        public IEnumerable<CompetitionDetailsViewModel> JudgeVotingData { get; set; }
+        public DateTime JudgeApplicationFormApprovalDate { get; set; }
 
         public IEnumerable<DogPartnershipReguestsViewModel> PartnershipRequestsSent { get; set; }
 

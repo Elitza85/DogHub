@@ -1531,7 +1531,7 @@
                 Id = 3,
                 Name = "Competition3",
                 CompetitionStart = DateTime.UtcNow,
-                CompetitionEnd = DateTime.Now,
+                CompetitionEnd = DateTime.UtcNow.AddHours(1),
             };
 
             var firstEvaluationForm = new EvaluationForm

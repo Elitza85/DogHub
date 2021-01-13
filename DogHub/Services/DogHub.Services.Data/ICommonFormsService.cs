@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Services.Data
 {
     using System.Threading.Tasks;
+
     using DogHub.Data.Models;
     using DogHub.Web.ViewModels.CommonForms;
 

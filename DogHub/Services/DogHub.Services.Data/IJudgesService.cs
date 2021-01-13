@@ -1,6 +1,8 @@
 ﻿namespace DogHub.Services.Data
 {
+    using System;
     using System.Collections.Generic;
+
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Judges;
 
@@ -10,6 +12,6 @@
 
         public JudgesListViewModel JudgesList();
 
-        IEnumerable<CompetitionDetailsViewModel> VoteInCompetitionsAsJudge(string userId);
+        DateTime JudgeApplicationFormApprovalDate(string userId);
     }
 }

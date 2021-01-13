@@ -65,7 +65,7 @@
                 DogsData = this.GetAllDogsOwned<DogDataInCatalogueViewModel>(userId),
                 DogsCompetitionsData = this.DogsInCompetitions(userId),
                 RegularVotingData = this.VoteInCompetitionDetails(userId),
-                JudgeVotingData = this.judgesService.VoteInCompetitionsAsJudge(userId),
+                JudgeApplicationFormApprovalDate = this.judgesService.JudgeApplicationFormApprovalDate(userId),
                 PartnershipRequestsSent = this.GetPartnershipRequestsSent(userId),
                 PartnershipRequestsReceived = this.GetPartnershipRequestsReceived(userId),
             };
@@ -151,6 +151,7 @@
                     EndDate = y.CompetitionEnd,
                     ParticipantsCount = y.DogsCompetitions.Count(),
                 })
+                .OrderByDescending(x => x.EndDate)
                 .ToList();
 
             return result;

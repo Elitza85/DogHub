@@ -13,49 +13,8 @@
 <h2 style="padding:20px;">Dashboard</h2>
 
 <div id="container" class="col-md-12">
-    @if (this.User.IsInRole(GlobalConstants.JudgeRoleName))
-    {
-        <div>
-            <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Competitions You Have Voted In As A Judge</h3>
-            <hr />
-            @if (Model.JudgeVotingData.Count() == 0)
-            {
-                <h4>You haven't voted as a judge yet.</h4>
-            }
-            else
-            {
-                <table class="table-bordered col-md-12">
-                    <thead class="text-center">
-                    <th>Competiton Name</th>
-                    <th>Competition Start</th>
-                    <th>Competition End</th>
-                    <th>Participants Count</th>
-                    </thead>
-                    <tbody class="text-center">
-                        @foreach (var competition in Model.JudgeVotingData)
-                        {
-                            <tr>
-                                <td>
-                                    @competition.Name
-                                </td>
-                                <td>
-                                    @competition.StartDate
-                                </td>
-                                <td>
-                                    @competition.EndDate
-                                </td>
-                                <td>
-                                    @competition.ParticipantsCount
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-        </div>
-    }
     <div>
-        <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> All Competitions You Have Voted In</h3>
+        <h3 style="padding-top:30px;"><i class="fas fa-bone"></i> Competitions You Have Voted In</h3>
         @if (Model.RegularVotingData.Count() == 0)
         {
             <h4>You haven't voted in any competitions yet.</h4>
@@ -64,28 +23,54 @@
         {
             <table class="table-bordered col-md-12">
                 <thead class="text-center">
-                <th>Competiton Name</th>
-                <th>Competition Start</th>
-                <th>Competition End</th>
-                <th>Participants Count</th>
+                    <th>Competiton Name</th>
+                    <th>Competition Start</th>
+                    <th>Competition End</th>
+                    <th>Participants Count</th>
+
+                    @if (this.User.IsInRole(GlobalConstants.JudgeRoleName))
+                    {
+                        <th>Voted As A Judge</th>
+                    }
                 </thead>
                 <tbody class="text-center">
                     @foreach (var competition in Model.RegularVotingData)
                     {
-                        <tr>
-                            <td>
-                                @competition.Name
-                            </td>
-                            <td>
-                                @competition.StartDate
-                            </td>
-                            <td>
-                                @competition.EndDate
-                            </td>
-                            <td>
-                                @competition.ParticipantsCount
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @competition.Name
+                        </td>
+                        <td>
+                            @competition.StartDate
+                        </td>
+                        <td>
+                            @competition.EndDate
+                        </td>
+                        <td>
+                            @competition.ParticipantsCount
+                        </td>
+                        @if (this.User.IsInRole(GlobalConstants.JudgeRoleName))
+                        {
+                            @if (Model.JudgeApplicationFormApprovalDate != DateTime.MinValue)
+                            {
+                                @if (competition.StartDate > Model.JudgeApplicationFormApprovalDate)
+                                {
+                                    <td>
+                                        <i class="fas fa-check" style="color:green;"></i>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>--</td>
+                                }
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        }
+
+                    </tr>
                     }
                 </tbody>
             </table>

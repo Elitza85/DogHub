@@ -8,7 +8,6 @@
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Services.Mapping;
-    using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Judges;
 
     public class JudgesService : IJudgesService
@@ -40,24 +39,12 @@
             return list;
         }
 
-        public IEnumerable<CompetitionDetailsViewModel> VoteInCompetitionsAsJudge(string userId)
+        public DateTime JudgeApplicationFormApprovalDate(string userId)
         {
             var judgeAppFormApprovalDate = this.judgeAppFormsRepository.All()
                 .Where(x => x.UserId == userId).Select(y => y.ApprovalDate).FirstOrDefault();
 
-            var result = this.competitionsRepository.All()
-                .Where(x => x.CompetitionStart < judgeAppFormApprovalDate
-                && x.EvaluationForms.Any(y => y.UserId == userId))
-                .Select(y => new CompetitionDetailsViewModel
-                {
-                    Name = y.Name,
-                    StartDate = y.CompetitionStart,
-                    EndDate = y.CompetitionEnd,
-                    ParticipantsCount = y.DogsCompetitions.Count(),
-                })
-                .ToList();
-
-            return result;
+            return judgeAppFormApprovalDate;
         }
     }
 }

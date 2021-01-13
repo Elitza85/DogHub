@@ -135,7 +135,7 @@
         }
 
         [Fact]
-        public void CompetitionsWhereUserVotedAsJudgeAreReturned()
+        public void JudgeApplicationFormApprovalDateReturnedCorrectly()
         {
             var appFormsList = new List<JudgeApplicationForm>();
             var appFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
@@ -143,61 +143,44 @@
             appFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
                 (JudgeApplicationForm appFrom) => appFormsList.Add(appFrom));
 
-            var competitionsList = new List<Competition>();
-            var competitionsMockRepo = new Mock<IDeletableEntityRepository<Competition>>();
-            competitionsMockRepo.Setup(x => x.All()).Returns(competitionsList.AsQueryable());
-            competitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<Competition>())).Callback(
-                (Competition competition) => competitionsList.Add(competition));
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
 
             var service = new JudgesService(
                 appFormsMockRepo.Object,
                 competitionsMockRepo.Object);
 
-            var image = new JudgeImage
-            {
-                Id = "image",
-                Extension = "jpg",
-            };
             var firstJudgeForm = new JudgeApplicationForm
             {
+                FirstName = "Test11",
+                LastName = "Test12",
+                SelfDescription = "Description1",
+                IsApproved = false,
                 UserId = "firstUser",
+            };
+            var secondJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test21",
+                LastName = "Test22",
                 IsApproved = true,
-                ApprovalDate = DateTime.UtcNow.AddHours(3),
+                ApprovalDate = DateTime.UtcNow,
+                UserId = "secondUser",
+            };
+            var thirdJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test31",
+                LastName = "Test32",
+                IsApproved = true,
+                UserId = "thirdUser",
             };
             appFormsList.Add(firstJudgeForm);
-            var firstCompetition = new Competition
-            {
-                Id = 1,
-                Name = "Test",
-                CompetitionStart = DateTime.UtcNow,
-                CompetitionEnd = DateTime.UtcNow.AddDays(1),
-            };
-            var secondCompetition = new Competition
-            {
-                Id = 2,
-                Name = "Test2",
-                CompetitionStart = DateTime.UtcNow.AddHours(4),
-                CompetitionEnd = DateTime.UtcNow.AddDays(4),
-            };
+            appFormsList.Add(secondJudgeForm);
+            appFormsList.Add(thirdJudgeForm);
 
-            var evaluationForm = new EvaluationForm
-            {
-                UserId = "firstUser",
-            };
-            firstCompetition.EvaluationForms.Add(evaluationForm);
-            secondCompetition.EvaluationForms.Add(evaluationForm);
-
-            competitionsList.Add(firstCompetition);
-            competitionsList.Add(secondCompetition);
-
-            var data = service.VoteInCompetitionsAsJudge("firstUser");
-
-            Assert.Equal(1, data.Count());
-            Assert.Equal("Test", data.First().Name);
+            Assert.Equal(DateTime.UtcNow.ToString("f"), service.JudgeApplicationFormApprovalDate("secondUser").ToString("f"));
         }
 
         [Fact]
-        public void NoCompetitionsWhereVoterVotedAsJudgeReturnsNull()
+        public void JudgeApplicationFormApprovalDateReturnedMinValueIfNotAvailable()
         {
             var appFormsList = new List<JudgeApplicationForm>();
             var appFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
@@ -205,56 +188,40 @@
             appFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
                 (JudgeApplicationForm appFrom) => appFormsList.Add(appFrom));
 
-            var competitionsList = new List<Competition>();
-            var competitionsMockRepo = new Mock<IDeletableEntityRepository<Competition>>();
-            competitionsMockRepo.Setup(x => x.All()).Returns(competitionsList.AsQueryable());
-            competitionsMockRepo.Setup(x => x.AddAsync(It.IsAny<Competition>())).Callback(
-                (Competition competition) => competitionsList.Add(competition));
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
 
             var service = new JudgesService(
                 appFormsMockRepo.Object,
                 competitionsMockRepo.Object);
 
-            var image = new JudgeImage
-            {
-                Id = "image",
-                Extension = "jpg",
-            };
             var firstJudgeForm = new JudgeApplicationForm
             {
+                FirstName = "Test11",
+                LastName = "Test12",
+                SelfDescription = "Description1",
+                IsApproved = false,
                 UserId = "firstUser",
+            };
+            var secondJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test21",
+                LastName = "Test22",
                 IsApproved = true,
                 ApprovalDate = DateTime.UtcNow,
+                UserId = "secondUser",
+            };
+            var thirdJudgeForm = new JudgeApplicationForm
+            {
+                FirstName = "Test31",
+                LastName = "Test32",
+                IsApproved = true,
+                UserId = "thirdUser",
             };
             appFormsList.Add(firstJudgeForm);
-            var firstCompetition = new Competition
-            {
-                Id = 1,
-                Name = "Test",
-                CompetitionStart = DateTime.Now,
-                CompetitionEnd = DateTime.Now.AddDays(1),
-            };
-            var secondCompetition = new Competition
-            {
-                Id = 2,
-                Name = "Test2",
-                CompetitionStart = DateTime.Now.AddHours(4),
-                CompetitionEnd = DateTime.Now.AddDays(4),
-            };
+            appFormsList.Add(secondJudgeForm);
+            appFormsList.Add(thirdJudgeForm);
 
-            var evaluationForm = new EvaluationForm
-            {
-                UserId = "firstUser",
-            };
-            firstCompetition.EvaluationForms.Add(evaluationForm);
-            secondCompetition.EvaluationForms.Add(evaluationForm);
-
-            competitionsList.Add(firstCompetition);
-            competitionsList.Add(secondCompetition);
-
-            var data = service.VoteInCompetitionsAsJudge("firstUser");
-
-            Assert.Equal(0, data.Count());
+            Assert.Equal("01 January 0001 00:00", service.JudgeApplicationFormApprovalDate("firstUser").ToString("f"));
         }
 
         private static Mock<IDeletableEntityRepository<Competition>> CompetitionsMock()
