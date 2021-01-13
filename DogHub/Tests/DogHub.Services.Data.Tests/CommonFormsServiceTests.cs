@@ -159,6 +159,47 @@
         }
 
         [Fact]
+        public void UserThatAppliedForJudgeButApplicationRejectedReturnsFalseSoUserCanApplyAgain()
+        {
+            var judgeAppFormsList = new List<JudgeApplicationForm>();
+            var judgeFormsMockRepo = new Mock<IDeletableEntityRepository<JudgeApplicationForm>>();
+            judgeFormsMockRepo.Setup(x => x.All()).Returns(judgeAppFormsList.AsQueryable());
+            judgeFormsMockRepo.Setup(x => x.AddAsync(It.IsAny<JudgeApplicationForm>())).Callback(
+                (JudgeApplicationForm judgeAppForm) => judgeAppFormsList.Add(judgeAppForm));
+
+            Mock<IDeletableEntityRepository<EvaluationForm>> evaluationFormsMockRepo = EvaluationFormsMock();
+            Mock<IDeletableEntityRepository<Dog>> dogsMockRepo = DogsMock();
+            Mock<IDeletableEntityRepository<Competition>> competitionsMockRepo = CompetitionsMock();
+
+            var service = new CommonFormsService(
+                judgeFormsMockRepo.Object,
+                evaluationFormsMockRepo.Object,
+                dogsMockRepo.Object,
+                competitionsMockRepo.Object);
+
+            var judgeAppForm = new JudgeApplicationForm
+            {
+                FirstName = "Greta",
+                LastName = "Fraun",
+                YearsOfExperience = 6,
+                RaisedLitters = 5,
+                NumberOfChampionsOwned = 7,
+                AttendedJudgeInstituteCourse = true,
+                HasBeenJudgeAssistant = true,
+                IsApproved = false,
+                IsRejected = true,
+                IsUnderReview = false,
+                JudgeInstituteCertificateUrl = "some url",
+                SelfDescription = "Description",
+                UserId = "userId",
+                JudgeImage = new JudgeImage { Extension = "jpg" },
+            };
+            judgeAppFormsList.Add(judgeAppForm);
+
+            Assert.False(service.HasAlreadyAppliedForJudge("userId"));
+        }
+
+        [Fact]
         public void UserThatHasAlreadyVotedForDogReturnsFalse()
         {
             var evaluationFormsList = new List<EvaluationForm>();

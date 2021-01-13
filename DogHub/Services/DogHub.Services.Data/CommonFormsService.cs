@@ -94,7 +94,7 @@
         public bool HasAlreadyAppliedForJudge(string userId)
         {
             return this.judgeFormsRepository.All()
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId == userId && !x.IsRejected)
                 .Any();
         }
 

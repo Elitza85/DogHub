@@ -8,7 +8,6 @@
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
-    using DogHub.Data.Models.EvaluationForms;
     using DogHub.Services.Mapping;
     using DogHub.Web.ViewModels.Judges;
     using Moq;
