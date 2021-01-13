@@ -12,6 +12,13 @@
 else
 {
 <table style="margin-top:40px;" class="col-md-6">
+    <div style="color:red">
+        <i class="fas fa-exclamation-circle"></i> 
+        <span> NOTE: You are not allowed to take action on judge application form/s, if currently there is a competition in progress.</span>
+        <p>
+            <a class="btn btn-danger" style="background:red" asp-area="" asp-controller="Competitions" asp-action="CompetitionsList">Check competitions</a>
+        </p>
+    </div>
     @foreach (var applicant in Model.FormsList)
     {
         <tr>
@@ -80,7 +87,7 @@ else
         <tr>
             <td>
                 <form method="post" asp-area="Administration" asp-controller="Dashboard" asp-action="ApproveApplication" asp-route-id="@applicant.UserId">
-                    <input hidden="hidden" name="userId" value="@applicant.UserId"/>
+                    <input hidden="hidden" name="userId" value="@applicant.UserId" />
                     <button style="color:green" class="btn btn-light"><i class="fas fa-check"></i>Approve Application</button>
                 </form>
             </td>
@@ -96,7 +103,7 @@ else
                     </div>
 
                     <div>
-                        <input asp-for="UserId" hidden="hidden" value="@applicant.UserId"/>
+                        <input asp-for="UserId" hidden="hidden" value="@applicant.UserId" />
                     </div>
                     <div class="form-group">
                         <i class="fas fa-times"></i><input type="submit" class="btn btn-light" style="color:red" value="Reject Application" />
@@ -105,7 +112,7 @@ else
             </td>
         </tr>
         <tr>
-            <td  class="col-md-12">
+            <td class="col-md-12">
                 <hr style="height:2px;color:gray;background-color:gray">
             </td>
         </tr>
