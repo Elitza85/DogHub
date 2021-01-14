@@ -30,6 +30,9 @@ Microsoft SQL Server and Entity Framework Core were used to create and store the
 <li>JudgeApplicationForms</li>
 <li>JudgeImages</li>
 <li>EvaluationForms</li>
+  <p>
+    <a href="https://github.com/Elitza85/DogHub/blob/main/DogHubDiagram.PNG">Review</a> full database diagram
+  </p>
 </ul>
 <hr></hr>
 <h2>Backend</h2>
