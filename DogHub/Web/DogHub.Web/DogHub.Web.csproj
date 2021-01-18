@@ -53,7 +53,6 @@
     <ProjectReference Include="..\..\Services\DogHub.Services.Data\DogHub.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\DogHub.Services.Mapping\DogHub.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\DogHub.Services.Messaging\DogHub.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Services\DogHub.Services\DogHub.Services.csproj" />
     <ProjectReference Include="..\DogHub.Web.Infrastructure\DogHub.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\DogHub.Web.ViewModels\DogHub.Web.ViewModels.csproj" />
   </ItemGroup>

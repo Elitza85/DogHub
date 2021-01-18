@@ -1,10 +1,11 @@
 ﻿namespace DogHub.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dashboards;
     using DogHub.Web.ViewModels.DogMatches;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     public interface IOwnerDashboardsService
     {

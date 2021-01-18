@@ -1,10 +1,9 @@
-﻿using DogHub.Web.ViewModels.Dogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Services.Data
+﻿namespace DogHub.Services.Data
 {
+    using System.Collections.Generic;
+
+    using DogHub.Web.ViewModels.Dogs;
+
     public interface ISearchesService
     {
         IEnumerable<T> GetAllColors<T>();

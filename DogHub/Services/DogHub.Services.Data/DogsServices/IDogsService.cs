@@ -1,11 +1,10 @@
-﻿using DogHub.Web.ViewModels.Dogs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DogHub.Services.Data
+﻿namespace DogHub.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using DogHub.Web.ViewModels.Dogs;
+
     public interface IDogsService
     {
         Task Register(RegisterDogInputModel input, string imagePath);

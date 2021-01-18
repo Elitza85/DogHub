@@ -40,7 +40,6 @@
     <ProjectReference Include="..\..\Services\DogHub.Services.Data\DogHub.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\DogHub.Services.Mapping\DogHub.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\DogHub.Services.Messaging\DogHub.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Services\DogHub.Services\DogHub.Services.csproj" />
   </ItemGroup>
 
 </Project>

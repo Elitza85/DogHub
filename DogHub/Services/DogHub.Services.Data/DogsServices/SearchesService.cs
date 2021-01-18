@@ -8,7 +8,6 @@
     using DogHub.Data.Models.Dogs;
     using DogHub.Services.Mapping;
     using DogHub.Web.ViewModels.Dogs;
-    using DogHub.Web.ViewModels.Searches;
 
     public class SearchesService : ISearchesService
     {
