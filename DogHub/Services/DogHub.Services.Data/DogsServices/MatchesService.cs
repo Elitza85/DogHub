@@ -175,7 +175,8 @@
             sendRequest.IsUnderReview = false;
 
             var receiveRequest = this.receivedRequestsRepository.All()
-                .Where(x => x.ReceiverDogId == receiverDogId)
+                .Where(x => x.ReceiverDogId == receiverDogId
+                && x.SenderDogId == senderDogId)
                 .FirstOrDefault();
             receiveRequest.IsRejected = true;
             receiveRequest.IsUnderReview = false;

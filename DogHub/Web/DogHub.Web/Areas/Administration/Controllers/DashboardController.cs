@@ -18,7 +18,6 @@
 
     public class DashboardController : AdministrationController
     {
-        private readonly ISettingsService settingsService;
         private readonly IBreedsListService breedsService;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly IDashboardService dashboardService;
@@ -27,7 +26,6 @@
         private readonly IEmailSender emailSender;
 
         public DashboardController(
-            ISettingsService settingsService,
             IBreedsListService breedsService,
             IWebHostEnvironment webHostEnvironment,
             IDashboardService dashboardService,
@@ -35,7 +33,6 @@
             UserManager<ApplicationUser> userManager,
             IEmailSender emailSender)
         {
-            this.settingsService = settingsService;
             this.breedsService = breedsService;
             this.webHostEnvironment = webHostEnvironment;
             this.dashboardService = dashboardService;
@@ -46,7 +43,7 @@
 
         public IActionResult Index()
         {
-            var viewModel = new DashboardIndexViewModel { SettingsCount = this.settingsService.GetCount(), };
+            var viewModel = new DashboardIndexViewModel { };
             return this.View(viewModel);
         }
 

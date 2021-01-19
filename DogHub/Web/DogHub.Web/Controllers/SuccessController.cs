@@ -9,11 +9,6 @@
             return this.View();
         }
 
-        public IActionResult ThankYouForVoting()
-        {
-            return this.View();
-        }
-
         public IActionResult SuccessfullyAddedDogToCompetition()
         {
             return this.View();
