@@ -2,35 +2,38 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.Dogs;
+    using DogHub.Services.Data.ImagesServices;
     using DogHub.Services.Mapping;
     using DogHub.Web.ViewModels.Dogs;
 
     public class DogsService : IDogsService
     {
-        private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
+        //private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
 
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
         private readonly ICommonFormsService commonFormsService;
+        private readonly IImagesService imagesService;
 
         public DogsService(
             IDeletableEntityRepository<Dog> dogsRepository,
             IDeletableEntityRepository<DogColor> dogColorsRepository,
             IDeletableEntityRepository<EyesColor> eyesColorRepository,
-            ICommonFormsService commonFormsService)
+            ICommonFormsService commonFormsService,
+            IImagesService imagesService)
         {
             this.dogsRepository = dogsRepository;
             this.dogColorsRepository = dogColorsRepository;
             this.eyesColorRepository = eyesColorRepository;
             this.commonFormsService = commonFormsService;
+            this.imagesService = imagesService;
         }
 
         public T DogProfile<T>(int id)
@@ -83,42 +86,30 @@
                 UserId = input.UserId,
             };
 
-            var dogColor = this.dogColorsRepository.All()
-                .FirstOrDefault(x => x.ColorName == input.DogColor);
-            if (dogColor == null)
-            {
-                dogColor = new DogColor { ColorName = input.DogColor };
-            }
+            this.SetDogColor(input, dog);
+            this.SetDogEyesColor(input, dog);
 
-            var eyesColor = this.eyesColorRepository.All()
-                .FirstOrDefault(x => x.EyesColorName == input.EyesColor);
-            if (eyesColor == null)
-            {
-                eyesColor = new EyesColor { EyesColorName = input.EyesColor };
-            }
+            await this.imagesService.AddDogImage(dog, input, imagePath);
 
-            dog.DogColor = dogColor;
-            dog.EyesColor = eyesColor;
+            //Directory.CreateDirectory($"{imagePath}/dogs/");
+            //foreach (var image in input.DogImages)
+            //{
+            //    var extension = Path.GetExtension(image.FileName).TrimStart('.');
+            //    if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
+            //    {
+            //        throw new Exception($"Invalid image extenstion {extension}");
+            //    }
 
-            Directory.CreateDirectory($"{imagePath}/dogs/");
-            foreach (var image in input.DogImages)
-            {
-                var extension = Path.GetExtension(image.FileName).TrimStart('.');
-                if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
-                {
-                    throw new Exception($"Invalid image extenstion {extension}");
-                }
+            //    var newImage = new DogImage
+            //    {
+            //        Extension = extension,
+            //    };
+            //    dog.DogImages.Add(newImage);
 
-                var newImage = new DogImage
-                {
-                    Extension = extension,
-                };
-                dog.DogImages.Add(newImage);
-
-                var filePath = $"{imagePath}/dogs/{newImage.Id}.{extension}";
-                using Stream fileStream = new FileStream(filePath, FileMode.Create);
-                await image.CopyToAsync(fileStream);
-            }
+            //    var filePath = $"{imagePath}/dogs/{newImage.Id}.{extension}";
+            //    using Stream fileStream = new FileStream(filePath, FileMode.Create);
+            //    await image.CopyToAsync(fileStream);
+            //}
 
             if (!this.IsVideoFromYouTube(input.DogVideoUrl))
             {
@@ -139,6 +130,30 @@
         public bool IsVideoFromYouTube(string videoString)
         {
             return videoString.Contains("youtube");
+        }
+
+        private void SetDogEyesColor(RegisterDogInputModel input, Dog dog)
+        {
+            var eyesColor = this.eyesColorRepository.All()
+                            .FirstOrDefault(x => x.EyesColorName == input.EyesColor);
+            if (eyesColor == null)
+            {
+                eyesColor = new EyesColor { EyesColorName = input.EyesColor };
+            }
+
+            dog.EyesColor = eyesColor;
+        }
+
+        private void SetDogColor(RegisterDogInputModel input, Dog dog)
+        {
+            var dogColor = this.dogColorsRepository.All()
+                            .FirstOrDefault(x => x.ColorName == input.DogColor);
+            if (dogColor == null)
+            {
+                dogColor = new DogColor { ColorName = input.DogColor };
+            }
+
+            dog.DogColor = dogColor;
         }
     }
 }

@@ -9,6 +9,7 @@
     using DogHub.Data.Repositories;
     using DogHub.Data.Seeding;
     using DogHub.Services.Data;
+    using DogHub.Services.Data.ImagesServices;
     using DogHub.Services.Mapping;
     using DogHub.Services.Messaging;
     using DogHub.Web.Areas.Administration.Services;
@@ -79,6 +80,7 @@
             services.AddTransient<IOwnerDashboardsService, OwnerDashboardsService>();
             services.AddTransient<ISearchesService, SearchesService>();
             services.AddTransient<IMatchesService, MatchesService>();
+            services.AddTransient<IImagesService, ImagesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
