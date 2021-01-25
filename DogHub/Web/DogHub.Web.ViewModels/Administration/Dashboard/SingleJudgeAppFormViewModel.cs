@@ -1,5 +1,8 @@
 ﻿namespace DogHub.Web.ViewModels.Administration.Dashboard
 {
+    using DogHub.Data.Models.CommonForms;
+    using DogHub.Services.Mapping;
+
     public class SingleJudgeAppFormViewModel
     {
         public string UserId { get; set; }
@@ -17,7 +20,5 @@
         public bool HasBeenJudgeAssistant { get; set; }
 
         public string JudgeInstituteCertificateUrl { get; set; }
-
-        public string EvaluatorNotes { get; set; }
     }
 }

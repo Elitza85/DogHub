@@ -122,18 +122,7 @@
                 }).FirstOrDefault();
 
             result.PossibleDogApplicants = this.competitionsHelpService.GetPossibleDogApplicants(userId);
-
-            foreach (var dogViewModel in result.PossibleDogApplicants)
-            {
-                if (this.competitionsHelpService.IsDogAddedToCompetition(dogViewModel.DogId, id))
-                {
-                    dogViewModel.AlreadyAddedToCompetition = true;
-                }
-                else
-                {
-                    dogViewModel.AlreadyAddedToCompetition = false;
-                }
-            }
+            this.CheckIfDogIsAddedToCurrentCompetition(id, result);
 
             return result;
         }
@@ -176,6 +165,21 @@
                 .FirstOrDefault();
             this.dogsCompetitionsRepository.Delete(record);
             await this.dogsCompetitionsRepository.SaveChangesAsync();
+        }
+
+        private void CheckIfDogIsAddedToCurrentCompetition(int id, AddDogToCompetitionInputModel result)
+        {
+            foreach (var dogViewModel in result.PossibleDogApplicants)
+            {
+                if (this.competitionsHelpService.IsDogAddedToCompetition(dogViewModel.DogId, id))
+                {
+                    dogViewModel.AlreadyAddedToCompetition = true;
+                }
+                else
+                {
+                    dogViewModel.AlreadyAddedToCompetition = false;
+                }
+            }
         }
     }
 }

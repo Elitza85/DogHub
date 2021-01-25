@@ -7,7 +7,6 @@
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.Competitions;
-    using DogHub.Data.Models.EvaluationForms;
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dogs;
 
@@ -97,7 +96,7 @@
 
             foreach (var winner in winners)
             {
-                if(winner.Gender == "Female")
+                if (winner.Gender == "Female")
                 {
                     femaleWinners.Add(winner);
                 }

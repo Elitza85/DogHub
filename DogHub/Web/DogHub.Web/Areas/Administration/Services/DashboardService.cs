@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -66,43 +65,10 @@
 
             await this.imagesService.AddCompetitionImage(competition, input, imagePath);
 
-            //Directory.CreateDirectory($"{imagePath}/competitions/");
-            //var image = input.CompetitionImage;
-            //var extension = Path.GetExtension(image.FileName).TrimStart('.');
-            //if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
-            //{
-            //    throw new Exception($"Invalid image extenstion {extension}");
-            //}
-
-            //var newImage = new CompetitionImage
-            //{
-            //    Extension = extension,
-            //};
-            //competition.CompetitionImage = newImage;
-
-            //var filePath = $"{imagePath}/competitions/{newImage.Id}.{extension}";
-            //using Stream fileStream = new FileStream(filePath, FileMode.Create);
-            //await image.CopyToAsync(fileStream);
-
             await this.competitionsRepository.AddAsync(competition);
             await this.competitionsRepository.SaveChangesAsync();
 
             return competition.Name;
-        }
-
-        private void SetCompetitionOrganiser(CreateCompetitionInputModel input, Competition competition)
-        {
-            var organiser = this.organisersRepository.All()
-                            .FirstOrDefault(x => x.Name == input.OrganisedBy);
-            if (organiser == null)
-            {
-                organiser = new Organiser
-                {
-                    Name = input.OrganisedBy,
-                };
-            }
-
-            competition.Organiser = organiser;
         }
 
         public BreedsListViewModel BreedsListData()
@@ -159,17 +125,12 @@
 
         public async Task<IActionResult> SendEmailApproval(string userId)
         {
-            var html = new StringBuilder();
             var userData = this.judgeFormsRepository.All().Where(x => x.UserId == userId).FirstOrDefault();
-            html.AppendLine($"<p>Dear Mr/Mrs {userData.FirstName} {userData.LastName},</p>");
-            html.AppendLine("<p>Congratulations on your judge application form approval!</p>");
-            html.AppendLine("<p>We would like to welcome you in the DogHub judges team.</p>");
-            html.AppendLine("<p>Best Regards,</p>");
-            html.AppendLine("<p>DogHub team</p>");
+            StringBuilder html = GenerateHtmlMailApprovalContent(userData);
 
             var user = this.usersRepository.All().Where(x => x.Id == userId).FirstOrDefault();
-            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", "digifel247@menece.com", "Judge Application Form Approval", html.ToString());
-            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", user.Email, "Judge Application Form Approval", html.ToString());
+            await this.emailSender.SendEmailAsync("registeredMailInSendGrid@yahoo.co.uk", "DogHub", "digifel247@menece.com", "Judge Application Form Approval", html.ToString());
+            await this.emailSender.SendEmailAsync("registeredMailInSendGrid@yahoo.co.uk", "DogHub", user.Email, "Judge Application Form Approval", html.ToString());
 
             return null;
         }
@@ -189,18 +150,12 @@
 
         public async Task<IActionResult> SendEmailRejection(string userId)
         {
-            var html = new StringBuilder();
             var userData = this.judgeFormsRepository.All().Where(x => x.UserId == userId).FirstOrDefault();
-            html.AppendLine($"<p>Dear Mr/Mrs {userData.FirstName} {userData.LastName},</p>");
-            html.AppendLine("<p>We are sorry to inform you that your judge application form was rejected.</p>");
-            html.AppendLine($"<p>The reason for that is: {userData.EvaluatorNotes}</p>");
-            html.AppendLine("<p>When you accomplish all the requirements, you can apply again.</p>");
-            html.AppendLine("<p>Best Regards,</p>");
-            html.AppendLine("<p>DogHub team</p>");
+            StringBuilder html = GenerateHtmlMailRejectionContent(userData);
 
             var user = this.usersRepository.All().Where(x => x.Id == userId).FirstOrDefault();
-            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", "digifel247@menece.com", "Judge Application Form Rejection", html.ToString());
-            await this.emailSender.SendEmailAsync("elitza_85@yahoo.co.uk", "DogHub", user.Email, "Judge Application Form Rejection", html.ToString());
+            await this.emailSender.SendEmailAsync("registeredMailInSendGrid@yahoo.co.uk", "DogHub", "digifel247@menece.com", "Judge Application Form Rejection", html.ToString());
+            await this.emailSender.SendEmailAsync("registeredMailInSendGrid@yahoo.co.uk", "DogHub", user.Email, "Judge Application Form Rejection", html.ToString());
 
             return null;
         }
@@ -218,6 +173,44 @@
                .OrderByDescending(x => x.TotalDogsOfBreed)
                .ToList();
 
+            this.CountMalesAndFemalesOfBreed(breeds);
+
+            return breeds;
+        }
+
+        public ReportViewModel GetReportData()
+        {
+            var viewModel = new ReportViewModel();
+            viewModel.GetBreedsData = this.AllBreedsForReport();
+
+            return viewModel;
+        }
+
+        private static StringBuilder GenerateHtmlMailApprovalContent(JudgeApplicationForm userData)
+        {
+            var html = new StringBuilder();
+            html.AppendLine($"<p>Dear Mr/Mrs {userData.FirstName} {userData.LastName},</p>");
+            html.AppendLine("<p>Congratulations on your judge application form approval!</p>");
+            html.AppendLine("<p>We would like to welcome you in the DogHub judges team.</p>");
+            html.AppendLine("<p>Best Regards,</p>");
+            html.AppendLine("<p>DogHub team</p>");
+            return html;
+        }
+
+        private static StringBuilder GenerateHtmlMailRejectionContent(JudgeApplicationForm userData)
+        {
+            var html = new StringBuilder();
+            html.AppendLine($"<p>Dear Mr/Mrs {userData.FirstName} {userData.LastName},</p>");
+            html.AppendLine("<p>We are sorry to inform you that your judge application form was rejected.</p>");
+            html.AppendLine($"<p>The reason for that is: {userData.EvaluatorNotes}</p>");
+            html.AppendLine("<p>When you accomplish all the requirements, you can apply again.</p>");
+            html.AppendLine("<p>Best Regards,</p>");
+            html.AppendLine("<p>DogHub team</p>");
+            return html;
+        }
+
+        private void CountMalesAndFemalesOfBreed(List<BreedsData> breeds)
+        {
             var dogs = this.dogsRepository.All().ToList();
             foreach (var breedData in breeds)
             {
@@ -239,16 +232,6 @@
                 breeds.Where(b => b.BreedId == breedId).First().FemaleDogsOfBreed = countFemales;
                 breeds.Where(b => b.BreedId == breedId).First().MaleDogsOfBreed = countMales;
             }
-
-            return breeds;
-        }
-
-        public ReportViewModel GetReportData()
-        {
-            var viewModel = new ReportViewModel();
-            viewModel.GetBreedsData = this.AllBreedsForReport();
-
-            return viewModel;
         }
 
         private IEnumerable<BreedNames> GetAllBreeds()
@@ -262,6 +245,21 @@
                 })
                 .OrderBy(x => x.BreedName)
                 .ToList();
+        }
+
+        private void SetCompetitionOrganiser(CreateCompetitionInputModel input, Competition competition)
+        {
+            var organiser = this.organisersRepository.All()
+                            .FirstOrDefault(x => x.Name == input.OrganisedBy);
+            if (organiser == null)
+            {
+                organiser = new Organiser
+                {
+                    Name = input.OrganisedBy,
+                };
+            }
+
+            competition.Organiser = organiser;
         }
 
         private IEnumerable<SingleJudgeAppFormViewModel> GetAllForms()

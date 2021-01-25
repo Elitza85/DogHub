@@ -99,15 +99,7 @@
 
             int newEyesColorId = await this.ValidateDogEyesColor(input);
             dog.EyesColorId = newEyesColorId;
-
-            if (!input.DogVideoUrl.ToLower().Contains("youtube"))
-            {
-                throw new Exception("Video should be from YouTube");
-            }
-            else
-            {
-                dog.DogVideoUrl = input.DogVideoUrl;
-            }
+            ValidateDogVideoUrl(input, dog);
 
             await this.dogsRepository.SaveChangesAsync();
         }
@@ -193,6 +185,18 @@
                 }).ToList();
 
             return result;
+        }
+
+        private static void ValidateDogVideoUrl(EditDogDataInputModel input, Dog dog)
+        {
+            if (!input.DogVideoUrl.ToLower().Contains("youtube"))
+            {
+                throw new Exception("Video should be from YouTube");
+            }
+            else
+            {
+                dog.DogVideoUrl = input.DogVideoUrl;
+            }
         }
 
         private async Task<int> ValidateDogEyesColor(EditDogDataInputModel input)

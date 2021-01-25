@@ -47,23 +47,7 @@
             while (counter > 0)
             {
                 counter--;
-                proposedDog = this.dogsRepository.All()
-                    .Where(x => x.Id != senderDog.Id
-                    && x.UserId != senderDog.UserId
-                    && x.Gender != senderDog.Gender
-                    && x.BreedId == senderDog.BreedId
-                    && x.IsSpayedOrNeutered == false)
-                    .OrderBy(x => Guid.NewGuid())
-                    .Select(d => new DogMatchViewModel
-                    {
-                        Id = d.Id,
-                        UserId = d.UserId,
-                        Name = d.Name,
-                        BreedName = d.Breed.Name,
-                        ImageUrl = "/images/dogs/" + d.DogImages.FirstOrDefault().Id + "." + d.DogImages.FirstOrDefault().Extension,
-                        Gender = d.Gender.ToString(),
-                    })
-                    .FirstOrDefault();
+                proposedDog = this.ProposeRandomPartner(senderDog);
 
                 if (proposedDog == null)
                 {
@@ -183,6 +167,27 @@
 
             await this.sentRequestsRepository.SaveChangesAsync();
             await this.receivedRequestsRepository.SaveChangesAsync();
+        }
+
+        private DogMatchViewModel ProposeRandomPartner(Dog senderDog)
+        {
+            return this.dogsRepository.All()
+                                .Where(x => x.Id != senderDog.Id
+                                && x.UserId != senderDog.UserId
+                                && x.Gender != senderDog.Gender
+                                && x.BreedId == senderDog.BreedId
+                                && x.IsSpayedOrNeutered == false)
+                                .OrderBy(x => Guid.NewGuid())
+                                .Select(d => new DogMatchViewModel
+                                {
+                                    Id = d.Id,
+                                    UserId = d.UserId,
+                                    Name = d.Name,
+                                    BreedName = d.Breed.Name,
+                                    ImageUrl = "/images/dogs/" + d.DogImages.FirstOrDefault().Id + "." + d.DogImages.FirstOrDefault().Extension,
+                                    Gender = d.Gender.ToString(),
+                                })
+                                .FirstOrDefault();
         }
     }
 }

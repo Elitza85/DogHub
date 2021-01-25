@@ -14,8 +14,6 @@
 
     public class DogsService : IDogsService
     {
-        //private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
-
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<DogColor> dogColorsRepository;
         private readonly IDeletableEntityRepository<EyesColor> eyesColorRepository;
@@ -90,13 +88,7 @@
             this.SetDogEyesColor(input, dog);
 
             await this.imagesService.AddDogImages(dog, input, imagePath);
-
-            if (!this.IsVideoFromYouTube(input.DogVideoUrl))
-            {
-                throw new Exception("The video should be from YouTube.");
-            }
-
-            dog.DogVideoUrl = input.DogVideoUrl;
+            this.SetDogVideo(input, dog);
 
             await this.dogsRepository.AddAsync(dog);
             await this.dogsRepository.SaveChangesAsync();
@@ -110,6 +102,16 @@
         public bool IsVideoFromYouTube(string videoString)
         {
             return videoString.Contains("youtube");
+        }
+
+        private void SetDogVideo(RegisterDogInputModel input, Dog dog)
+        {
+            if (!this.IsVideoFromYouTube(input.DogVideoUrl))
+            {
+                throw new Exception("The video should be from YouTube.");
+            }
+
+            dog.DogVideoUrl = input.DogVideoUrl;
         }
 
         private void SetDogEyesColor(RegisterDogInputModel input, Dog dog)
