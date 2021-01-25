@@ -53,10 +53,6 @@
             }
 
             string userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //if (this.commonFormsService.HasAlreadyAppliedForJudge(userId))
-            //{
-            //    return this.Redirect("/Errors/AlreadyAppliedForJudge");
-            //}
 
             input.UserId = userId;
 

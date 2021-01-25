@@ -37,25 +37,7 @@
             }
             else
             {
-                List<DogDataInCatalogueViewModel> dogs = new List<DogDataInCatalogueViewModel>();
-                var result = this.dogsRepository.All().AsQueryable();
-                var tempResult = this.dogsRepository.All().AsQueryable();
-                foreach (var colorId in colorIds)
-                {
-                    if (this.dogsRepository.All().Any(y => y.DogColorId == colorId))
-                    {
-                        tempResult = result.Where(y => y.DogColorId == colorId);
-                        var listDogs = tempResult.Select(x => new DogDataInCatalogueViewModel
-                        {
-                            Name = x.Name,
-                            DogColorId = x.DogColorId,
-                            DogColorColorName = x.DogColor.ColorName,
-                            Id = x.Id,
-                            ImageUrl = "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension,
-                        }).ToList();
-                        dogs.AddRange(listDogs);
-                    }
-                }
+                List<DogDataInCatalogueViewModel> dogs = this.FilterDogsByColorIds(colorIds);
 
                 return dogs;
             }
@@ -74,6 +56,31 @@
 
                 return query.To<T>().ToList();
             }
+        }
+
+        private List<DogDataInCatalogueViewModel> FilterDogsByColorIds(IEnumerable<int> colorIds)
+        {
+            List<DogDataInCatalogueViewModel> dogs = new List<DogDataInCatalogueViewModel>();
+            var result = this.dogsRepository.All().AsQueryable();
+            var tempResult = this.dogsRepository.All().AsQueryable();
+            foreach (var colorId in colorIds)
+            {
+                if (this.dogsRepository.All().Any(y => y.DogColorId == colorId))
+                {
+                    tempResult = result.Where(y => y.DogColorId == colorId);
+                    var listDogs = tempResult.Select(x => new DogDataInCatalogueViewModel
+                    {
+                        Name = x.Name,
+                        DogColorId = x.DogColorId,
+                        DogColorColorName = x.DogColor.ColorName,
+                        Id = x.Id,
+                        ImageUrl = "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension,
+                    }).ToList();
+                    dogs.AddRange(listDogs);
+                }
+            }
+
+            return dogs;
         }
     }
 }

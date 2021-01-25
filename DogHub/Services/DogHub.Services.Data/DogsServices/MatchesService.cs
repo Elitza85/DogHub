@@ -169,6 +169,21 @@
             await this.receivedRequestsRepository.SaveChangesAsync();
         }
 
+        public bool IsDogSpayedOrNeutered(int id)
+        {
+            var result = this.dogsRepository.All()
+                .Where(x => x.Id == id).Select(x => x.IsSpayedOrNeutered).FirstOrDefault();
+
+            if ((bool)result)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private DogMatchViewModel ProposeRandomPartner(Dog senderDog)
         {
             return this.dogsRepository.All()
@@ -189,5 +204,6 @@
                                 })
                                 .FirstOrDefault();
         }
+
     }
 }

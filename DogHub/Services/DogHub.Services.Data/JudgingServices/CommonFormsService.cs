@@ -10,6 +10,7 @@
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.EvaluationForms;
+    using DogHub.Services.Data.ImagesServices;
     using DogHub.Web.ViewModels.CommonForms;
 
     public class CommonFormsService : ICommonFormsService
@@ -20,17 +21,20 @@
         private readonly IDeletableEntityRepository<EvaluationForm> evaluationFormsRepository;
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
         private readonly IDeletableEntityRepository<Competition> competitionsRepository;
+        private readonly IImagesService imagesService;
 
         public CommonFormsService(
             IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository,
             IDeletableEntityRepository<EvaluationForm> evaluationFormsRepository,
             IDeletableEntityRepository<Dog> dogsRepository,
-            IDeletableEntityRepository<Competition> competitionsRepository)
+            IDeletableEntityRepository<Competition> competitionsRepository,
+            IImagesService imagesService)
         {
             this.judgeFormsRepository = judgeFormsRepository;
             this.evaluationFormsRepository = evaluationFormsRepository;
             this.dogsRepository = dogsRepository;
             this.competitionsRepository = competitionsRepository;
+            this.imagesService = imagesService;
         }
 
         public async Task ApplyForJudge(JudgeApplicationInputModel input, string imagePath)
@@ -46,46 +50,9 @@
                 JudgeInstituteCertificateUrl = input.JudgeInstituteCertificateUrl,
                 SelfDescription = input.SelfDescription,
             };
+            SetAppFormData(input, appForm);
 
-            if (input.HasBeenJudgeAssistant)
-            {
-                appForm.HasBeenJudgeAssistant = true;
-            }
-            else
-            {
-                appForm.HasBeenJudgeAssistant = false;
-            }
-
-            if (input.AttendedJudgeInstituteCourse)
-            {
-                appForm.AttendedJudgeInstituteCourse = true;
-            }
-            else
-            {
-                appForm.AttendedJudgeInstituteCourse = false;
-            }
-
-            appForm.IsApproved = false;
-            appForm.IsRejected = false;
-            appForm.IsUnderReview = true;
-
-            Directory.CreateDirectory($"{imagePath}/judges/");
-            var image = input.JudgeImage;
-            var extension = Path.GetExtension(image.FileName).TrimStart('.');
-            if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
-            {
-                throw new Exception($"Invalid image extenstion {extension}");
-            }
-
-            var newImage = new JudgeImage
-            {
-                Extension = extension,
-            };
-            appForm.JudgeImage = newImage;
-
-            var filePath = $"{imagePath}/judges/{newImage.Id}.{extension}";
-            using Stream fileStream = new FileStream(filePath, FileMode.Create);
-            await image.CopyToAsync(fileStream);
+            await this.imagesService.AddJudgeImage(appForm, input, imagePath);
 
             await this.judgeFormsRepository.AddAsync(appForm);
             await this.judgeFormsRepository.SaveChangesAsync();
@@ -180,6 +147,31 @@
             videoString = videoString.Replace(substring, "/embed/");
 
             return videoString;
+        }
+
+        private static void SetAppFormData(JudgeApplicationInputModel input, JudgeApplicationForm appForm)
+        {
+            if (input.HasBeenJudgeAssistant)
+            {
+                appForm.HasBeenJudgeAssistant = true;
+            }
+            else
+            {
+                appForm.HasBeenJudgeAssistant = false;
+            }
+
+            if (input.AttendedJudgeInstituteCourse)
+            {
+                appForm.AttendedJudgeInstituteCourse = true;
+            }
+            else
+            {
+                appForm.AttendedJudgeInstituteCourse = false;
+            }
+
+            appForm.IsApproved = false;
+            appForm.IsRejected = false;
+            appForm.IsUnderReview = true;
         }
     }
 }

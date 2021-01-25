@@ -42,6 +42,20 @@
             return result;
         }
 
+        public bool CheckIfCompetitionIsInProgress(int competitionId)
+        {
+            var competitionData = this.FullDataOfCurrentShow(competitionId);
+
+            if (competitionData.StartDate < DateTime.Now && DateTime.Now < competitionData.EndDate)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public CurrentShowOnIndexPageViewModel GetCurrentShowData()
         {
             var competition = this.competitionsRepository.All()

@@ -1,13 +1,10 @@
 ﻿namespace DogHub.Web.Controllers
 {
-    using System;
     using System.Threading.Tasks;
 
     using DogHub.Data.Models;
     using DogHub.Services.Data;
-    using DogHub.Web.ViewModels.Competitions;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 

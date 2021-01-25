@@ -7,5 +7,7 @@
         CompetitorsListViewModel FullDataOfCurrentShow(int competitionId);
 
         CurrentShowOnIndexPageViewModel GetCurrentShowData();
+
+        bool CheckIfCompetitionIsInProgress(int competitionId);
     }
 }

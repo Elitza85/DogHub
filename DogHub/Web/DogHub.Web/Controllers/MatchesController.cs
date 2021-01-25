@@ -1,6 +1,5 @@
 ﻿namespace DogHub.Web.Controllers
 {
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -8,7 +7,6 @@
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Services.Data;
-    using DogHub.Web.ViewModels.DogMatches;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -28,9 +26,8 @@
 
         public IActionResult FoundMatch(int id)
         {
-            var dogIsSpayed = this.dogsRepository.All()
-                .Where(x => x.Id == id).Select(x => x.IsSpayedOrNeutered).FirstOrDefault();
-            if (dogIsSpayed == true)
+            var dogIsSpayed = this.matchesService.IsDogSpayedOrNeutered(id);
+            if (dogIsSpayed)
             {
                 return this.Redirect("/Errors/NotNecessaryToSearchPartner");
             }

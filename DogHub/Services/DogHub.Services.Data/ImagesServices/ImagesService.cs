@@ -6,8 +6,10 @@
     using System.Threading.Tasks;
 
     using DogHub.Data.Models;
+    using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
+    using DogHub.Web.ViewModels.CommonForms;
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dogs;
 
@@ -57,6 +59,27 @@
                 using Stream fileStream = new FileStream(filePath, FileMode.Create);
                 await image.CopyToAsync(fileStream);
             }
+        }
+
+        public async Task AddJudgeImage(JudgeApplicationForm appForm, JudgeApplicationInputModel input, string imagePath)
+        {
+            Directory.CreateDirectory($"{imagePath}/judges/");
+            var image = input.JudgeImage;
+            var extension = Path.GetExtension(image.FileName).TrimStart('.');
+            if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
+            {
+                throw new Exception($"Invalid image extenstion {extension}");
+            }
+
+            var newImage = new JudgeImage
+            {
+                Extension = extension,
+            };
+            appForm.JudgeImage = newImage;
+
+            var filePath = $"{imagePath}/judges/{newImage.Id}.{extension}";
+            using Stream fileStream = new FileStream(filePath, FileMode.Create);
+            await image.CopyToAsync(fileStream);
         }
     }
 }

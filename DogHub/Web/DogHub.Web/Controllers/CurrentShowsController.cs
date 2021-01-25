@@ -17,7 +17,7 @@
         public IActionResult Competitors(int competitionId)
         {
             var viewModel = this.currentShowsService.FullDataOfCurrentShow(competitionId);
-            if (viewModel.StartDate < DateTime.Now && DateTime.Now < viewModel.EndDate)
+            if (this.currentShowsService.CheckIfCompetitionIsInProgress(competitionId))
             {
                 return this.View(viewModel);
             }

@@ -12,6 +12,8 @@
 
         BothDogsDataViewModel GetBothDogs(int id);
 
+        bool IsDogSpayedOrNeutered(int id);
+
         Task SendMatchRequest(int senderDogId, int receiverDogId, string userId);
 
         Task ReceiveMatchRequest(int senderDogId, int receiverDogId);
