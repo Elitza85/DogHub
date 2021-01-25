@@ -12,6 +12,7 @@
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
     using DogHub.Data.Models.Dogs;
+    using DogHub.Services.Data.ImagesServices;
     using DogHub.Services.Messaging;
     using DogHub.Web.ViewModels.Administration.Dashboard;
     using DogHub.Web.ViewModels.Competitions;
@@ -28,6 +29,7 @@
         private readonly IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
         private readonly IDeletableEntityRepository<Dog> dogsRepository;
+        private readonly IImagesService imagesService;
         private readonly IEmailSender emailSender;
 
         public DashboardService(
@@ -37,6 +39,7 @@
             IDeletableEntityRepository<JudgeApplicationForm> judgeFormsRepository,
             IDeletableEntityRepository<ApplicationUser> usersRepository,
             IDeletableEntityRepository<Dog> dogsRepository,
+            IImagesService imagesService,
             IEmailSender emailSender)
         {
             this.organisersRepository = organisersRepository;
@@ -45,6 +48,7 @@
             this.judgeFormsRepository = judgeFormsRepository;
             this.usersRepository = usersRepository;
             this.dogsRepository = dogsRepository;
+            this.imagesService = imagesService;
             this.emailSender = emailSender;
         }
 
@@ -58,8 +62,38 @@
                 Name = input.Name,
             };
 
+            this.SetCompetitionOrganiser(input, competition);
+
+            await this.imagesService.AddCompetitionImage(competition, input, imagePath);
+
+            //Directory.CreateDirectory($"{imagePath}/competitions/");
+            //var image = input.CompetitionImage;
+            //var extension = Path.GetExtension(image.FileName).TrimStart('.');
+            //if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
+            //{
+            //    throw new Exception($"Invalid image extenstion {extension}");
+            //}
+
+            //var newImage = new CompetitionImage
+            //{
+            //    Extension = extension,
+            //};
+            //competition.CompetitionImage = newImage;
+
+            //var filePath = $"{imagePath}/competitions/{newImage.Id}.{extension}";
+            //using Stream fileStream = new FileStream(filePath, FileMode.Create);
+            //await image.CopyToAsync(fileStream);
+
+            await this.competitionsRepository.AddAsync(competition);
+            await this.competitionsRepository.SaveChangesAsync();
+
+            return competition.Name;
+        }
+
+        private void SetCompetitionOrganiser(CreateCompetitionInputModel input, Competition competition)
+        {
             var organiser = this.organisersRepository.All()
-                .FirstOrDefault(x => x.Name == input.OrganisedBy);
+                            .FirstOrDefault(x => x.Name == input.OrganisedBy);
             if (organiser == null)
             {
                 organiser = new Organiser
@@ -69,29 +103,6 @@
             }
 
             competition.Organiser = organiser;
-
-            Directory.CreateDirectory($"{imagePath}/competitions/");
-            var image = input.CompetitionImage;
-            var extension = Path.GetExtension(image.FileName).TrimStart('.');
-            if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
-            {
-                throw new Exception($"Invalid image extenstion {extension}");
-            }
-
-            var newImage = new CompetitionImage
-            {
-                Extension = extension,
-            };
-            competition.CompetitionImage = newImage;
-
-            var filePath = $"{imagePath}/competitions/{newImage.Id}.{extension}";
-            using Stream fileStream = new FileStream(filePath, FileMode.Create);
-            await image.CopyToAsync(fileStream);
-
-            await this.competitionsRepository.AddAsync(competition);
-            await this.competitionsRepository.SaveChangesAsync();
-
-            return competition.Name;
         }
 
         public BreedsListViewModel BreedsListData()

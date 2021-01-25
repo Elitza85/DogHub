@@ -89,27 +89,7 @@
             this.SetDogColor(input, dog);
             this.SetDogEyesColor(input, dog);
 
-            await this.imagesService.AddDogImage(dog, input, imagePath);
-
-            //Directory.CreateDirectory($"{imagePath}/dogs/");
-            //foreach (var image in input.DogImages)
-            //{
-            //    var extension = Path.GetExtension(image.FileName).TrimStart('.');
-            //    if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
-            //    {
-            //        throw new Exception($"Invalid image extenstion {extension}");
-            //    }
-
-            //    var newImage = new DogImage
-            //    {
-            //        Extension = extension,
-            //    };
-            //    dog.DogImages.Add(newImage);
-
-            //    var filePath = $"{imagePath}/dogs/{newImage.Id}.{extension}";
-            //    using Stream fileStream = new FileStream(filePath, FileMode.Create);
-            //    await image.CopyToAsync(fileStream);
-            //}
+            await this.imagesService.AddDogImages(dog, input, imagePath);
 
             if (!this.IsVideoFromYouTube(input.DogVideoUrl))
             {
