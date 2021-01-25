@@ -20,6 +20,7 @@
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ISearchesService searchesService;
+        private readonly ICommonFormsService commonFormsService;
         private readonly SignInManager<ApplicationUser> signInManager;
 
         public DogsController(
@@ -28,6 +29,7 @@
             IWebHostEnvironment webHostEnvironment,
             UserManager<ApplicationUser> userManager,
             ISearchesService searchesService,
+            ICommonFormsService commonFormsService,
             SignInManager<ApplicationUser> signInManager)
         {
             this.breedsListService = breedsListService;
@@ -35,6 +37,7 @@
             this.webHostEnvironment = webHostEnvironment;
             this.userManager = userManager;
             this.searchesService = searchesService;
+            this.commonFormsService = commonFormsService;
             this.signInManager = signInManager;
         }
 
@@ -104,7 +107,8 @@
 
         public IActionResult DogProfile(int id)
         {
-            var viewModel = this.dogService.DogProfile(id);
+            var viewModel = this.dogService.DogProfile<DogProfileViewModel>(id);
+            viewModel.DogVideoUrl = this.commonFormsService.GetDogVideoByDogId(id);
 
             return this.View(viewModel);
         }
@@ -112,6 +116,7 @@
         public IActionResult BreedsList()
         {
             var viewModel = this.breedsListService.BreedsListData();
+
             return this.View(viewModel);
         }
 

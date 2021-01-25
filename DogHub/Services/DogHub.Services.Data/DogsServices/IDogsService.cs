@@ -9,9 +9,7 @@
     {
         Task Register(RegisterDogInputModel input, string imagePath);
 
-        DogProfileViewModel DogProfile(int id);
-
-        // IEnumerable<DogDataInCatalogueViewModel> GetAllDogs(int page, int itemsPerPage = 12);
+        T DogProfile<T>(int id);
 
         IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12);
 

@@ -33,54 +33,16 @@
             this.commonFormsService = commonFormsService;
         }
 
-        public DogProfileViewModel DogProfile(int id)
+        public T DogProfile<T>(int id)
         {
             var dogProfileViewModel = this.dogsRepository.All()
                 .Where(x => x.Id == id)
-                .Select(y => new DogProfileViewModel
-                {
-                    Age = y.Age,
-                    Breed = y.Breed.Name,
-                    Color = y.DogColor.ColorName,
-                    CompetitionsCount = y.DogsCompetiotions
-                    .Where(c => c.Competition.CompetitionEnd < DateTime.Now).Count(),
-                    Description = y.Description,
-                    EyesColor = y.EyesColor.EyesColorName,
-                    Gender = y.Gender.ToString(),
-                    IsSellable = y.Sellable,
-                    IsSpayedOrNeutred = y.IsSpayedOrNeutered,
-                    Name = y.Name,
-                    OwnerId = y.UserId,
-                    Weight = y.Weight,
-                    DogImage = "/images/dogs/" + y.DogImages.FirstOrDefault().Id + "." + y.DogImages.FirstOrDefault().Extension,
-                }).FirstOrDefault();
-
-            var videoString = this.commonFormsService.GetDogVideoByDogId(id);
-            dogProfileViewModel.DogVideoUrl = videoString;
+                .To<T>()
+                .FirstOrDefault();
 
             return dogProfileViewModel;
         }
 
-        // public IEnumerable<DogDataInCatalogueViewModel> GetAllDogs(int page, int itemsPerPage = 12)
-        // {
-        //    var result = this.dogsRepository.All()
-        //        .OrderByDescending(x => x.Id)
-        //        .Skip((page - 1) * itemsPerPage)
-        //        .Take(itemsPerPage)
-        //        .Select(x => new DogDataInCatalogueViewModel
-        //        {
-        //            BreedName = x.Breed.Name,
-        //            Gender = x.Gender.ToString(),
-        //            Name = x.Name,
-        //            ImageUrl =
-        //            x.DogImages.FirstOrDefault().RemoteImageUrl != null ?
-        //            x.DogImages.FirstOrDefault().RemoteImageUrl :
-        //            "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." +
-        //            x.DogImages.FirstOrDefault().Extension,
-        //            Sellable = x.Sellable,
-        //        }).ToList();
-        //    return result;
-        // }
         public IEnumerable<T> GetAll<T>(int page, int itemsPerPage = 12)
         {
             var result = this.dogsRepository.All()
