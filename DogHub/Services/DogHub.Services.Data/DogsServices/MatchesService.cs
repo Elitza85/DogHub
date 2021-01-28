@@ -87,7 +87,7 @@
                     Id = x.Id,
                     UserId = x.UserId,
                     Name = x.Name,
-                    ImageUrl = "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension,
+                    ImageUrl = $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension,
                     BreedName = x.Breed.Name,
                     Gender = x.Gender.ToString(),
                 }).FirstOrDefault();
@@ -199,7 +199,7 @@
                                     UserId = d.UserId,
                                     Name = d.Name,
                                     BreedName = d.Breed.Name,
-                                    ImageUrl = "/images/dogs/" + d.DogImages.FirstOrDefault().Id + "." + d.DogImages.FirstOrDefault().Extension,
+                                    ImageUrl = $"{d.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{d.DogImages.FirstOrDefault().Id}" + "." + d.DogImages.FirstOrDefault().Extension,
                                     Gender = d.Gender.ToString(),
                                 })
                                 .FirstOrDefault();

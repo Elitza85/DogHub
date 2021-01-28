@@ -1,7 +1,7 @@
 ﻿namespace DogHub.Data.Models.Dogs
 {
     using System;
-
+    using System.IO;
     using DogHub.Data.Common.Models;
 
     public class DogImage : BaseModel<string>
@@ -16,6 +16,8 @@
         public virtual Dog Dog { get; set; }
 
         public string RemoteImageUrl { get; set; }
+
+        public string FolderPath { get; set; }
 
         public string Extension { get; set; }
     }

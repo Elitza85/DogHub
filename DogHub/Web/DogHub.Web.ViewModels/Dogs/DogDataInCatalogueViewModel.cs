@@ -34,7 +34,7 @@
                 .ForMember(x => x.ImageUrl, opt =>
                 opt.MapFrom(x => x.DogImages.FirstOrDefault().RemoteImageUrl != null ?
                 x.DogImages.FirstOrDefault().RemoteImageUrl :
-                "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension))
+                $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension))
                 .ForMember(x => x.Gender, opt =>
                 opt.MapFrom(x => x.Gender.Value.ToString()));
         }

@@ -23,7 +23,7 @@
                 {
                     Name = x.Name,
                     Breed = x.Breed.Name.ToString(),
-                    ImageUrl = "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension,
+                    ImageUrl = $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Dashboard_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension,
                     RegisteredOn = x.CreatedOn,
                 })
                 .OrderByDescending(x => x.RegisteredOn)

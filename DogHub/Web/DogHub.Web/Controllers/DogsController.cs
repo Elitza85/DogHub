@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using DogHub.Common;
@@ -65,6 +66,9 @@
         [Authorize]
         [HttpPost]
 
+        [RequestSizeLimit(10 * 1024 * 1024)]
+
+
         public async Task<IActionResult> Register(RegisterDogInputModel input)
         {
             if (!this.ModelState.IsValid)
@@ -76,6 +80,15 @@
             var userId = this.userManager.GetUserId(this.User);
             input.UserId = userId;
             var imagePath = $"{this.webHostEnvironment.WebRootPath}/images";
+
+
+            if (input.DogImages.Any(i => i.Length > 800 * 1024))
+            {
+                this.ModelState.AddModelError("images", "Each of the images should be less thank 800 KB.");
+                input.BreedsItems = this.breedsListService.GetAllAsKVP();
+                return this.View(input);
+            }
+
 
             try
             {

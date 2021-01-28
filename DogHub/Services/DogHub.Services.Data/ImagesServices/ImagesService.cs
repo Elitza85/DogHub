@@ -1,10 +1,12 @@
 ﻿namespace DogHub.Services.Data.ImagesServices
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.CommonForms;
     using DogHub.Data.Models.Competitions;
@@ -12,10 +14,26 @@
     using DogHub.Web.ViewModels.CommonForms;
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dogs;
+    using SixLabors.ImageSharp;
+    using SixLabors.ImageSharp.Formats.Jpeg;
+    using SixLabors.ImageSharp.Processing;
 
     public class ImagesService : IImagesService
     {
+        private const int DogsCatalogueImageWidth = 350;
+        private const int DogsDashboardImageWidth = 265;
+
         private readonly string[] AllowedExtensions = new[] { "png", "jpg", "jpeg" };
+        private readonly IRepository<DogImage> dogImages;
+        private readonly IDeletableEntityRepository<Dog> dogsRepository;
+
+        public ImagesService(
+            IRepository<DogImage> dogImages,
+            IDeletableEntityRepository<Dog> dogsRepository)
+        {
+            this.dogImages = dogImages;
+            this.dogsRepository = dogsRepository;
+        }
 
         public async Task AddCompetitionImage(Competition competition, CreateCompetitionInputModel input, string imagePath)
         {
@@ -40,24 +58,55 @@
 
         public async Task AddDogImages(Dog dog, RegisterDogInputModel input, string imagePath)
         {
-            Directory.CreateDirectory($"{imagePath}/dogs/");
+            var tasks = new List<Task>();
+            var totalImages = this.dogImages.All().Count();
+
+            input.DogImages.Select(i => new DogImageInputModel
+            {
+                Content = i.OpenReadStream(),
+            });
+
             foreach (var image in input.DogImages)
             {
-                var extension = Path.GetExtension(image.FileName).TrimStart('.');
-                if (!this.AllowedExtensions.Any(x => extension.EndsWith(x)))
+                tasks.Add(Task.Run(async () =>
                 {
-                    throw new Exception($"Invalid image extenstion {extension}");
-                }
+                    try
+                    {
+                        using var imageResult = await Image.LoadAsync(image.OpenReadStream());
 
-                var newImage = new DogImage
-                {
-                    Extension = extension,
-                };
-                dog.DogImages.Add(newImage);
+                        var currentPath = $"/images/dogs/{totalImages % 100}/";
 
-                var filePath = $"{imagePath}/dogs/{newImage.Id}.{extension}";
-                using Stream fileStream = new FileStream(filePath, FileMode.Create);
-                await image.CopyToAsync(fileStream);
+                        var staringPath = Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                            $"wwwroot{currentPath}".Replace("/", "\\"));
+
+                        if (!Directory.Exists(staringPath))
+                        {
+                            Directory.CreateDirectory(staringPath);
+                        }
+
+                        var id = Guid.NewGuid().ToString();
+
+                        await this.SaveImage(imageResult, $"Original_{id}", staringPath, imageResult.Width);
+                        await this.SaveImage(imageResult, $"Catalogue_{id}", staringPath, DogsCatalogueImageWidth);
+                        await this.SaveImage(imageResult, $"Dashboard_{id}", staringPath, DogsDashboardImageWidth);
+
+                        var newImage = new DogImage
+                        {
+                            Id = id,
+                            FolderPath = currentPath,
+                            Extension = "jpg",
+                        };
+                        dog.DogImages.Add(newImage);
+
+                        await this.dogsRepository.SaveChangesAsync();
+                    }
+                    catch
+                    {
+                    }
+                }));
+
+                await Task.WhenAll(tasks);
             }
         }
 
@@ -80,6 +129,28 @@
             var filePath = $"{imagePath}/judges/{newImage.Id}.{extension}";
             using Stream fileStream = new FileStream(filePath, FileMode.Create);
             await image.CopyToAsync(fileStream);
+        }
+
+        private async Task SaveImage(Image imageResult, string name, string path, int resizeWidth)
+        {
+            var width = imageResult.Width;
+            var height = imageResult.Height;
+
+            if (width > resizeWidth)
+            {
+                height = (int)((double)resizeWidth / width * height);
+                width = resizeWidth;
+            }
+
+            imageResult.Mutate(i => i.Resize(new
+                Size(width, height)));
+
+            imageResult.Metadata.ExifProfile = null;
+
+            await imageResult.SaveAsJpegAsync($"{path}/{name}.jpg", new JpegEncoder
+            {
+                Quality = 75,
+            });
         }
     }
 }

@@ -46,7 +46,7 @@
                 opt.MapFrom(x => x.DogsCompetiotions
                 .Where(c => c.Competition.CompetitionEnd < DateTime.Now).Count()))
                 .ForMember(x => x.DogImage, opt =>
-                opt.MapFrom(x => "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension));
+                opt.MapFrom(x => $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension));
         }
     }
 }
