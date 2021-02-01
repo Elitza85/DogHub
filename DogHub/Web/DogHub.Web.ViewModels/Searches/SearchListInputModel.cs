@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DogHub.Web.ViewModels.Searches
+﻿namespace DogHub.Web.ViewModels.Searches
 {
+    using System.Collections.Generic;
+
     public class SearchListInputModel
     {
         public IEnumerable<int> DogColors { get; set; }

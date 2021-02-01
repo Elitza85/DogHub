@@ -65,9 +65,7 @@
 
         [Authorize]
         [HttpPost]
-
         [RequestSizeLimit(10 * 1024 * 1024)]
-
 
         public async Task<IActionResult> Register(RegisterDogInputModel input)
         {
@@ -89,14 +87,11 @@
                 return this.View(input);
             }
 
+            bool result = await this.dogService.Register(input, imagePath);
 
-            try
+            if (!result)
             {
-                await this.dogService.Register(input, imagePath);
-            }
-            catch (Exception ex)
-            {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
+                this.ModelState.AddModelError("video", "Your dog video should be from YouTube.");
                 input.BreedsItems = this.breedsListService.GetAllAsKVP();
                 return this.View(input);
             }
@@ -112,6 +107,50 @@
 
             return this.Redirect("/Dogs/Catalogue");
         }
+
+        //public async Task<IActionResult> Register(RegisterDogInputModel input)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        input.BreedsItems = this.breedsListService.GetAllAsKVP();
+        //        return this.View(input);
+        //    }
+
+        //    var userId = this.userManager.GetUserId(this.User);
+        //    input.UserId = userId;
+        //    var imagePath = $"{this.webHostEnvironment.WebRootPath}/images";
+
+
+        //    if (input.DogImages.Any(i => i.Length > 800 * 1024))
+        //    {
+        //        this.ModelState.AddModelError("images", "Each of the images should be less thank 800 KB.");
+        //        input.BreedsItems = this.breedsListService.GetAllAsKVP();
+        //        return this.View(input);
+        //    }
+
+
+        //    try
+        //    {
+        //        await this.dogService.Register(input, imagePath);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.ModelState.AddModelError(string.Empty, ex.Message);
+        //        input.BreedsItems = this.breedsListService.GetAllAsKVP();
+        //        return this.View(input);
+        //    }
+
+        //    var user = await this.userManager.GetUserAsync(this.User);
+        //    if (!this.User.IsInRole(GlobalConstants.DogOwnerUserRoleName))
+        //    {
+        //        await this.userManager.AddToRoleAsync(user, GlobalConstants.DogOwnerUserRoleName);
+        //        await this.signInManager.SignOutAsync();
+        //    }
+
+        //    this.TempData["Message"] = SuccessMessages.RegisteredDogMsg;
+
+        //    return this.Redirect("/Dogs/Catalogue");
+        //}
 
         public IActionResult Main()
         {

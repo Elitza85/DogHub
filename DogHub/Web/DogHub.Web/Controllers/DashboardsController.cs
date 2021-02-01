@@ -46,16 +46,24 @@
                 return this.View(input);
             }
 
-            try
+            bool result = await this.ownerDashboardsService.UpdateAsync(id, input);
+
+            if (!result)
             {
-                await this.ownerDashboardsService.UpdateAsync(id, input);
-            }
-            catch (Exception ex)
-            {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
+                this.ModelState.AddModelError("video", "The dog video should be from YouTube.");
                 input.BreedsItems = this.breedsListService.GetAllAsKVP();
                 return this.View(input);
             }
+            //try
+            //{
+            //    await this.ownerDashboardsService.UpdateAsync(id, input);
+            //}
+            //catch (Exception ex)
+            //{
+            //    this.ModelState.AddModelError(string.Empty, ex.Message);
+            //    input.BreedsItems = this.breedsListService.GetAllAsKVP();
+            //    return this.View(input);
+            //}
 
             this.TempData["Message"] = string.Format(SuccessMessages.UpdatedDogDataMsg, input.DogName);
 

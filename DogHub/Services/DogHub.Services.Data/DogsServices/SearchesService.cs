@@ -74,7 +74,9 @@
                         DogColorId = x.DogColorId,
                         DogColorColorName = x.DogColor.ColorName,
                         Id = x.Id,
-                        ImageUrl = "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension,
+                        ImageUrl = x.DogImages.FirstOrDefault().FolderPath == null
+                        ? "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension
+                        : $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension,
                     }).ToList();
                     dogs.AddRange(listDogs);
                 }

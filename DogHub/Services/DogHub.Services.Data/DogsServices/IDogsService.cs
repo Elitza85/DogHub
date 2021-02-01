@@ -7,7 +7,9 @@
 
     public interface IDogsService
     {
-        Task Register(RegisterDogInputModel input, string imagePath);
+        // Task Register(RegisterDogInputModel input, string imagePath);
+        Task<bool> Register(RegisterDogInputModel input, string imagePath);
+
 
         T DogProfile<T>(int id);
 

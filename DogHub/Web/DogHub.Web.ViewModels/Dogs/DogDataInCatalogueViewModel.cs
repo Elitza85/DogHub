@@ -32,11 +32,22 @@
         {
             configuration.CreateMap<Dog, DogDataInCatalogueViewModel>()
                 .ForMember(x => x.ImageUrl, opt =>
-                opt.MapFrom(x => x.DogImages.FirstOrDefault().RemoteImageUrl != null ?
-                x.DogImages.FirstOrDefault().RemoteImageUrl :
-                $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension))
+                opt.MapFrom(x => x.DogImages.FirstOrDefault().RemoteImageUrl != null ? x.DogImages.FirstOrDefault().RemoteImageUrl :
+                x.DogImages.FirstOrDefault().FolderPath != null ? $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension :
+                "/images/dogs/" + x.DogImages.FirstOrDefault().Id + "." + x.DogImages.FirstOrDefault().Extension))
                 .ForMember(x => x.Gender, opt =>
                 opt.MapFrom(x => x.Gender.Value.ToString()));
         }
+
+        //public void CreateMappings(IProfileExpression configuration)
+        //{
+        //    configuration.CreateMap<Dog, DogDataInCatalogueViewModel>()
+        //        .ForMember(x => x.ImageUrl, opt =>
+        //        opt.MapFrom(x => x.DogImages.FirstOrDefault().RemoteImageUrl != null ?
+        //        x.DogImages.FirstOrDefault().RemoteImageUrl :
+        //        $"{x.DogImages.FirstOrDefault().FolderPath}" + $"Catalogue_{x.DogImages.FirstOrDefault().Id}" + "." + x.DogImages.FirstOrDefault().Extension))
+        //        .ForMember(x => x.Gender, opt =>
+        //        opt.MapFrom(x => x.Gender.Value.ToString()));
+        //}
     }
 }

@@ -69,7 +69,7 @@
             return viewModel;
         }
 
-        public async Task Register(RegisterDogInputModel input, string imagePath)
+        public async Task<bool> Register(RegisterDogInputModel input, string imagePath)
         {
             var dog = new Dog
             {
@@ -88,11 +88,43 @@
             this.SetDogEyesColor(input, dog);
 
             await this.imagesService.AddDogImages(dog, input, imagePath);
-            this.SetDogVideo(input, dog);
 
-            await this.dogsRepository.AddAsync(dog);
-            await this.dogsRepository.SaveChangesAsync();
+            if (!this.SetDogVideo(input, dog))
+            {
+                return false;
+            }
+            else
+            {
+                 await this.dogsRepository.AddAsync(dog);
+                 await this.dogsRepository.SaveChangesAsync();
+                return true;
+            }
         }
+
+        //public async Task Register(RegisterDogInputModel input, string imagePath)
+        //{
+        //    var dog = new Dog
+        //    {
+        //        Age = input.Age,
+        //        BreedId = input.BreedId,
+        //        Description = input.Description,
+        //        Gender = input.Gender,
+        //        IsSpayedOrNeutered = input.IsSpayedOrNeutered,
+        //        Name = input.DogName,
+        //        Sellable = input.Sellable,
+        //        Weight = input.Weight,
+        //        UserId = input.UserId,
+        //    };
+
+        //    this.SetDogColor(input, dog);
+        //    this.SetDogEyesColor(input, dog);
+
+        //    await this.imagesService.AddDogImages(dog, input, imagePath);
+        //    this.SetDogVideo(input, dog);
+
+        //    await this.dogsRepository.AddAsync(dog);
+        //    await this.dogsRepository.SaveChangesAsync();
+        //}
 
         public int GetCount()
         {
@@ -104,15 +136,28 @@
             return videoString.Contains("youtube");
         }
 
-        private void SetDogVideo(RegisterDogInputModel input, Dog dog)
+        private bool SetDogVideo(RegisterDogInputModel input, Dog dog)
         {
             if (!this.IsVideoFromYouTube(input.DogVideoUrl))
             {
-                throw new Exception("The video should be from YouTube.");
+                return false;
             }
+            else
+            {
 
-            dog.DogVideoUrl = input.DogVideoUrl;
+                dog.DogVideoUrl = input.DogVideoUrl;
+                return true;
+            }
         }
+        //private void SetDogVideo(RegisterDogInputModel input, Dog dog)
+        //{
+        //    if (!this.IsVideoFromYouTube(input.DogVideoUrl))
+        //    {
+        //        throw new Exception("The video should be from YouTube.");
+        //    }
+
+        //    dog.DogVideoUrl = input.DogVideoUrl;
+        //}
 
         private void SetDogEyesColor(RegisterDogInputModel input, Dog dog)
         {
