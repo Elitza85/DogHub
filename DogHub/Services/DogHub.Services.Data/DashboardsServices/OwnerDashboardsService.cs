@@ -110,31 +110,7 @@
                 await this.dogsRepository.SaveChangesAsync();
                 return true;
             }
-
         }
-
-        //public async Task UpdateAsync(int id, EditDogDataInputModel input)
-        //{
-        //    var dog = this.dogsRepository.All()
-        //        .Where(x => x.Id == id).FirstOrDefault();
-        //    dog.Name = input.DogName;
-        //    dog.BreedId = input.BreedId;
-        //    dog.Age = input.Age;
-        //    dog.Gender = input.Gender;
-        //    dog.Description = input.Description;
-        //    dog.IsSpayedOrNeutered = input.IsSpayedOrNeutered;
-        //    dog.Sellable = input.Sellable;
-        //    dog.Weight = input.Weight;
-
-        //    int newDogColorId = await this.ValidateDogColor(input);
-        //    dog.DogColorId = newDogColorId;
-
-        //    int newEyesColorId = await this.ValidateDogEyesColor(input);
-        //    dog.EyesColorId = newEyesColorId;
-        //    ValidateDogVideoUrl(input, dog);
-
-        //    await this.dogsRepository.SaveChangesAsync();
-        //}
 
         public async Task DeleteAsync(int id)
         {
@@ -231,19 +207,6 @@
                 return true;
             }
         }
-
-        //private static void ValidateDogVideoUrl(EditDogDataInputModel input, Dog dog)
-        //{
-        //    if (!input.DogVideoUrl.ToLower().Contains("youtube"))
-        //    {
-        //        throw new Exception("Video should be from YouTube");
-        //    }
-        //    else
-        //    {
-        //        dog.DogVideoUrl = input.DogVideoUrl;
-        //    }
-        //}
-
 
         private async Task<int> ValidateDogEyesColor(EditDogDataInputModel input)
         {

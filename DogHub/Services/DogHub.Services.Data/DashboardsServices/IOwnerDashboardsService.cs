@@ -15,7 +15,6 @@
 
         T GetById<T>(int id);
 
-        // Task UpdateAsync(int id, EditDogDataInputModel input);
         Task<bool> UpdateAsync(int id, EditDogDataInputModel input);
 
         Task DeleteAsync(int id);
