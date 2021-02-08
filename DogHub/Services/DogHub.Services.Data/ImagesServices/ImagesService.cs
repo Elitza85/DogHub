@@ -76,20 +76,20 @@
 
                         var currentPath = $"/images/dogs/{totalImages % 100}/";
 
-                        var staringPath = Path.Combine(
+                        var storingPath = Path.Combine(
                             Directory.GetCurrentDirectory(),
                             $"wwwroot{currentPath}".Replace("/", "\\"));
 
-                        if (!Directory.Exists(staringPath))
+                        if (!Directory.Exists(storingPath))
                         {
-                            Directory.CreateDirectory(staringPath);
+                            Directory.CreateDirectory(storingPath);
                         }
 
                         var id = Guid.NewGuid().ToString();
 
-                        await this.SaveImage(imageResult, $"Original_{id}", staringPath, imageResult.Width);
-                        await this.SaveImage(imageResult, $"Catalogue_{id}", staringPath, DogsCatalogueImageWidth);
-                        await this.SaveImage(imageResult, $"Dashboard_{id}", staringPath, DogsDashboardImageWidth);
+                        await this.SaveImage(imageResult, $"Original_{id}", storingPath, imageResult.Width);
+                        await this.SaveImage(imageResult, $"Catalogue_{id}", storingPath, DogsCatalogueImageWidth);
+                        await this.SaveImage(imageResult, $"Dashboard_{id}", storingPath, DogsDashboardImageWidth);
 
                         var newImage = new DogImage
                         {
