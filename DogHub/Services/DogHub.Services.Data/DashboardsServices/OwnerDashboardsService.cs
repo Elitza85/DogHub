@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using DogHub.Common;
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
     using DogHub.Data.Models.CommonForms;
@@ -81,7 +81,7 @@
             return dog;
         }
 
-        public async Task<bool> UpdateAsync(int id, EditDogDataInputModel input)
+        public async Task<Result> UpdateAsync(int id, EditDogDataInputModel input)
         {
             var dog = this.dogsRepository.All()
                 .Where(x => x.Id == id).FirstOrDefault();
@@ -103,7 +103,8 @@
 
             if (!isVideoValid)
             {
-                return false;
+                return "The dog video should be from YouTube.";
+                // return false;
             }
             else
             {

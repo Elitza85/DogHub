@@ -67,7 +67,7 @@
         [HttpPost]
         [RequestSizeLimit(10 * 1024 * 1024)]
 
-        public async Task<IActionResult> Register(RegisterDogInputModel input)
+        public async Task<ActionResult<Result>> Register(RegisterDogInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -79,7 +79,6 @@
             input.UserId = userId;
             var imagePath = $"{this.webHostEnvironment.WebRootPath}/images";
 
-
             if (input.DogImages.Any(i => i.Length > 800 * 1024))
             {
                 this.ModelState.AddModelError("images", "Each of the images should be less thank 800 KB.");
@@ -87,11 +86,12 @@
                 return this.View(input);
             }
 
-            bool result = await this.dogService.Register(input, imagePath);
+            Result result = await this.dogService.Register(input, imagePath);
 
             if (!result)
             {
-                this.ModelState.AddModelError("video", "Your dog video should be from YouTube.");
+                this.ModelState.AddModelError("error", result.Errors.First());
+                // this.ModelState.AddModelError("video", "Your dog video should be from YouTube.");
                 input.BreedsItems = this.breedsListService.GetAllAsKVP();
                 return this.View(input);
             }

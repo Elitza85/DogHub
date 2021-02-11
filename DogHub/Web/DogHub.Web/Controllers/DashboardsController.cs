@@ -1,6 +1,7 @@
 ﻿namespace DogHub.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -38,7 +39,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditDog(int id, EditDogDataInputModel input)
+        public async Task<ActionResult<Result>> EditDog(int id, EditDogDataInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -46,24 +47,14 @@
                 return this.View(input);
             }
 
-            bool result = await this.ownerDashboardsService.UpdateAsync(id, input);
+            Result result = await this.ownerDashboardsService.UpdateAsync(id, input);
 
             if (!result)
             {
-                this.ModelState.AddModelError("video", "The dog video should be from YouTube.");
+                this.ModelState.AddModelError("error", result.Errors.First());
                 input.BreedsItems = this.breedsListService.GetAllAsKVP();
                 return this.View(input);
             }
-            //try
-            //{
-            //    await this.ownerDashboardsService.UpdateAsync(id, input);
-            //}
-            //catch (Exception ex)
-            //{
-            //    this.ModelState.AddModelError(string.Empty, ex.Message);
-            //    input.BreedsItems = this.breedsListService.GetAllAsKVP();
-            //    return this.View(input);
-            //}
 
             this.TempData["Message"] = string.Format(SuccessMessages.UpdatedDogDataMsg, input.DogName);
 
