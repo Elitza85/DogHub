@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using DogHub.Common;
     using DogHub.Web.ViewModels.Dogs;
 
     public interface IDogsService
     {
-        // Task<bool> Register(RegisterDogInputModel input, string imagePath);
-
         Task<Result> Register(RegisterDogInputModel input, string imagePath);
 
         T DogProfile<T>(int id);

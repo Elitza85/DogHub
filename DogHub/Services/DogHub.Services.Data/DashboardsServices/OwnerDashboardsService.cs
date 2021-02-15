@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using DogHub.Common;
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
@@ -104,7 +105,6 @@
             if (!isVideoValid)
             {
                 return "The dog video should be from YouTube.";
-                // return false;
             }
             else
             {

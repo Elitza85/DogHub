@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using DogHub.Common;
     using DogHub.Web.ViewModels.Competitions;
     using DogHub.Web.ViewModels.Dashboards;
@@ -14,8 +15,6 @@
         DashboardIndexViewModel DashboardData(string userId);
 
         T GetById<T>(int id);
-
-        // Task<bool> UpdateAsync(int id, EditDogDataInputModel input);
 
         Task<Result> UpdateAsync(int id, EditDogDataInputModel input);
 

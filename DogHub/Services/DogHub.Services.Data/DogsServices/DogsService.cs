@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using DogHub.Common;
     using DogHub.Data.Common.Repositories;
     using DogHub.Data.Models;
@@ -97,38 +98,6 @@
             await this.dogsRepository.SaveChangesAsync();
             return true;
         }
-
-        //public async Task<bool> Register(RegisterDogInputModel input, string imagePath)
-        //{
-        //    var dog = new Dog
-        //    {
-        //        Age = input.Age,
-        //        BreedId = input.BreedId,
-        //        Description = input.Description,
-        //        Gender = input.Gender,
-        //        IsSpayedOrNeutered = input.IsSpayedOrNeutered,
-        //        Name = input.DogName,
-        //        Sellable = input.Sellable,
-        //        Weight = input.Weight,
-        //        UserId = input.UserId,
-        //    };
-
-        //    this.SetDogColor(input, dog);
-        //    this.SetDogEyesColor(input, dog);
-
-        //    await this.imagesService.AddDogImages(dog, input, imagePath);
-
-        //    if (!this.SetDogVideo(input, dog))
-        //    {
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //         await this.dogsRepository.AddAsync(dog);
-        //         await this.dogsRepository.SaveChangesAsync();
-        //         return true;
-        //    }
-        //}
 
         public int GetCount()
         {
